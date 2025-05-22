@@ -666,7 +666,7 @@
 .btn-moai {
   background: linear-gradient(135deg, #29abe2 0%, #1a8ed1 100%);
   border: none;
-  color: white;
+  color: white !important;
   font-weight: 500;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   transition: all 0.3s ease;
@@ -680,11 +680,24 @@
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
+.btn-moai:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.btn-moai:disabled {
+  background: linear-gradient(135deg, rgba(41, 171, 226, 0.5) 0%, rgba(26, 142, 209, 0.5) 100%);
+  cursor: not-allowed;
+  opacity: 0.7;
+  box-shadow: none;
+}
+
 .btn-outline-moai {
   background: transparent;
-  border: 1px solid #29abe2;
-  color: #29abe2;
+  color: #29abe2 !important;
+  border: 2px solid #29abe2;
   font-weight: 500;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
   border-radius: 8px;
   padding: 8px 16px;
@@ -692,188 +705,29 @@
 
 .btn-outline-moai:hover:not(:disabled) {
   background-color: rgba(41, 171, 226, 0.1);
-  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.btn-secondary {
-  background-color: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: white;
-  transition: all 0.3s ease;
-  border-radius: 8px;
+.btn-outline-moai:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
-.btn-secondary:hover {
-  background-color: rgba(255, 255, 255, 0.2);
+.btn-outline-moai:disabled {
+  border-color: rgba(41, 171, 226, 0.5);
+  color: rgba(41, 171, 226, 0.5) !important;
+  cursor: not-allowed;
+  opacity: 0.7;
+  box-shadow: none;
 }
 
-/* Ícone de tempo */
-.timer-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  background-color: rgba(0, 0, 0, 0.3);
-  border-radius: 50%;
-  margin-right: 15px;
-}
-
-/* Estilos para temporada - Redesenhado */
-.season-card {
-  background: linear-gradient(135deg, rgba(0, 40, 80, 0.8) 0%, rgba(0, 60, 100, 0.8) 100%);
-  border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-  padding: 25px;
-  margin-bottom: 30px;
-}
-
-.season-progress .progress {
-  background-color: rgba(0, 0, 0, 0.3);
-  border-radius: 10px;
-  overflow: hidden;
-  height: 10px;
-}
-
-.season-progress .progress-bar {
-  background: linear-gradient(90deg, #29abe2, #2cc7d6);
-  border-radius: 10px;
-}
-
-.season-dates {
-  background-color: rgba(0, 0, 0, 0.2);
-  border-radius: 12px;
-  padding: 15px;
-  margin-bottom: 25px;
-  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
-}
-
-.season-rewards {
-  background-color: rgba(41, 171, 226, 0.1);
-  padding: 20px;
-  border-radius: 12px;
-  border: 1px solid rgba(41, 171, 226, 0.2);
-  margin-bottom: 25px;
-}
-
-.rewards-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-bottom: 20px;
-}
-
-.reward-card {
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  transition: all 0.3s ease;
-  height: 100%;
-}
-
-.reward-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
-  border-color: rgba(255, 255, 255, 0.2);
-}
-
-.reward-icon {
-  font-size: 2rem;
-  margin-bottom: 10px;
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0, 0, 0, 0.3);
-  margin: 0 auto 15px;
-}
-
-.reward-amount {
-  font-size: 1.8rem;
-  font-weight: bold;
-  margin-bottom: 5px;
-}
-
-.reward-name {
-  color: #e6f7ff;
-  font-weight: 500;
-  margin-bottom: 5px;
-}
-
-.reward-position {
-  color: #b8d8eb;
-  font-size: 0.8rem;
-}
-
-/* Cores específicas para cada tipo de recompensa */
-.reward-xp {
-  color: #ffeb3b;
-}
-
-.reward-coins {
-  color: #ffc107;
-}
-
-.reward-money {
-  color: #4caf50;
-}
-
-.reward-exclusive {
-  color: #ff5722;
-}
-
-.energy-icon {
-  color: #f3d035;
-}
-
-.tools-icon {
-  color: #b0bec5;
-}
-
-.creativity-icon {
-  color: #ff9800;
-}
-
-/* Estilos para os requisitos */
-.requirements-list {
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 10px;
-  padding: 15px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.requirement-icon {
-  font-size: 1.2rem;
-}
-
-/* Melhorar o botão de entrada na temporada */
-.season-btn {
-  min-width: 200px;
-  padding: 10px 20px;
-  margin-top: 10px;
-  font-weight: 500;
-  transition: all 0.3s ease;
-}
-
-.season-btn:not(:disabled):hover {
-  transform: scale(1.05);
-}
-
-/* CSS para a área de informações da temporada */
-.season-theme {
-  font-size: 1.4rem;
-  font-weight: 600;
-  color: white;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-}
-
-/* Melhorar a exibição da contagem regressiva */
-.text-warning {
-  color: #ffc107 !important;
-  font-weight: 500;
+/* Estilos para o spinner no botão */
+.spinner-border-sm {
+  width: 1rem;
+  height: 1rem;
+  border-width: 0.2em;
+  margin-right: 0.5rem;
 }
 
 /* Responsividade */
@@ -1309,4 +1163,73 @@ body.modal-open {
     font-size: 12px;
     font-weight: bold;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Melhorar os botões de desafios para torná-los mais visíveis */
+.challenge-item .btn {
+  padding: 10px 16px;
+  font-weight: 600;
+  min-width: 110px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  text-shadow: none;
+  letter-spacing: 0.5px;
+  font-size: 15px;
+}
+
+/* Botão "Iniciar" com cor azul mais vibrante */
+.challenge-item .btn-moai {
+  background: linear-gradient(135deg, #2196F3 0%, #0d8aee 100%);
+  border: none;
+  color: white;
+  font-weight: 600;
+  box-shadow: 0 4px 8px rgba(33, 150, 243, 0.4);
+}
+
+.challenge-item .btn-moai:hover {
+  background: linear-gradient(135deg, #1e88e5 0%, #0c7cd5 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(33, 150, 243, 0.5);
+}
+
+.challenge-item .btn-moai:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 4px rgba(33, 150, 243, 0.3);
+}
+
+/* Botão "Acessar" para desafios já iniciados com melhor contraste */
+.challenge-item .btn-outline-moai {
+  background: rgba(33, 150, 243, 0.2);
+  border: 2px solid #2196F3;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.challenge-item .btn-outline-moai:hover {
+  background: rgba(33, 150, 243, 0.4);
+  color: white;
+  border-color: #1e88e5;
+}
+
+/* Melhorar a visibilidade dos botões desabilitados */
+.challenge-item .btn:disabled {
+  opacity: 0.85;
+}
+
+.challenge-item .btn-moai:disabled {
+  background: linear-gradient(135deg, #2196F3 0%, #0d8aee 100%);
+  opacity: 0.7;
+}
+
+.challenge-item .btn-outline-moai:disabled {
+  background: rgba(33, 150, 243, 0.15);
+  border-color: rgba(33, 150, 243, 0.7);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* Spinner durante o carregamento com melhor visibilidade */
+.challenge-item .btn .spinner-border-sm {
+  margin-right: 8px;
+  border-width: 0.15em;
+  opacity: 0.9;
 }

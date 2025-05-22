@@ -244,16 +244,17 @@
                                                         {{challenge.join.timeframe.replace('min', ' minutos').replace('h', ' horas')}}
                                                     </small>
                                                 </div>
+                                                <!-- Botão de iniciar desafio com classes CSS corretamente aplicadas -->
                                                 <button class="btn"
                                                         ng-class="{'btn-moai': !isChallengeJoined(challenge._id), 'btn-outline-moai': isChallengeJoined(challenge._id)}"
                                                         ng-click="startChallenge(challenge)"
-                                                        ng-disabled="challenge.isJoining">
-                                                    <span ng-if="challenge.isJoining">
+                                                        ng-disabled="challenge.isStarting">
+                                                    <span ng-if="challenge.isStarting">
                                                         <span class="spinner-border spinner-border-sm" role="status"></span>
                                                         Iniciando...
                                                     </span>
-                                                    <span ng-if="!challenge.isJoining && !isChallengeJoined(challenge._id)">Iniciar</span>
-                                                    <span ng-if="!challenge.isJoining && isChallengeJoined(challenge._id)">Acessar</span>
+                                                    <span ng-if="!challenge.isStarting && !isChallengeJoined(challenge._id)">Iniciar</span>
+                                                    <span ng-if="!challenge.isStarting && isChallengeJoined(challenge._id)">Acessar</span>
                                                 </button>
                                             </div>
                                         </div>
@@ -391,12 +392,10 @@
                                                     </div>
                                                 </div>
 
-                                                <button class="btn btn-moai season-btn"
+                                                <!-- Botão para participar da temporada -->
+                                                <button class="btn btn-moai w-100 mt-3"
                                                         ng-click="joinSeason(getActiveSeasonForCurrentIsland())"
-                                                        ng-disabled="!isSeasonActive(getActiveSeasonForCurrentIsland()) ||
-                                                                   !meetsSeasonRequirements(getActiveSeasonForCurrentIsland()) ||
-                                                                   isPlayerJoinedSeason(getActiveSeasonForCurrentIsland()._id) ||
-                                                                   isJoiningSeason">
+                                                        ng-disabled="!canJoinSeason(getActiveSeasonForCurrentIsland())">
                                                     <span ng-if="isJoiningSeason">
                                                         <span class="spinner-border spinner-border-sm me-2" role="status"></span>
                                                         Processando...
@@ -405,7 +404,7 @@
                                                         <i class="bi" ng-class="isPlayerJoinedSeason(getActiveSeasonForCurrentIsland()._id) ?
                                                                           'bi-check-circle-fill' : 'bi-play-circle-fill'"></i>
                                                         {{isPlayerJoinedSeason(getActiveSeasonForCurrentIsland()._id) ? 'Participando' :
-                                                        isSeasonActive(getActiveSeasonForCurrentIsland()) ? 'Entrar na Temporada' : 'Temporada futura'}}
+                                                          isSeasonActive(getActiveSeasonForCurrentIsland()) ? 'Entrar na Temporada' : 'Temporada futura'}}
                                                     </span>
                                                 </button>
                                                 <div ng-if="!meetsSeasonRequirements(getActiveSeasonForCurrentIsland())" class="mt-2 text-warning">

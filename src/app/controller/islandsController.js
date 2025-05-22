@@ -572,8 +572,7 @@ angular.module('moaiApp').controller('IslandsController', function($scope, $http
                     $scope.hasActiveSeasonByIsland[key] = false;
                 });
 
-                // Now load joined challenges once everything else is loaded
-                $scope.loadJoinedChallenges();
+                // Não chamar loadJoinedChallenges aqui
             })
             .catch(function(error) {
                 $scope.loading = false;
@@ -700,31 +699,38 @@ angular.module('moaiApp').controller('IslandsController', function($scope, $http
     $scope.joinSeason = function(season) {
         if (!season || $scope.isJoiningSeason) return;
 
-        if (!$scope.meetsSeasonRequirements(season)) {
-            alert('Você não atende aos requisitos para participar desta temporada.');
-            return;
+        // Verificar se o jogador já participa da temporada
+        if ($scope.isPlayerJoinedSeason(season._id)) {
+            console.log('Usuário já está participando desta temporada');
+            return; // Não precisamos mostrar alerta pois o botão não deveria estar disponível
         }
 
-        if ($scope.isPlayerJoinedSeason(season._id)) {
-            alert('Você já está participando desta temporada.');
+        // Verificar se o usuário atende aos requisitos para participar
+        if (!$scope.meetsSeasonRequirements(season)) {
+            alert('Você não atende aos requisitos para participar desta temporada.');
             return;
         }
 
         $scope.isJoiningSeason = true;
         var userId = AuthService.getUserId();
 
+        // Usar a API da Funifier para participar da temporada
         var req = {
             method: 'POST',
-            url: API_CONFIG.baseUrl + '/competition/' + season._id + '/player/' + userId,
+            url: 'https://service2.funifier.com/v3/competition/join',
             headers: {
-                "Authorization": API_CONFIG.authHeader,
+                "Authorization": "Basic NjgyNWUwMzIyMzI3Zjc0ZjNhM2QxZjg0OjY4Mjg5NGE2MjMyN2Y3NGYzYTNkZDM1Mw==",
                 "Content-Type": "application/json"
+            },
+            data: {
+                "competition": season._id,
+                "player": userId
             }
         };
 
         $http(req).then(
             function(response) {
-                console.log('Temporada iniciada com sucesso:', response.data);
+                console.log('Participação na temporada registrada com sucesso:', response.data);
                 $scope.isJoiningSeason = false;
 
                 // Adicionar à lista de temporadas do jogador
@@ -734,14 +740,20 @@ angular.module('moaiApp').controller('IslandsController', function($scope, $http
                     joined: Date.now()
                 });
 
+                // Mostrar feedback de sucesso ao usuário
                 alert('Você entrou com sucesso na temporada: ' + season.title);
+
+                // Atualizar ranking caso esteja na aba de ranking
+                if ($scope.activeTab === 'ranking') {
+                    $scope.loadSeasonRanking(season._id);
+                }
             },
             function(error) {
-                console.error('Erro ao entrar na temporada:', error);
+                console.error('Erro ao participar da temporada:', error);
                 $scope.isJoiningSeason = false;
 
-                var errorMsg = 'Não foi possível entrar na temporada.';
-                if (error.data && error.data.message) {
+                var errorMsg = 'Não foi possível participar da temporada.';
+                if (error && error.data && error.data.message) {
                     errorMsg += ' ' + error.data.message;
                 }
                 alert(errorMsg);
@@ -1177,4 +1189,150 @@ angular.module('moaiApp').controller('IslandsController', function($scope, $http
             }, 100);
         }
     });
+
+    // Função para verificar se o jogador pode participar de uma temporada
+    $scope.canJoinSeason = function(season) {
+        if (!season) return false;
+
+        return $scope.isSeasonActive(season) && // Temporada está ativa
+               $scope.meetsSeasonRequirements(season) && // Atende aos requisitos
+               !$scope.isPlayerJoinedSeason(season._id) && // Não está participando ainda
+               !$scope.isJoiningSeason; // Não está em processo de participação
+    };
+
+    // Inicializar a estrutura de desafios associados
+$scope.joinedChallenges = {};
+$scope.challengeExpires = {};
+
+// Função para verificar se um desafio já foi iniciado/associado
+$scope.isChallengeJoined = function(challengeId) {
+    return $scope.joinedChallenges && $scope.joinedChallenges[challengeId] === true;
+};
+
+// Função para verificar se um desafio está expirado
+$scope.isChallengeExpired = function(challengeId) {
+    if (!$scope.challengeExpires || !$scope.challengeExpires[challengeId]) {
+        return false;
+    }
+
+    var expiryDate = new Date($scope.challengeExpires[challengeId]);
+    var now = new Date();
+
+    return expiryDate < now;
+};
+
+// Função para formatar o tempo restante de um desafio
+$scope.formatRemainingTime = function(challenge) {
+    if (!challenge || !$scope.challengeExpires || !$scope.challengeExpires[challenge._id]) {
+        return "Prazo indefinido";
+    }
+
+    var expiryDate = new Date($scope.challengeExpires[challenge._id]);
+    var now = new Date();
+
+    if (expiryDate <= now) {
+        return "Expirado";
+    }
+
+    var timeLeft = expiryDate - now;
+    var hours = Math.floor(timeLeft / (1000 * 60 * 60));
+    var minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+
+    if (hours > 24) {
+        var days = Math.floor(hours / 24);
+        hours = hours % 24;
+        return days + "d " + hours + "h";
+    }
+
+    return hours + "h " + minutes + "m";
+};
+
+// Função simplificada para iniciar um desafio
+$scope.startChallenge = function(challenge) {
+    // Evitar múltiplos cliques
+    if (challenge.isStarting === true) {
+        console.log('Já está processando este desafio, ignorando clique duplicado');
+        return;
+    }
+
+    // Verificar se o desafio já está iniciado
+    if ($scope.joinedChallenges[challenge._id] === true) {
+        console.log('Acessando desafio já iniciado:', challenge.challenge);
+
+        // Redirecionar para URL do desafio existente
+        var challengeUrl = 'https://service2.funifier.com/v3/challenge/view/' + challenge._id;
+        window.open(challengeUrl, '_blank');
+        return;
+    }
+
+    // Marcar como processando
+    challenge.isStarting = true;
+    var userId = AuthService.getUserId();
+
+    console.log('Iniciando desafio:', challenge.challenge);
+
+    // Requisição para API
+    var req = {
+        method: 'POST',
+        url: 'https://service2.funifier.com/v3/join',
+        headers: {
+            "Authorization": "Basic NjgyNWUwMzIyMzI3Zjc0ZjNhM2QxZjg0OjY4Mjg5NGE2MjMyN2Y3NGYzYTNkZDM1Mw==",
+            "Content-Type": "application/json"
+        },
+        data: {
+            "player": userId,
+            "item": challenge._id,
+            "entity": "challenge"
+        }
+    };
+
+    // Fazer a requisição
+    $http(req)
+        .then(function(response) {
+            console.log('Desafio iniciado com sucesso:', response.data);
+
+            // Atualizar estado localmente
+            $scope.joinedChallenges[challenge._id] = true;
+
+            // Se houver informações de expiração
+            if (response.data && response.data.expires) {
+                $scope.challengeExpires[challenge._id] = response.data.expires;
+            } else if (challenge.join && challenge.join.timeframe) {
+                var expiresIn = 0;
+                var timeframeStr = String(challenge.join.timeframe);
+
+                // Converter timeframe em milisegundos
+                if (timeframeStr.includes('min')) {
+                    expiresIn = parseInt(timeframeStr) * 60 * 1000;
+                } else if (timeframeStr.includes('h')) {
+                    expiresIn = parseInt(timeframeStr) * 60 * 60 * 1000;
+                } else if (timeframeStr.includes('d')) {
+                    expiresIn = parseInt(timeframeStr) * 24 * 60 * 60 * 1000;
+                }
+
+                if (expiresIn > 0) {
+                    $scope.challengeExpires[challenge._id] = Date.now() + expiresIn;
+                }
+            }
+
+            // Resetar flag de processamento
+            challenge.isStarting = false;
+
+            // Redirecionar para o desafio
+            $timeout(function() {
+                var url = 'https://service2.funifier.com/v3/challenge/view/' + challenge._id;
+                window.open(url, '_blank');
+            }, 100);
+        })
+        .catch(function(error) {
+            console.error('Erro ao iniciar desafio:', error);
+            challenge.isStarting = false;
+
+            var errorMsg = 'Não foi possível iniciar o desafio.';
+            if (error && error.data && error.data.message) {
+                errorMsg += ' ' + error.data.message;
+            }
+            alert(errorMsg);
+        });
+};
 });
