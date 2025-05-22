@@ -1261,3 +1261,52 @@ body.modal-open {
         max-width: calc(100% - 1rem);
     }
 }
+
+/* Estilos para recompensas específicas */
+.reward-moaicoins {
+    background-color: #FFD700;
+    color: #000;
+}
+
+.reward-moaimoney {
+    background-color: #4CAF50;
+    color: #fff;
+}
+
+.reward-xp {
+    background-color: #2196F3;
+    color: #fff;
+}
+
+.reward-achievement {
+    background-color: #9C27B0;
+    color: #fff;
+}
+
+.reward-item {
+    background-color: #FF5722;
+    color: #fff;
+}
+
+.reward-default {
+    background-color: #607D8B;
+    color: #fff;
+}
+
+/* Garantir que o badge de posição apareça corretamente */
+.reward-position-badge {
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    background-color: #E91E63;
+    color: white;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: bold;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}

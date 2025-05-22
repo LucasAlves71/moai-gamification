@@ -1,6 +1,5 @@
 <div class="islands-container">
     <!-- Garantir que a navbar seja incluída corretamente -->
-    <div ng-include="'components/navbar.html'" class="navbar-container"></div>
 
     <!-- Efeito de oceano -->
     <div class="ocean">
@@ -343,7 +342,7 @@
                                                     <div class="rewards-container">
                                                         <!-- Lista de recompensas da temporada usando layout flex adaptável -->
                                                         <div class="rewards-grid">
-                                                            <div class="reward-card-wrapper" ng-repeat="reward in getSeasonRewards() track by $index">
+                                                            <div class="reward-card-wrapper" ng-repeat="reward in getSeasonRewards(getActiveSeasonForCurrentIsland()) track by $index">
                                                                 <div class="reward-card">
                                                                     <div class="reward-position-badge" ng-if="reward.position > 0">{{reward.position}}º</div>
                                                                     <div class="reward-icon" ng-class="reward.iconClass">
@@ -360,7 +359,7 @@
                                                         </div>
 
                                                         <!-- Mensagem quando não há recompensas -->
-                                                        <div class="no-rewards text-center p-3" ng-if="getSeasonRewards().length === 0">
+                                                        <div class="no-rewards text-center p-3" ng-if="getSeasonRewards(getActiveSeasonForCurrentIsland()).length === 0">
                                                             <p class="mb-0">Não há recompensas definidas para esta temporada.</p>
                                                         </div>
                                                     </div>
