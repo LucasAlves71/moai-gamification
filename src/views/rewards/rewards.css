@@ -1,0 +1,689 @@
+/* Rewards Shop Styles - Refined Version */
+.rewards-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background: linear-gradient(160deg, #005580 0%, #003366 60%, #002244 100%);
+    color: white;
+    position: relative;
+    font-family: 'Arial', sans-serif;
+}
+
+.rewards-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 10px 15px;
+    padding-top: 20px; /* Adicionado espaço no topo */
+    padding-bottom: 70px; /* Space for navbar */
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    margin-top: 10px; /* Adicionado espaço no topo */
+}
+
+.rewards-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 15px 0;
+    text-align: center;
+}
+
+.rewards-header h1 {
+    font-size: 32px;
+    font-weight: bold;
+    color: #f8f8f8;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    letter-spacing: 1px;
+}
+
+/* Currency Display */
+.currency-display {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    gap: 10px;
+}
+
+.currency-item {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    background: linear-gradient(135deg, rgba(0, 40, 80, 0.9) 0%, rgba(0, 30, 60, 0.9) 100%);
+    border-radius: 12px;
+    padding: 10px 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.currency-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 12px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.coin-icon {
+    background-color: #FFD700;
+    position: relative;
+    background-image: radial-gradient(circle at 30% 30%, #FFF8DC, #FFD700 60%);
+}
+
+.coin-icon::after {
+    content: "MC";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #B8860B;
+    font-weight: bold;
+    font-size: 14px;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
+}
+
+.money-icon {
+    background-color: #00CC00;
+    position: relative;
+    background-image: linear-gradient(to bottom, #00E600, #00AA00);
+}
+
+.money-icon::before {
+    content: "";
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60%;
+    height: 3px;
+    background-color: #006600;
+}
+
+.money-icon::after {
+    content: "";
+    position: absolute;
+    top: 70%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60%;
+    height: 3px;
+    background-color: #006600;
+}
+
+.currency-value {
+    font-size: 28px;
+    font-weight: bold;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Rewards Grid */
+.rewards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.reward-card {
+    background: linear-gradient(135deg, rgba(0, 40, 80, 0.9) 0%, rgba(0, 30, 60, 0.9) 100%);
+    border-radius: 12px;
+    padding: 15px 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.reward-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, #29ABE2, #1D8CB8);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.reward-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+.reward-card:hover::before {
+    opacity: 1;
+}
+
+.reward-icon {
+    font-size: 36px;
+    margin-bottom: 10px;
+    background-color: rgba(0, 20, 40, 0.6);
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.reward-name {
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 12px;
+    height: 40px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    line-height: 1.3;
+    color: #f0f0f0;
+    width: 100%;
+}
+
+.reward-price {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12px;
+    background-color: rgba(0, 0, 0, 0.2);
+    padding: 5px 10px;
+    border-radius: 15px;
+    min-width: 80px;
+}
+
+.price-icon {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    margin-right: 8px;
+    position: relative;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
+}
+
+.price-icon.coin-small {
+    background-color: #FFD700;
+    background-image: radial-gradient(circle at 30% 30%, #FFF8DC, #FFD700 60%);
+}
+
+.price-icon.coin-small::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #B8860B;
+}
+
+.price-icon.money-small {
+    background-color: #00CC00;
+    background-image: linear-gradient(to bottom, #00E600, #00AA00);
+}
+
+.price-icon.money-small::after {
+    background-color: #006600;
+    border-radius: 0;
+    width: 12px;
+    height: 2px;
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.price-icon.money-small::before {
+    content: "";
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 12px;
+    height: 2px;
+    background-color: #006600;
+}
+
+.price-value {
+    font-size: 18px;
+    font-weight: bold;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.buy-button {
+    background: linear-gradient(to bottom, #29ABE2, #1D8CB8);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 0;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+    margin-top: auto;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.buy-button:hover {
+    background: linear-gradient(to bottom, #1D8CB8, #1A7DA6);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.buy-button:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
+}
+
+.buy-button.large {
+    font-size: 16px;
+    padding: 12px 30px;
+    border-radius: 10px;
+}
+
+/* Estilo para botão de compra desabilitado */
+.buy-button:disabled {
+    background: linear-gradient(to bottom, #7FB5CE, #5D859B);
+    cursor: not-allowed;
+    opacity: 0.8;
+}
+
+/* Modal */
+.item-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9);
+    background: linear-gradient(135deg, rgba(0, 51, 102, 0.97) 0%, rgba(0, 30, 60, 0.97) 100%);
+    border-radius: 16px;
+    width: 90%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
+    z-index: 1001;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.item-modal.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.modal-content {
+    padding: 20px;
+    background: linear-gradient(135deg, rgba(0, 51, 102, 0.97) 0%, rgba(0, 30, 60, 0.97) 100%) !important;
+    color: white !important;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 15px;
+}
+
+.modal-header h2 {
+    font-size: 22px;
+    margin: 0;
+    color: #f8f8f8;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.close-button {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+
+.close-button:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.modal-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.item-icon.large {
+    font-size: 60px;
+    margin-bottom: 20px;
+    background-color: rgba(0, 20, 40, 0.6);
+    width: 100px;
+    height: 100px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.item-description {
+    text-align: center;
+    margin-bottom: 20px;
+    color: rgba(255, 255, 255, 0.8);
+    background-color: rgba(0, 0, 0, 0.2);
+    padding: 15px;
+    border-radius: 10px;
+    width: 100%;
+    line-height: 1.5;
+}
+
+.item-requirements {
+    width: 100%;
+    margin-bottom: 20px;
+    background-color: rgba(0, 0, 0, 0.2);
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.item-requirements h3 {
+    font-size: 18px;
+    margin-bottom: 12px;
+    color: #29ABE2;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 8px;
+}
+
+.item-requirements ul {
+    list-style: none;
+    padding: 0;
+}
+
+.item-requirements li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 8px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+}
+
+.req-amount {
+    font-weight: bold;
+    margin-right: 8px;
+    color: #f8f8f8;
+    background-color: rgba(0, 0, 0, 0.3);
+    padding: 3px 8px;
+    border-radius: 4px;
+    min-width: 40px;
+    text-align: center;
+}
+
+.req-item {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.req-level {
+    color: #FFD700;
+    display: flex;
+    align-items: center;
+}
+
+.req-level::before {
+    content: "⭐";
+    margin-right: 5px;
+}
+
+.item-availability {
+    margin-bottom: 20px;
+    font-style: italic;
+    color: rgba(255, 255, 255, 0.7);
+    background-color: rgba(0, 0, 0, 0.2);
+    padding: 10px 15px;
+    border-radius: 8px;
+    width: 100%;
+    text-align: center;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+    backdrop-filter: blur(3px);
+}
+
+/* Custom icons for specific items */
+.reward-icon[data-item-type="ticket"] {
+    background-color: #FF6B6B;
+}
+
+.reward-icon[data-item-type="trophy"] {
+    background-color: #FFD700;
+}
+
+.reward-icon[data-item-type="mentorship"] {
+    background-color: #9370DB;
+}
+
+.reward-icon[data-item-type="book"] {
+    background-color: #4682B4;
+}
+
+.reward-icon[data-item-type="education"] {
+    background-color: #3CB371;
+}
+
+.reward-icon[data-item-type="access"] {
+    background-color: #CD853F;
+}
+
+.reward-icon[data-item-type="clothing"] {
+    background-color: #6495ED;
+}
+
+.reward-icon[data-item-type="dining"] {
+    background-color: #FF7F50;
+}
+
+/* Botão de Histórico */
+.history-button {
+    background: linear-gradient(to bottom, #3498db, #2980b9) !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 8px !important;
+    padding: 10px 16px !important;
+    font-weight: bold !important;
+    display: flex !important;
+    align-items: center !important;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
+    transition: transform 0.2s, box-shadow 0.2s !important;
+}
+
+.history-button:hover {
+    background: linear-gradient(to bottom, #2980b9, #216a9a) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15) !important;
+}
+
+.history-button:active {
+    transform: translateY(0) !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+}
+
+.history-icon {
+    margin-right: 8px !important;
+    font-size: 16px !important;
+}
+
+/* Modal de Histórico de Compras */
+/* Remova os estilos antigos do .history-modal (que têm visibility: hidden) e substitua por estes */
+
+/* Novo sistema de modal personalizado */
+.custom-modal-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1050;
+    background-color: rgba(0, 0, 0, 0.7);
+    overflow-y: auto;
+}
+
+.custom-modal-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.custom-modal {
+    position: relative; /* Mudado de fixed para relative */
+    background: linear-gradient(135deg, rgba(0, 51, 102, 0.97) 0%, rgba(0, 30, 60, 0.97) 100%);
+    border-radius: 16px;
+    width: 90%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
+    z-index: 1051;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    margin: 20px;
+    animation: modal-fade-in 0.3s ease-out forwards;
+}
+
+/* Remover as regras de transform que estão posicionando o modal incorretamente */
+@keyframes modal-fade-in {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.modal-title {
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+.modal-footer {
+    padding: 15px 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: center;
+}
+
+/* Estilo para o botão de voltar */
+.back-button-container {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1000;
+}
+
+.back-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background-color: rgba(0, 51, 102, 0.8);
+    /* Remover box-shadow daqui */
+    color: #fff;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.back-button:hover {
+    background-color: rgba(41, 171, 226, 0.9);
+    transform: scale(1.1);
+    /* Remover box-shadow do hover também */
+}
+
+.back-icon {
+    font-size: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Para dispositivos móveis, ajuste o tamanho e posição */
+@media (max-width: 768px) {
+    .back-button-container {
+        top: 15px;
+        left: 15px;
+    }
+
+    .back-button {
+        width: 40px;
+        height: 40px;
+    }
+
+    .back-icon {
+        font-size: 22px;
+    }
+}

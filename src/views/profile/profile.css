@@ -1,0 +1,371 @@
+/* Profile Page Styles */
+.profile-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background: linear-gradient(160deg, #005580 0%, #003366 60%, #002244 100%);
+    color: white;
+    position: relative;
+    font-family: 'Arial', sans-serif;
+}
+
+.profile-card {
+    background: linear-gradient(135deg, rgba(0, 40, 80, 0.9) 0%, rgba(0, 30, 60, 0.9) 100%);
+    border-radius: 16px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Profile Photo Styling */
+.profile-photo-container {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    margin: 0 auto;
+}
+
+.profile-photo {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid rgba(41, 171, 226, 0.7);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.photo-edit-btn {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background-color: #29ABE2;
+    color: white;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 16px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    transition: all 0.2s ease;
+}
+
+.photo-edit-btn:hover {
+    transform: scale(1.1);
+    background-color: #1D8CB8;
+}
+
+.profile-name {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #f8f8f8;
+}
+
+.profile-email {
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 20px;
+}
+
+/* Stats Cards */
+.player-stats {
+    margin-bottom: 25px;
+}
+
+.stat-card {
+    display: flex;
+    align-items: center;
+    background: rgba(0, 51, 102, 0.6);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    height: 100%;
+    min-height: 80px;
+    transition: transform 0.2s;
+}
+
+.stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+}
+
+.stat-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 12px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.coin-small {
+    background-color: #FFD700;
+    position: relative;
+    background-image: radial-gradient(circle at 30% 30%, #FFF8DC, #FFD700 60%);
+}
+
+.coin-small::after {
+    content: "MC";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #B8860B;
+    font-weight: bold;
+    font-size: 12px;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
+}
+
+.money-small {
+    background-color: #00CC00;
+    position: relative;
+    background-image: linear-gradient(to bottom, #00E600, #00AA00);
+}
+
+.money-small::before {
+    content: "";
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60%;
+    height: 2px;
+    background-color: #006600;
+}
+
+.money-small::after {
+    content: "";
+    position: absolute;
+    top: 70%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60%;
+    height: 2px;
+    background-color: #006600;
+}
+
+.level-icon {
+    background-color: #9370DB;
+    position: relative;
+    background-image: linear-gradient(135deg, #9370DB, #7B68EE);
+}
+
+.level-icon::after {
+    content: "⭐";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 20px;
+    color: white;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.team-icon {
+    background-color: #FF7F50;
+    position: relative;
+    background-image: linear-gradient(135deg, #FF7F50, #FF6347);
+}
+
+.team-icon::after {
+    content: "👥";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 20px;
+}
+
+.stat-info {
+    flex: 1;
+}
+
+.stat-value {
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    line-height: 1.2;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.stat-label {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* Password Section */
+.password-section {
+    padding: 20px;
+    background-color: rgba(0, 20, 40, 0.4);
+    border-radius: 12px;
+    margin-bottom: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.section-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #29ABE2;
+    margin-bottom: 15px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 10px;
+}
+
+.form-label {
+    color: #f0f0f0;
+}
+
+.form-control {
+    background-color: rgba(0, 51, 102, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+    padding: 10px 15px;
+}
+
+.form-control:focus {
+    background-color: rgba(0, 61, 122, 0.7);
+    color: white;
+    border-color: rgba(41, 171, 226, 0.5);
+    box-shadow: 0 0 0 0.25rem rgba(41, 171, 226, 0.25);
+}
+
+.form-control::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/* Logout Button */
+.logout-section {
+    margin-top: 30px;
+}
+
+.logout-btn {
+    background: linear-gradient(to bottom, #dc3545, #c82333);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    font-weight: bold;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s;
+}
+
+.logout-btn:hover {
+    background: linear-gradient(to bottom, #c82333, #bd2130);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+}
+
+.logout-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.logout-icon {
+    margin-right: 8px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 576px) {
+    .profile-photo-container {
+        width: 100px;
+        height: 100px;
+    }
+
+    .profile-photo {
+        width: 100px;
+        height: 100px;
+    }
+
+    .photo-edit-btn {
+        width: 30px;
+        height: 30px;
+        font-size: 14px;
+    }
+
+    .profile-name {
+        font-size: 20px;
+    }
+
+    .stat-value {
+        font-size: 16px;
+    }
+
+    .stat-icon {
+        width: 32px;
+        height: 32px;
+        margin-right: 8px;
+    }
+
+    .d-flex.justify-content-between h1 {
+        font-size: 1.5rem;
+    }
+
+    .logout-btn {
+        padding: 6px 12px;
+        font-size: 14px;
+    }
+}
+
+@media (min-width: 768px) {
+    .stat-card {
+        min-height: 90px;
+    }
+
+    .stat-value {
+        font-size: 22px;
+    }
+}
+
+/* Estilo para o botão de voltar - versão sem sombra */
+.back-button-container {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1000;
+}
+
+.back-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background-color: rgba(0, 51, 102, 0.8);
+    color: #fff;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.back-button:hover {
+    background-color: rgba(41, 171, 226, 0.9);
+    transform: scale(1.1);
+}
+
+.back-icon {
+    font-size: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Para dispositivos móveis, ajuste o tamanho e posição */
+@media (max-width: 768px) {
+    .back-button-container {
+        top: 15px;
+        left: 15px;
+    }
+
+    .back-button {
+        width: 40px;
+        height: 40px;
+    }
+
+    .back-icon {
+        font-size: 22px;
+    }
+}

@@ -1,0 +1,396 @@
+/* Development Screen Styles */
+.development-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background: linear-gradient(160deg, #005580 0%, #003366 60%, #002244 100%);
+    color: white;
+    position: relative;
+    padding-bottom: 70px; /* Espaço para a navbar */
+}
+
+/* Estilos para os cartões de status dos recursos */
+.resource-card {
+    background: rgba(0, 51, 102, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.resource-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.resource-icon {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.resource-value {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.resource-label {
+    font-size: 1rem;
+    opacity: 0.8;
+}
+
+/* Estilos para estações de produção */
+.station-card {
+    background: linear-gradient(145deg, rgba(0, 40, 80, 0.8), rgba(0, 30, 60, 0.8));
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.station-card:hover {
+    transform: translateY(-5px);
+}
+
+.station-icon {
+    font-size: 3rem;
+    margin-bottom: 15px;
+}
+
+.station-title {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.station-description {
+    font-size: 0.9rem;
+    opacity: 0.8;
+    margin-bottom: 15px;
+}
+
+.station-progress {
+    margin-top: auto;
+    margin-bottom: 15px;
+}
+
+.station-progress .progress {
+    height: 10px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.station-progress .progress-bar {
+    transition: width 0.5s ease;
+}
+
+/* Estilos para recursos prontos */
+.ready-resources {
+    position: relative;
+}
+
+.ready-resources::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.6), transparent);
+    border-radius: 2px;
+}
+
+.resources-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+/* Melhorar a animação de float para chamar mais atenção */
+@keyframes float {
+    0% {
+        transform: translateY(0px) rotate(0deg);
+    }
+    25% {
+        transform: translateY(-8px) rotate(-1deg);
+    }
+    50% {
+        transform: translateY(-10px) rotate(0deg);
+    }
+    75% {
+        transform: translateY(-8px) rotate(1deg);
+    }
+    100% {
+        transform: translateY(0px) rotate(0deg);
+    }
+}
+
+.resource-ready-card {
+    background: linear-gradient(145deg, rgba(0, 60, 100, 0.8), rgba(0, 40, 80, 0.8));
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 12px;
+    padding: 20px;
+    width: 180px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3), 0 0 20px rgba(255, 215, 0, 0.2);
+    animation: float 4s ease-in-out infinite;
+    position: relative;
+}
+
+/* Adicione um efeito de brilho sutil nos recursos prontos */
+.resource-ready-card::after {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    background: transparent;
+    border-radius: 16px;
+    border: 2px solid transparent;
+    animation: glow 3s ease-in-out infinite alternate;
+    pointer-events: none;
+}
+
+@keyframes glow {
+    0% {
+        border-color: rgba(255, 255, 255, 0);
+        box-shadow: 0 0 5px rgba(255, 215, 0, 0);
+    }
+    100% {
+        border-color: rgba(255, 215, 0, 0.3);
+        box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+    }
+}
+
+/* Estilos para atividades recentes */
+.activity-item {
+    background: rgba(0, 51, 102, 0.7);
+    border-left: 3px solid transparent;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.activity-item:hover {
+    transform: translateX(5px);
+    border-left-color: #29ABE2;
+    background: rgba(0, 60, 120, 0.8);
+}
+
+.activity-icon {
+    font-size: 1.8rem;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.resource-gained {
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 4px;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+/* Melhorar a barra de rolagem para o histórico de atividades */
+.activity-list::-webkit-scrollbar {
+    width: 8px;
+}
+
+.activity-list::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+
+.activity-list::-webkit-scrollbar-thumb {
+    background: rgba(41, 171, 226, 0.7);
+    border-radius: 4px;
+}
+
+.activity-list::-webkit-scrollbar-thumb:hover {
+    background: rgba(41, 171, 226, 0.9);
+}
+
+/* Estilos para modais */
+.modal-content.bg-dark {
+    background: linear-gradient(145deg, #002244, #001933) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.list-group-item.bg-dark {
+    transition: all 0.3s ease;
+    border-left: 3px solid transparent;
+}
+
+.list-group-item.bg-dark:hover {
+    background: rgba(255, 255, 255, 0.1) !important;
+    transform: translateX(5px);
+    border-left: 3px solid #29ABE2;
+}
+
+.external-icon {
+    font-size: 2rem;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+/* Estilos para os ícones específicos */
+.energy-icon {
+    color: #FFD700; /* Dourado */
+}
+
+.tools-icon {
+    color: #4682B4; /* Azul aço */
+}
+
+.creativity-icon {
+    color: #32CD32; /* Lima */
+}
+
+/* Título de seção */
+.section-title {
+    position: relative;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.section-title:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background-color: #29ABE2;
+}
+
+/* Toast customizado */
+.toast {
+    background-color: rgba(0, 30, 60, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+}
+
+.toast-header {
+    background-color: rgba(0, 40, 80, 0.95);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Animação para nova atividade */
+@keyframes highlightNew {
+    0% {
+        background-color: rgba(41, 171, 226, 0.4);
+    }
+    100% {
+        background-color: rgba(0, 51, 102, 0.7);
+    }
+}
+
+.activity-new {
+    animation: highlightNew 2s ease-out;
+}
+
+/* Destaque para novas atividades */
+.activity-item.new-activity {
+    animation: pulse-highlight 2s ease-out;
+}
+
+@keyframes pulse-highlight {
+    0% {
+        background-color: rgba(41, 171, 226, 0.6);
+        transform: scale(1.02);
+    }
+    100% {
+        background-color: rgba(0, 51, 102, 0.7);
+        transform: scale(1);
+    }
+}
+
+/* Animação para o botão de colheita */
+.harvest-btn {
+    transition: all 0.3s ease;
+}
+
+.harvest-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 10px rgba(50, 205, 50, 0.5);
+}
+
+/* Animação para quando um recurso é colhido */
+@keyframes harvest {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+}
+
+.harvesting {
+    animation: harvest 0.5s ease-out forwards;
+}
+
+/* Estilo para o botão de voltar - versão sem sombra */
+.back-button-container {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1000;
+}
+
+.back-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background-color: rgba(0, 51, 102, 0.8);
+    /* Remover sombra daqui */
+    color: #fff;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.back-button:hover {
+    background-color: rgba(41, 171, 226, 0.9);
+    transform: scale(1.1);
+    /* Remover sombra do hover também */
+}
+
+.back-icon {
+    font-size: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Para dispositivos móveis, ajuste o tamanho e posição */
+@media (max-width: 768px) {
+    .back-button-container {
+        top: 15px;
+        left: 15px;
+    }
+
+    .back-button {
+        width: 40px;
+        height: 40px;
+    }
+
+    .back-icon {
+        font-size: 22px;
+    }
+}

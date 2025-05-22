@@ -1,0 +1,1263 @@
+/* Estilos da Página de Ilhas */
+.islands-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: linear-gradient(160deg, #0088cc 0%, #005599 60%, #003366 100%);
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Mapa de Ilhas */
+.islands-map {
+  flex: 1;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 70px);
+  padding: 20px;
+  z-index: 2;
+}
+
+/* Efeito de oceano melhorado */
+.ocean {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0, 120, 200, 0.2) 0%,
+    rgba(0, 80, 150, 0.3) 50%,
+    rgba(0, 40, 100, 0.4) 100%
+  );
+  overflow: hidden;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.ocean-wave {
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0, 120, 200, 0.1) 0%,
+    rgba(0, 80, 150, 0.2) 50%,
+    rgba(0, 40, 100, 0.3) 100%
+  );
+  border-radius: 45%;
+  bottom: -100%;
+  left: -50%;
+  animation: ocean-wave-rotate 20s linear infinite;
+  opacity: 0.6;
+}
+
+.wave-1 {
+  animation: ocean-wave-rotate 20s linear infinite;
+  opacity: 0.6;
+}
+
+.wave-2 {
+  animation: ocean-wave-rotate 15s linear reverse infinite;
+  opacity: 0.4;
+  bottom: -105%;
+}
+
+.wave-3 {
+  animation: ocean-wave-rotate 25s linear infinite;
+  opacity: 0.2;
+  bottom: -110%;
+}
+
+@keyframes ocean-wave-rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Ondas do oceano na parte inferior */
+.ocean-waves {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 70px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%230066aa' fill-opacity='0.5' d='M0,192L48,197.3C96,203,192,213,288,229.3C384,245,480,267,576,250.7C672,235,768,181,864,181.3C960,181,1056,235,1152,234.7C1248,235,1344,181,1392,154.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  animation: wave-animation 15s linear infinite;
+  z-index: 3;
+}
+
+@keyframes wave-animation {
+  0% {
+    background-position-x: 0;
+  }
+  100% {
+    background-position-x: 1440px;
+  }
+}
+
+/* Bolhas melhoradas */
+.bubble {
+  position: absolute;
+  background: radial-gradient(
+    circle at 30% 30%,
+    rgba(255, 255, 255, 0.8) 0%,
+    rgba(255, 255, 255, 0.3) 40%,
+    rgba(255, 255, 255, 0.1) 100%
+  );
+  border-radius: 50%;
+  z-index: 1;
+  opacity: 0;
+  pointer-events: none;
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+}
+
+.bubble-1 {
+  width: 20px;
+  height: 20px;
+  left: 20%;
+  bottom: -50px;
+  animation: bubble-float 15s ease-in infinite;
+  animation-delay: 2s;
+}
+
+.bubble-2 {
+  width: 15px;
+  height: 15px;
+  left: 35%;
+  bottom: -30px;
+  animation: bubble-float 10s ease-in infinite;
+  animation-delay: 0s;
+}
+
+.bubble-3 {
+  width: 25px;
+  height: 25px;
+  left: 55%;
+  bottom: -40px;
+  animation: bubble-float 17s ease-in infinite;
+  animation-delay: 5s;
+}
+
+.bubble-4 {
+  width: 12px;
+  height: 12px;
+  left: 70%;
+  bottom: -25px;
+  animation: bubble-float 12s ease-in infinite;
+  animation-delay: 7s;
+}
+
+.bubble-5 {
+  width: 18px;
+  height: 18px;
+  left: 85%;
+  bottom: -35px;
+  animation: bubble-float 14s ease-in infinite;
+  animation-delay: 3s;
+}
+
+@keyframes bubble-float {
+  0% {
+    transform: translateY(0) translateX(0) scale(0.5);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.8;
+    transform: translateY(-30px) translateX(-5px) scale(0.7);
+  }
+  50% {
+    opacity: 0.6;
+    transform: translateY(-150px) translateX(10px) scale(0.9);
+  }
+  80% {
+    opacity: 0.4;
+    transform: translateY(-300px) translateX(-10px) scale(0.7);
+  }
+  100% {
+    transform: translateY(-500px) translateX(0) scale(0.5);
+    opacity: 0;
+  }
+}
+
+/* Nuvens */
+.clouds {
+  display: none;
+}
+
+/* Corrigir a exibição das nuvens */
+.cloud-container {
+  position: absolute;
+  z-index: 4;
+  pointer-events: none;
+  filter: drop-shadow(0 5px 15px rgba(255, 255, 255, 0.2));
+}
+
+.cloud-image {
+  width: 100%;
+  height: 100%;
+  opacity: 0.9;
+  filter: brightness(1.2) contrast(1.1);
+}
+
+/* Adicionando posições para nuvens PNG */
+.cloud-1 {
+  top: 15%;
+  left: 10%;
+  width: 150px;
+  height: 80px;
+  animation: cloud-move-slow 120s linear infinite;
+}
+
+.cloud-2 {
+  top: 25%;
+  right: 15%;
+  width: 180px;
+  height: 90px;
+  animation: cloud-move-reverse 150s linear infinite;
+}
+
+.cloud-3 {
+  bottom: 30%;
+  left: 20%;
+  width: 160px;
+  height: 85px;
+  animation: cloud-move-slow 180s linear infinite;
+}
+
+.cloud-4 {
+  bottom: 40%;
+  right: 20%;
+  width: 140px;
+  height: 75px;
+  animation: cloud-move-reverse 140s linear infinite;
+}
+
+/* Animações para as nuvens */
+@keyframes cloud-move-slow {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(1000px);
+  }
+}
+
+@keyframes cloud-move-reverse {
+  from {
+    transform: translateX(1000px);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+/* Posicionamento das Ilhas em Círculo */
+.island-wrapper {
+  position: absolute;
+  width: 140px;
+  height: 140px;
+  transition: transform 0.3s ease;
+  animation: float 3s ease-in-out infinite;
+  filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.3));
+}
+
+/* Ilha central */
+.island-wrapper.center {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100px;
+  height: 100px;
+  z-index: 5;
+  animation-name: float-center-center;
+  animation-duration: 4s;
+}
+
+/* Posições em círculo ao redor da ilha central */
+.island-wrapper.position-top {
+  top: 15%;
+  left: 50%;
+  transform: translateX(-50%);
+  animation-name: float-center;
+  animation-delay: 0.2s;
+}
+
+.island-wrapper.position-top-right {
+  top: 30%;
+  right: 20%;
+  animation-delay: 0.5s;
+}
+
+.island-wrapper.position-bottom-right {
+  bottom: 30%;
+  right: 20%;
+  animation-delay: 0.7s;
+}
+
+.island-wrapper.position-bottom-left {
+  bottom: 30%;
+  left: 20%;
+  animation-delay: 0.9s;
+}
+
+.island-wrapper.position-bottom {
+  bottom: 15%;
+  left: 50%;
+  transform: translateX(-50%);
+  animation-name: float-center;
+  animation-delay: 1.1s;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.island-wrapper.position-top,
+.island-wrapper.position-bottom {
+  animation-name: float-center;
+}
+
+@keyframes float-center {
+  0% {
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    transform: translateX(-50%) translateY(-10px);
+  }
+  100% {
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+@keyframes float-center-center {
+  0% {
+    transform: translate(-50%, -50%) translateY(0);
+  }
+  50% {
+    transform: translate(-50%, -50%) translateY(-10px);
+  }
+  100% {
+    transform: translate(-50%, -50%) translateY(0);
+  }
+}
+
+/* Botão da Ilha */
+.island-button {
+  width: 100%;
+  height: 100%;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  outline: none;
+  transition: transform 0.2s ease;
+  position: relative;
+}
+
+.island-button:hover {
+  transform: scale(1.05);
+}
+
+.island-button:active {
+  transform: scale(0.95);
+}
+
+/* Imagem da Ilha */
+.island-image {
+  width: 100%;
+  height: auto;
+  position: relative;
+  z-index: 2;
+  object-fit: contain;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.island-button:hover .island-image {
+  transform: translateY(-5px);
+  filter: brightness(1.1);
+}
+
+/* Informações da Ilha */
+.island-info {
+  position: absolute;
+  bottom: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 85, 170, 0.7);
+  border-radius: 10px;
+  padding: 5px 10px;
+  min-width: 120px;
+  text-align: center;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 3;
+  backdrop-filter: blur(5px);
+  transition: all 0.3s ease;
+}
+
+.island-button:hover .island-info {
+  background-color: rgba(0, 100, 200, 0.8);
+  transform: translateX(-50%) translateY(-5px);
+}
+
+.island-wrapper.center .island-info {
+  bottom: -30px;
+}
+
+.island-number {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  background-color: #ffffff;
+  color: #0055aa;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 24px;
+  font-weight: bold;
+  margin-bottom: 3px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.island-name {
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 1.2;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Status da Ilha */
+.island-status {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  z-index: 4;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.status-active {
+  background: radial-gradient(circle at center, #ffd700 30%, #ffa500 100%);
+  box-shadow: 0 0 15px #ffd700;
+  animation: pulse 2s infinite;
+}
+
+.status-scheduled {
+  background: radial-gradient(circle at center, #87ceeb 30%, #4682b4 100%);
+  box-shadow: 0 0 10px #87ceeb;
+}
+
+.status-finished {
+  background: radial-gradient(circle at center, #c0c0c0 30%, #808080 100%);
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 15px rgba(255, 215, 0, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 215, 0, 0);
+  }
+}
+
+/* Efeito de reflexo na água - Melhorado */
+.island-wrapper::after {
+  content: "";
+  position: absolute;
+  width: 90%;
+  height: 40%;
+  left: 5%;
+  top: 100%;
+  background-image: url(""); /* Remover qualquer imagem de fundo */
+  background-color: transparent;
+  transform-origin: top center;
+  transform: scaleY(-1) scaleX(0.8);
+  filter: blur(2px) brightness(0.7);
+  opacity: 0.3;
+  z-index: 1;
+  pointer-events: none;
+  animation: water-reflection 4s ease-in-out infinite alternate;
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%);
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%);
+}
+
+.island-wrapper.center::after {
+  height: 30%;
+  opacity: 0.25;
+}
+
+@keyframes water-reflection {
+  0% {
+    filter: blur(2px) brightness(0.7);
+    transform: scaleY(-1) scaleX(0.8) translateY(0);
+    opacity: 0.3;
+  }
+  100% {
+    filter: blur(3px) brightness(0.6);
+    transform: scaleY(-1) scaleX(0.75) translateY(5px);
+    opacity: 0.2;
+  }
+}
+
+/* Estilos do Modal - Redesenhado */
+.modal-content {
+  background: linear-gradient(135deg, #002952 0%, #001e3d 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+}
+
+.modal-header {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 20px 25px;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.modal-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: white;
+}
+
+.modal-body {
+  padding: 25px;
+}
+
+.modal-footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 15px 25px;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.btn-close-white {
+  filter: brightness(0) invert(1);
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+
+.btn-close-white:hover {
+  opacity: 1;
+}
+
+/* Estilos para as abas do modal - Redesenhado */
+.nav-tabs {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 25px;
+}
+
+.nav-tabs .nav-link {
+  color: rgba(255, 255, 255, 0.7);
+  border: none;
+  border-bottom: 3px solid transparent;
+  background-color: transparent;
+  padding: 12px 20px;
+  transition: all 0.2s ease;
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.nav-tabs .nav-link:hover,
+.nav-tabs .nav-link:focus {
+  color: white;
+  border-bottom: 3px solid rgba(41, 171, 226, 0.5);
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.nav-tabs .nav-link.active {
+  color: #29abe2;
+  border-bottom: 3px solid #29abe2;
+  background-color: rgba(41, 171, 226, 0.1);
+}
+
+/* Estilo para itens de desafio - Redesenhado */
+.challenge-item {
+  background-color: rgba(0, 30, 60, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
+  margin-bottom: 15px;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.challenge-item:hover {
+  background-color: rgba(0, 40, 80, 0.8);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.challenge-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: rgba(41, 171, 226, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.challenge-content {
+  flex: 1;
+}
+
+.challenge-content h5 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.challenge-content p {
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 15px;
+  font-weight: normal;
+}
+
+/* Badge de status */
+.badge {
+  padding: 6px 12px;
+  font-weight: 500;
+  border-radius: 20px;
+  font-size: 0.8rem;
+}
+
+.badge.bg-warning {
+  background-color: #ffc107 !important;
+  color: #000000 !important;
+  font-weight: 600;
+}
+
+.badge.bg-danger,
+.badge.bg-success {
+  background-color: #dc3545 !important;
+  color: #ffffff !important;
+  font-weight: 600;
+}
+
+/* Botões personalizados - Redesenhado */
+.btn-moai {
+  background: linear-gradient(135deg, #29abe2 0%, #1a8ed1 100%);
+  border: none;
+  color: white;
+  font-weight: 500;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  border-radius: 8px;
+  padding: 8px 16px;
+}
+
+.btn-moai:hover:not(:disabled) {
+  background: linear-gradient(135deg, #1a8ed1 0%, #0a7ec1 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.btn-outline-moai {
+  background: transparent;
+  border: 1px solid #29abe2;
+  color: #29abe2;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  border-radius: 8px;
+  padding: 8px 16px;
+}
+
+.btn-outline-moai:hover:not(:disabled) {
+  background-color: rgba(41, 171, 226, 0.1);
+  color: white;
+}
+
+.btn-secondary {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  transition: all 0.3s ease;
+  border-radius: 8px;
+}
+
+.btn-secondary:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Ícone de tempo */
+.timer-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 50%;
+  margin-right: 15px;
+}
+
+/* Estilos para temporada - Redesenhado */
+.season-card {
+  background: linear-gradient(135deg, rgba(0, 40, 80, 0.8) 0%, rgba(0, 60, 100, 0.8) 100%);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+  padding: 25px;
+  margin-bottom: 30px;
+}
+
+.season-progress .progress {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  overflow: hidden;
+  height: 10px;
+}
+
+.season-progress .progress-bar {
+  background: linear-gradient(90deg, #29abe2, #2cc7d6);
+  border-radius: 10px;
+}
+
+.season-dates {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  padding: 15px;
+  margin-bottom: 25px;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.season-rewards {
+  background-color: rgba(41, 171, 226, 0.1);
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid rgba(41, 171, 226, 0.2);
+  margin-bottom: 25px;
+}
+
+.rewards-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.reward-card {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+  height: 100%;
+}
+
+.reward-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.reward-icon {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.3);
+  margin: 0 auto 15px;
+}
+
+.reward-amount {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.reward-name {
+  color: #e6f7ff;
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+
+.reward-position {
+  color: #b8d8eb;
+  font-size: 0.8rem;
+}
+
+/* Cores específicas para cada tipo de recompensa */
+.reward-xp {
+  color: #ffeb3b;
+}
+
+.reward-coins {
+  color: #ffc107;
+}
+
+.reward-money {
+  color: #4caf50;
+}
+
+.reward-exclusive {
+  color: #ff5722;
+}
+
+.energy-icon {
+  color: #f3d035;
+}
+
+.tools-icon {
+  color: #b0bec5;
+}
+
+.creativity-icon {
+  color: #ff9800;
+}
+
+/* Estilos para os requisitos */
+.requirements-list {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  padding: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.requirement-icon {
+  font-size: 1.2rem;
+}
+
+/* Melhorar o botão de entrada na temporada */
+.season-btn {
+  min-width: 200px;
+  padding: 10px 20px;
+  margin-top: 10px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.season-btn:not(:disabled):hover {
+  transform: scale(1.05);
+}
+
+/* CSS para a área de informações da temporada */
+.season-theme {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: white;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+/* Melhorar a exibição da contagem regressiva */
+.text-warning {
+  color: #ffc107 !important;
+  font-weight: 500;
+}
+
+/* Responsividade */
+@media (min-width: 768px) {
+  .island-wrapper {
+    width: 160px;
+    height: 160px;
+  }
+
+  .island-wrapper.center {
+    width: 120px;
+    height: 120px;
+  }
+
+  .island-info {
+    min-width: 140px;
+    padding: 8px 15px;
+  }
+
+  .island-name {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 767px) {
+  .island-wrapper {
+    width: 120px;
+    height: 120px;
+  }
+
+  .island-wrapper.center {
+    width: 90px;
+    height: 90px;
+  }
+
+  .island-info {
+    min-width: 110px;
+    bottom: -35px;
+  }
+
+  .island-name {
+    font-size: 11px;
+  }
+
+  .modal-body {
+    padding: 15px;
+  }
+
+  .challenge-item {
+    padding: 15px;
+  }
+
+  .ocean-wave {
+    border-radius: 48%;
+  }
+
+  .wave-1 {
+    animation-duration: 20s;
+  }
+
+  .wave-2 {
+    animation-duration: 25s;
+    opacity: 0.4;
+  }
+
+  .wave-3 {
+    display: none;
+  }
+
+  .bubble-4,
+  .bubble-5 {
+    display: none;
+  }
+}
+
+@media (max-width: 576px) {
+  .island-wrapper {
+    width: 100px;
+    height: 100px;
+  }
+
+  .island-wrapper.center {
+    width: 80px;
+    height: 80px;
+  }
+
+  .island-info {
+    min-width: 90px;
+    bottom: -30px;
+    padding: 4px 8px;
+  }
+
+  .island-number {
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    font-size: 12px;
+  }
+
+  .island-name {
+    font-size: 10px;
+  }
+
+  /* Ajustar posições para telas menores */
+  .island-wrapper.position-top {
+    top: 10%;
+  }
+
+  .island-wrapper.position-top-right {
+    top: 25%;
+    right: 15%;
+  }
+
+  .island-wrapper.position-bottom-right {
+    bottom: 25%;
+    right: 15%;
+  }
+
+  .island-wrapper.position-bottom-left {
+    bottom: 25%;
+    left: 15%;
+  }
+
+  .island-wrapper.position-bottom {
+    bottom: 10%;
+  }
+}
+
+/* Layout responsivo para recompensas */
+.rewards-section {
+  background: rgba(0, 30, 60, 0.7);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.rewards-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: center;
+}
+
+.reward-card-wrapper {
+  flex: 0 0 calc(33.333% - 15px);
+  min-width: 110px;
+  max-width: 160px;
+  position: relative;
+}
+
+/* Design de cartão de recompensa aprimorado */
+.reward-card {
+  background: linear-gradient(135deg, rgba(0, 40, 80, 0.9) 0%, rgba(0, 30, 60, 0.9) 100%);
+  border-radius: 12px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: 100%;
+  overflow: hidden;
+}
+
+.reward-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+}
+
+.reward-position-badge {
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  width: 30px;
+  height: 30px;
+  background: #FFD700;
+  color: #000;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 14px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  z-index: 2;
+}
+
+.reward-icon {
+  font-size: 28px;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  margin-bottom: 12px;
+  background: rgba(0, 0, 0, 0.3);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+.reward-amount {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 4px;
+  color: white;
+}
+
+.reward-name {
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* Responsividade para telas menores */
+@media (max-width: 767px) {
+  .reward-card-wrapper {
+    flex: 0 0 calc(50% - 10px);
+    min-width: 90px;
+  }
+
+  .reward-icon {
+    font-size: 24px;
+    width: 48px;
+    height: 48px;
+  }
+
+  .reward-amount {
+    font-size: 1.3rem;
+  }
+
+  .reward-name {
+    font-size: 0.8rem;
+  }
+}
+
+/* Para telas muito pequenas */
+@media (max-width: 400px) {
+  .reward-card-wrapper {
+    flex: 0 0 100%;
+    max-width: 130px;
+  }
+}
+
+/* Melhorar legibilidade dos textos em small e text-muted */
+.text-muted {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+small.text-muted,
+.small.text-muted,
+span.text-muted {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+
+/* Garantir que todos os textos nos cards de desafios sejam legíveis */
+.challenge-item .text-muted {
+  color: #b8d8eb !important;
+}
+
+/* Melhorar legibilidade dos textos nas temporadas */
+.season-card .text-muted {
+  color: #c8e6f5 !important;
+}
+
+/* Destacar descrições de desafios e temporadas */
+.challenge-description,
+.season-description,
+.reward-description {
+  color: rgba(255, 255, 255, 0.95) !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Melhorar contrastes dos alertas */
+.alert-info {
+  background-color: rgba(41, 171, 226, 0.2) !important;
+  color: #e6f7ff !important;
+  border-color: rgba(41, 171, 226, 0.3) !important;
+}
+
+/* Destacar descrições nos cards temporadas */
+.season-dates small,
+.season-dates strong {
+  color: #ffffff;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+/* Melhorar a visibilidade das informações de tempo restante */
+.season-dates .text-warning {
+  color: #ffdc73 !important;
+  font-weight: 600;
+}
+
+/* Aumentar o contraste do texto na temporada */
+.season-theme {
+  color: #ffffff;
+  font-weight: 500;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Realçar elementos de feedback e mensagens ao usuário */
+.no-season p,
+.no-season h5 {
+  color: #ffffff !important;
+}
+
+/* Garantir que os textos dos botões têm contraste adequado */
+.btn-moai,
+.btn-secondary {
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+/* Realçar textos em status especiais */
+.season-info p {
+  color: rgba(255, 255, 255, 0.95);
+}
+
+/* Estilos para garantir que o modal seja visível quando aberto */
+.modal.show {
+  display: block !important;
+  z-index: 1050 !important;
+}
+
+.modal-open {
+  overflow: hidden;
+  padding-right: 17px;
+}
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  z-index: 1040 !important;
+}
+
+.modal-backdrop.show {
+  z-index: 1040 !important;
+  opacity: 0.5;
+}
+
+#islandModal {
+  z-index: 1050 !important;
+}
+
+/* Garantir que a navbar fique visível e com z-index correto */
+.navbar.fixed-bottom {
+    z-index: 1030 !important;
+    position: fixed !important;
+    bottom: 0 !important;
+    width: 100% !important;
+    display: flex !important;
+}
+
+/* Garantir que o modal e seu backdrop tenham z-index corretos */
+.modal.show.d-block {
+    z-index: 1050 !important;
+}
+
+.modal-backdrop.show {
+    z-index: 1040 !important;
+    opacity: 0.5;
+}
+
+/* Garantir scroll correto quando o modal estiver aberto */
+body.modal-open {
+    overflow: hidden;
+    padding-right: 17px;
+}
+
+/* Garantir que os botões close funcionem corretamente */
+.btn-close-white {
+    filter: brightness(0) invert(1);
+    opacity: 0.8;
+}
+
+/* Ajustar tamanho do modal para telas menores */
+@media (max-width: 767.98px) {
+    .modal-dialog {
+        margin: 0.5rem;
+        max-width: calc(100% - 1rem);
+    }
+}

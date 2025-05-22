@@ -1,0 +1,126 @@
+<div class="profile-container">
+    <!-- A navbar é incluída aqui -->
+    <div ng-include="'components/navbar.html'"></div>
+
+    <!-- Botão de voltar para o dashboard -->
+    <div class="back-button-container">
+        <a href="#/dashboard" class="back-button" ng-click="$event.preventDefault(); navigate('/dashboard');">
+            <div class="back-icon">
+                <i class="bi bi-arrow-left-circle-fill"></i>
+            </div>
+        </a>
+    </div>
+
+    <!-- O conteúdo principal começa com margem adequada -->
+    <div class="container-moai py-4">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <!-- Cabeçalho com título e botão de logout lado a lado -->
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h1 class="mb-0">Perfil do Jogador</h1>
+                    <!-- Botão de logout movido para cá -->
+                    <button class="btn btn-danger logout-btn" ng-click="logout()">
+                        <span class="logout-icon">🚪</span> Sair
+                    </button>
+                </div>
+
+                <div class="profile-card card-moai p-4 rounded shadow">
+                    <!-- Seção de foto de perfil -->
+                    <div class="profile-photo-section text-center mb-4">
+                        <div class="profile-photo-container mb-3">
+                            <img ng-src="{{userProfile.image && userProfile.image.medium.url || 'public/img/default-avatar.png'}}"
+                                alt="Foto de perfil" class="profile-photo">
+                            <div class="photo-edit-btn" ng-click="openFileSelector()">
+                                <span>✏️</span>
+                            </div>
+                        </div>
+                        <h3 class="profile-name">{{userProfile.name || userProfile._id}}</h3>
+                        <p class="profile-email">{{userProfile.email}}</p>
+                        <input type="file" id="profile-photo-input" accept="image/*" style="display: none;"
+                            onchange="angular.element(this).scope().handleFileSelect(this)">
+                    </div>
+
+                    <!-- Estatísticas do jogador -->
+                    <div class="player-stats mb-4">
+                        <div class="row g-3">
+                            <div class="col-6">
+                                <div class="stat-card p-3 rounded">
+                                    <div class="stat-icon coin-small"></div>
+                                    <div class="stat-info">
+                                        <div class="stat-value">{{userStatus.pointCategories.moaicoins || 0}}</div>
+                                        <div class="stat-label">MOAIcoins</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="stat-card p-3 rounded">
+                                    <div class="stat-icon money-small"></div>
+                                    <div class="stat-info">
+                                        <div class="stat-value">{{userStatus.pointCategories.moaimoney || 0}}</div>
+                                        <div class="stat-label">MOAImoney</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="stat-card p-3 rounded">
+                                    <div class="stat-icon level-icon"></div>
+                                    <div class="stat-info">
+                                        <div class="stat-value">{{userStatus.level.level || 'Nível 1'}}</div>
+                                        <div class="stat-label">Nível</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="stat-card p-3 rounded">
+                                    <div class="stat-icon team-icon"></div>
+                                    <div class="stat-info">
+                                        <div class="stat-value">{{userProfile.teams[0] || 'N/A'}}</div>
+                                        <div class="stat-label">Equipe</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Formulário para alteração de senha -->
+                    <div class="password-section">
+                        <h4 class="section-title mb-3">Alterar Senha</h4>
+                        <form ng-submit="changePassword()" class="password-form">
+                            <div class="mb-3">
+                                <label for="current-password" class="form-label">Senha Atual</label>
+                                <input type="password" class="form-control" id="current-password"
+                                    ng-model="passwordData.currentPassword" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="new-password" class="form-label">Nova Senha</label>
+                                <input type="password" class="form-control" id="new-password"
+                                    ng-model="passwordData.newPassword" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="confirm-password" class="form-label">Confirmar Nova Senha</label>
+                                <input type="password" class="form-control" id="confirm-password"
+                                    ng-model="passwordData.confirmPassword" required>
+                            </div>
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-moai"
+                                    ng-disabled="isProcessing || !passwordData.currentPassword || !passwordData.newPassword || passwordData.newPassword !== passwordData.confirmPassword">
+                                    <span ng-if="!isProcessing">Alterar Senha</span>
+                                    <span ng-if="isProcessing">
+                                        <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+                                        Processando...
+                                    </span>
+                                </button>
+                                <div class="alert alert-info small mt-3" role="alert">
+                                    <i class="bi bi-info-circle-fill me-2"></i>
+                                    Para alterar sua senha, primeiro insira sua senha atual e depois a nova senha duas vezes.
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Removido o botão de logout daqui, pois foi movido para o topo -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

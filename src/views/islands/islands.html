@@ -1,0 +1,532 @@
+<div class="islands-container">
+    <!-- Garantir que a navbar seja incluída corretamente -->
+    <div ng-include="'components/navbar.html'" class="navbar-container"></div>
+
+    <!-- Efeito de oceano -->
+    <div class="ocean">
+        <div class="ocean-wave wave-1"></div>
+        <div class="ocean-wave wave-2"></div>
+        <div class="ocean-wave wave-3"></div>
+    </div>
+
+    <!-- Bolhas -->
+    <div class="bubble bubble-1"></div>
+    <div class="bubble bubble-2"></div>
+    <div class="bubble bubble-3"></div>
+    <div class="bubble bubble-4"></div>
+    <div class="bubble bubble-5"></div>
+
+    <!-- Conteúdo principal - Mapa de ilhas -->
+    <div class="islands-map">
+        <!-- Ilha central do jogador -->
+        <div class="island-wrapper center">
+            <button class="island-button" ng-click="navigateToDashboard()">
+                <img src="public/img/minha-ilha.png" alt="Sua Ilha" class="island-image">
+                <div class="island-info">
+                    <span class="island-name">Sua Ilha</span>
+                </div>
+            </button>
+        </div>
+
+        <!-- Ilhas em círculo ao redor da ilha central -->
+        <!-- Marketing e Vendas (topo) -->
+        <div class="island-wrapper position-top">
+            <button class="island-button" ng-click="openIslandModal('marketing')">
+                <img src="./public/img/moai-marketing.png" alt="Marketing e Vendas" class="island-image">
+
+                <!-- Status visual da temporada -->
+                <!-- Temporada Ativa: Luzes pulsantes -->
+                <div class="season-active-indicator"
+                     ng-if="hasActiveSeasonByIsland.marketing">
+                    <div class="pulse-light"></div>
+                    <div class="glow-effect"></div>
+                </div>
+
+                <!-- Temporada Agendada: Banner com contagem regressiva -->
+                <div class="season-scheduled-banner"
+                     ng-if="!hasActiveSeasonByIsland.marketing && seasonsApi.marketing.length > 0 && !isSeasonFinished(getNextSeasonForIsland('marketing'))">
+                    <span class="countdown-text">{{getCountdownForIsland('marketing')}}</span>
+                </div>
+
+                <!-- Temporada Finalizada: Placa de campeão -->
+                <div class="season-champion-plate"
+                     ng-if="getLastFinishedSeasonChampion('marketing')">
+                    <div class="champion-plate-content">
+                        <div class="trophy-icon">🏆</div>
+                        <div class="champion-name">{{getLastFinishedSeasonChampion('marketing')}}</div>
+                    </div>
+                </div>
+
+                <div class="island-info">
+                    <span class="island-number">1</span>
+                    <span class="island-name">Marketing e Vendas</span>
+                </div>
+                <div class="island-status" ng-class="{
+                    'status-active': hasActiveSeasonByIsland.marketing,
+                    'status-scheduled': !hasActiveSeasonByIsland.marketing && seasonsApi.marketing.length > 0,
+                    'status-finished': seasonsApi.marketing.length === 0
+                }"></div>
+            </button>
+        </div>
+
+        <!-- Gestão e Liderança (topo direita) -->
+        <div class="island-wrapper position-top-right">
+            <button class="island-button" ng-click="openIslandModal('leadership')">
+                <img src="public/img/ilha-leadership.png" alt="Gestão e Liderança" class="island-image">
+                <div class="island-info">
+                    <span class="island-number">5</span>
+                    <span class="island-name">Gestão e Liderança</span>
+                </div>
+                <div class="island-status" ng-class="{
+                    'status-active': hasActiveSeasonByIsland.leadership,
+                    'status-scheduled': !hasActiveSeasonByIsland.leadership && seasonsApi.leadership.length > 0,
+                    'status-finished': seasonsApi.leadership.length === 0
+                }"></div>
+            </button>
+        </div>
+
+        <!-- Inovação Tecnologia (baixo direita) -->
+        <div class="island-wrapper position-bottom-right">
+            <button class="island-button" ng-click="openIslandModal('innovation')">
+                <img src="public/img/ilha-inovation.png" alt="Inovação Tecnologia" class="island-image">
+                <div class="island-info">
+                    <span class="island-number">4</span>
+                    <span class="island-name">Inovação Tecnologia</span>
+                </div>
+                <div class="island-status" ng-class="{
+                    'status-active': hasActiveSeasonByIsland.innovation,
+                    'status-scheduled': !hasActiveSeasonByIsland.innovation && seasonsApi.innovation.length > 0,
+                    'status-finished': seasonsApi.innovation.length === 0
+                }"></div>
+            </button>
+        </div>
+
+        <!-- Experiência do Cliente (baixo esquerda) -->
+        <div class="island-wrapper position-bottom-left">
+            <button class="island-button" ng-click="openIslandModal('customer')">
+                <img src="public/img/ilha-cliente.png" alt="Experiência do Cliente" class="island-image">
+                <div class="island-info">
+                    <span class="island-number">3</span>
+                    <span class="island-name">Experiência do Cliente</span>
+                </div>
+                <div class="island-status" ng-class="{
+                    'status-active': hasActiveSeasonByIsland.customer,
+                    'status-scheduled': !hasActiveSeasonByIsland.customer && seasonsApi.customer.length > 0,
+                    'status-finished': seasonsApi.customer.length === 0
+                }"></div>
+            </button>
+        </div>
+
+        <!-- Gestão Financeira (baixo) -->
+        <div class="island-wrapper position-bottom">
+            <button class="island-button" ng-click="openIslandModal('financial')">
+                <img src="public/img/ilha-financeira.png" alt="Gestão Financeira" class="island-image">
+                <div class="island-info">
+                    <span class="island-number">5</span>
+                    <span class="island-name">Gestão Financeira</span>
+                </div>
+                <div class="island-status" ng-class="{
+                    'status-active': hasActiveSeasonByIsland.financial,
+                    'status-scheduled': !hasActiveSeasonByIsland.financial && seasonsApi.financial.length > 0,
+                    'status-finished': seasonsApi.financial.length === 0
+                }"></div>
+            </button>
+        </div>
+
+        <!-- Elementos decorativos -->
+        <div class="ocean-waves"></div>
+        <!-- Containers para nuvens PNG -->
+        <div class="cloud-container cloud-1">
+            <img src="./public/img/cloud.png" alt="Nuvem" class="cloud-image">
+        </div>
+        <div class="cloud-container cloud-2">
+            <img src="./public/img/cloud.png" alt="Nuvem" class="cloud-image">
+        </div>
+        <div class="cloud-container cloud-3">
+            <img src="./public/img/cloud.png" alt="Nuvem" class="cloud-image">
+        </div>
+        <div class="cloud-container cloud-4">
+            <img src="./public/img/cloud.png" alt="Nuvem" class="cloud-image">
+        </div>
+    </div>
+
+    <!-- Modal para detalhes da ilha com navegação por abas -->
+    <div class="modal fade" id="islandModal" tabindex="-1" role="dialog" aria-labelledby="islandModalLabel"
+         style="display: none;" ng-class="{'show d-block': modalVisible}">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="islandModalLabel">{{selectedIsland.name}}</h5>
+                    <button type="button" class="btn-close btn-close-white" ng-click="closeModal()"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Cabeçalho com informações da ilha -->
+                    <div class="island-header text-center mb-4" ng-if="selectedIsland">
+                        <h6 class="lead">{{selectedIsland.description}}</h6>
+                    </div>
+
+                    <!-- Navegação em abas -->
+                    <ul class="nav nav-tabs nav-fill" id="islandTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="challenges-tab" data-bs-toggle="tab" data-bs-target="#challenges" type="button" role="tab" aria-controls="challenges" aria-selected="true" ng-click="setActiveTab('challenges')">
+                                Desafios
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="season-tab" data-bs-toggle="tab" data-bs-target="#season" type="button" role="tab" aria-controls="season" aria-selected="false" ng-click="setActiveTab('season')">
+                                Temporada
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="ranking-tab" data-bs-toggle="tab" data-bs-target="#ranking" type="button" role="tab" aria-controls="ranking" aria-selected="false" ng-click="setActiveTab('ranking')">
+                                Ranking
+                            </button>
+                        </li>
+                    </ul>
+
+                    <!-- Conteúdo das abas -->
+                    <div class="tab-content" id="islandTabsContent">
+                        <!-- Aba de Desafios -->
+                        <div class="tab-pane fade show active" id="challenges" role="tabpanel" aria-labelledby="challenges-tab">
+                            <div class="island-challenges p-3">
+                                <h4 class="mb-3">Desafios de {{selectedIsland.name}}</h4>
+                                <p class="text-muted mb-4">Desafios personalizados para o nível de maturidade do seu negócio.</p>
+
+                                <div ng-if="isLoadingChallenges" class="text-center p-5">
+                                    <div class="spinner-border text-light" role="status">
+                                        <span class="visually-hidden">Carregando...</span>
+                                    </div>
+                                    <p class="mt-3">Carregando desafios...</p>
+                                </div>
+
+                                <!-- Lista de desafios da API - Versão atualizada -->
+                                <div class="list-group mb-3" ng-if="!isLoadingChallenges && challengesApi[selectedIslandKey].length > 0">
+                                    <div class="challenge-item d-flex align-items-start"
+                                         ng-repeat="challenge in challengesApi[selectedIslandKey]"
+                                         ng-class="{'challenge-joined': isChallengeJoined(challenge._id), 'challenge-expired': isChallengeExpired(challenge._id)}">
+                                        <div class="challenge-icon me-3">
+                                            <span ng-if="!isChallengeJoined(challenge._id)">🎯</span>
+                                            <span ng-if="isChallengeJoined(challenge._id) && !isChallengeExpired(challenge._id)">⏱️</span>
+                                            <span ng-if="isChallengeExpired(challenge._id)">⌛</span>
+                                        </div>
+                                        <div class="challenge-content">
+                                            <div class="d-flex justify-content-between align-items-start">
+                                                <h5 class="mb-1">{{challenge.challenge}}</h5>
+                                                <span class="badge ms-2"
+                                                      ng-if="isChallengeJoined(challenge._id)"
+                                                      ng-class="{'bg-warning': !isChallengeExpired(challenge._id), 'bg-danger': isChallengeExpired(challenge._id)}">
+                                                    {{isChallengeExpired(challenge._id) ? 'Expirado' : 'Em andamento'}}
+                                                </span>
+                                            </div>
+                                            <p class="mb-3 challenge-description">{{challenge.description}}</p>
+                                            <div class="challenge-details mb-3" ng-if="isChallengeJoined(challenge._id)">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="timer-icon">
+                                                        <i class="bi bi-hourglass-split fs-5"></i>
+                                                    </div>
+                                                    <div>
+                                                        <small class="d-block text-warning">
+                                                            {{isChallengeExpired(challenge._id) ? 'Tempo esgotado' : 'Tempo restante: ' + formatRemainingTime(challenge)}}
+                                                        </small>
+                                                        <small class="d-block text-muted">
+                                                            Questionário interno para autoavaliação
+                                                        </small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <div>
+                                                    <small class="text-muted me-3">
+                                                        <i class="bi bi-gift"></i> Recompensas:
+                                                        <span class="reward-badge">{{formatReward(challenge)}}</span>
+                                                    </small>
+                                                    <small class="text-muted" ng-if="!isChallengeJoined(challenge._id) && challenge.join && challenge.join.timeframe">
+                                                        <i class="bi bi-stopwatch"></i> Tempo para conclusão:
+                                                        {{challenge.join.timeframe.replace('min', ' minutos').replace('h', ' horas')}}
+                                                    </small>
+                                                </div>
+                                                <button class="btn"
+                                                        ng-class="{'btn-moai': !isChallengeJoined(challenge._id), 'btn-outline-moai': isChallengeJoined(challenge._id)}"
+                                                        ng-click="startChallenge(challenge)"
+                                                        ng-disabled="challenge.isJoining">
+                                                    <span ng-if="challenge.isJoining">
+                                                        <span class="spinner-border spinner-border-sm" role="status"></span>
+                                                        Iniciando...
+                                                    </span>
+                                                    <span ng-if="!challenge.isJoining && !isChallengeJoined(challenge._id)">Iniciar</span>
+                                                    <span ng-if="!challenge.isJoining && isChallengeJoined(challenge._id)">Acessar</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Mensagem quando não há desafios disponíveis -->
+                                <div class="alert alert-info" ng-if="!isLoadingChallenges && challengesApi[selectedIslandKey].length === 0">
+                                    <p class="mb-0 text-center">
+                                        <i class="bi bi-info-circle-fill me-2"></i>
+                                        Não há desafios disponíveis para o seu nível de maturidade nesta ilha.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Aba de Temporada -->
+                        <div class="tab-pane fade" id="season" role="tabpanel" aria-labelledby="season-tab">
+                            <div class="island-season p-3">
+                                <h4 class="mb-3">Temporada de {{selectedIsland.name}}</h4>
+
+                                <div ng-if="isLoadingSeasons" class="text-center p-5">
+                                    <div class="spinner-border text-light" role="status">
+                                        <span class="visually-hidden">Carregando...</span>
+                                    </div>
+                                    <p class="mt-3">Carregando temporadas...</p>
+                                </div>
+
+                                <!-- Quando não há temporadas disponíveis -->
+                                <div class="alert alert-info" ng-if="!isLoadingSeasons && (!seasonsApi[selectedIslandKey] || seasonsApi[selectedIslandKey].length === 0)">
+                                    <p class="mb-0 text-center">
+                                        <i class="bi bi-info-circle-fill me-2"></i>
+                                        Não há temporadas disponíveis para o seu nível de maturidade nesta ilha.
+                                    </p>
+                                </div>
+
+                                <!-- Temporada ativa ou próxima -->
+                                <div ng-if="!isLoadingSeasons && seasonsApi[selectedIslandKey] && seasonsApi[selectedIslandKey].length > 0">
+                                    <div class="season-card">
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <div class="d-flex justify-content-between align-items-start mb-3">
+                                                    <h5>{{getActiveSeasonForCurrentIsland().title}}</h5>
+                                                    <span class="badge" ng-class="{
+                                                        'bg-success': isSeasonActive(getActiveSeasonForCurrentIsland()),
+                                                        'bg-warning': !isSeasonActive(getActiveSeasonForCurrentIsland())
+                                                    }">
+                                                        {{isSeasonActive(getActiveSeasonForCurrentIsland()) ? 'Ativa' : 'Em breve'}}
+                                                    </span>
+                                                </div>
+
+                                                <p class="season-theme mb-4">{{selectedIsland.name}} - {{maturityLevelMap[getActiveSeasonForCurrentIsland().extra.maturity] || 'Todos os níveis'}}</p>
+
+                                                <div class="season-progress mb-4" ng-if="isSeasonActive(getActiveSeasonForCurrentIsland())">
+                                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                                        <small>Progresso da temporada</small>
+                                                        <small>{{calculateSeasonProgress(getActiveSeasonForCurrentIsland())}}%</small>
+                                                    </div>
+                                                    <div class="progress">
+                                                        <div class="progress-bar bg-info" role="progressbar"
+                                                             ng-style="{'width': calculateSeasonProgress(getActiveSeasonForCurrentIsland()) + '%'}"
+                                                             aria-valuenow="{{calculateSeasonProgress(getActiveSeasonForCurrentIsland())}}"
+                                                             aria-valuemin="0" aria-valuemax="100"></div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="season-dates d-flex justify-content-between mb-4">
+                                                    <div class="text-center">
+                                                        <small class="d-block text-muted">Início</small>
+                                                        <strong>{{formatDate(getActiveSeasonForCurrentIsland().period.startDate)}}</strong>
+                                                    </div>
+                                                    <div class="text-center" ng-if="isSeasonActive(getActiveSeasonForCurrentIsland())">
+                                                        <small class="d-block text-muted">Tempo restante</small>
+                                                        <strong class="text-warning">{{formatTimeRemaining(getActiveSeasonForCurrentIsland())}}</strong>
+                                                    </div>
+                                                    <div class="text-center">
+                                                        <small class="d-block text-muted">Término</small>
+                                                        <strong>{{formatDate(getActiveSeasonForCurrentIsland().period.endDate)}}</strong>
+                                                    </div>
+                                                </div>
+
+                                                <div class="season-rewards mb-4">
+                                                    <h6 class="mb-3">
+                                                        <i class="bi bi-trophy-fill text-warning me-2"></i>Recompensas por Vencer:
+                                                    </h6>
+                                                    <div class="rewards-container">
+                                                        <!-- Lista de recompensas da temporada usando layout flex adaptável -->
+                                                        <div class="rewards-grid">
+                                                            <div class="reward-card-wrapper" ng-repeat="reward in getSeasonRewards() track by $index">
+                                                                <div class="reward-card">
+                                                                    <div class="reward-position-badge" ng-if="reward.position > 0">{{reward.position}}º</div>
+                                                                    <div class="reward-icon" ng-class="reward.iconClass">
+                                                                        <span ng-if="!reward.loading">{{reward.icon}}</span>
+                                                                        <div class="spinner-border spinner-border-sm" role="status" ng-if="reward.loading">
+                                                                            <span class="visually-hidden">Carregando...</span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="reward-amount" ng-if="reward.amount">{{reward.amount}}</div>
+                                                                    <div class="reward-name">{{reward.name}}</div>
+                                                                    <div class="reward-description small" ng-if="reward.description">{{reward.description}}</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- Mensagem quando não há recompensas -->
+                                                        <div class="no-rewards text-center p-3" ng-if="getSeasonRewards().length === 0">
+                                                            <p class="mb-0">Não há recompensas definidas para esta temporada.</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Requisitos da temporada -->
+                                                <div class="season-requirements mb-4">
+                                                    <h6 class="mb-3">
+                                                        <i class="bi bi-shield-lock-fill me-2"></i>Requisitos:
+                                                    </h6>
+                                                    <div class="requirements-list">
+                                                        <ul class="list-unstyled">
+                                                            <li ng-repeat="req in getActiveSeasonForCurrentIsland().requires"
+                                                                ng-if="req.type === 3" class="mb-2">
+                                                                <div class="d-flex align-items-center">
+                                                                    <div class="requirement-icon me-2" ng-class="{'text-success': meetsRequirement(req), 'text-danger': !meetsRequirement(req)}">
+                                                                        <i class="bi" ng-class="meetsRequirement(req) ? 'bi-check-circle-fill' : 'bi-x-circle-fill'"></i>
+                                                                    </div>
+                                                                    <div>
+                                                                        <span>{{getLevelNameFromId(req.item)}}</span>
+                                                                        <small class="d-block text-muted">Nível mínimo para participar</small>
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+                                                            <li ng-if="!getActiveSeasonForCurrentIsland().requires || getActiveSeasonForCurrentIsland().requires.length === 0" class="text-muted">
+                                                                Sem requisitos especiais.
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+
+                                                <button class="btn btn-moai season-btn"
+                                                        ng-click="joinSeason(getActiveSeasonForCurrentIsland())"
+                                                        ng-disabled="!isSeasonActive(getActiveSeasonForCurrentIsland()) ||
+                                                                   !meetsSeasonRequirements(getActiveSeasonForCurrentIsland()) ||
+                                                                   isPlayerJoinedSeason(getActiveSeasonForCurrentIsland()._id) ||
+                                                                   isJoiningSeason">
+                                                    <span ng-if="isJoiningSeason">
+                                                        <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+                                                        Processando...
+                                                    </span>
+                                                    <span ng-if="!isJoiningSeason">
+                                                        <i class="bi" ng-class="isPlayerJoinedSeason(getActiveSeasonForCurrentIsland()._id) ?
+                                                                          'bi-check-circle-fill' : 'bi-play-circle-fill'"></i>
+                                                        {{isPlayerJoinedSeason(getActiveSeasonForCurrentIsland()._id) ? 'Participando' :
+                                                        isSeasonActive(getActiveSeasonForCurrentIsland()) ? 'Entrar na Temporada' : 'Temporada futura'}}
+                                                    </span>
+                                                </button>
+                                                <div ng-if="!meetsSeasonRequirements(getActiveSeasonForCurrentIsland())" class="mt-2 text-warning">
+                                                    <small><i class="bi bi-exclamation-triangle-fill"></i> Você não atende aos requisitos para esta temporada.</small>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 text-center">
+                                                <div class="season-image-wrapper">
+                                                    <div class="season-image-placeholder">
+                                                        <div class="season-theme-icon" ng-class="'theme-' + selectedIslandKey">
+                                                            <i ng-class="getThemeIcon(selectedIslandKey)"></i>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mt-3 text-center">
+                                                        <span class="badge bg-primary">
+                                                            Nível de maturidade: {{maturityLevelMap[getActiveSeasonForCurrentIsland().extra.maturity] || 'Todos os níveis'}}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Outras temporadas da mesma ilha -->
+                                    <div ng-if="seasonsApi[selectedIslandKey].length > 1" class="mt-4">
+                                        <h5 class="mb-3">Outras temporadas desta ilha</h5>
+                                        <div class="list-group">
+                                            <div class="list-group-item bg-moai-dark mb-2 rounded"
+                                                 ng-repeat="season in seasonsApi[selectedIslandKey]"
+                                                 ng-if="season !== getActiveSeasonForCurrentIsland()">
+                                                <div class="d-flex justify-content-between align-items-start">
+                                                    <h6 class="mb-1">{{season.title}}</h6>
+                                                    <span class="badge" ng-class="{'bg-success': isSeasonActive(season), 'bg-secondary': !isSeasonActive(season)}">
+                                                        {{isSeasonActive(season) ? 'Ativa' : formatDate(season.period.startDate)}}
+                                                    </span>
+                                                </div>
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <small>Duração: {{formatDate(season.period.startDate)}} - {{formatDate(season.period.endDate)}}</small>
+                                                    <span class="badge bg-primary">{{maturityLevelMap[season.extra.maturity] || 'Todos os níveis'}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="season-info bg-moai-dark p-3 rounded mt-4">
+                                        <h5 class="mb-3">Como funcionam as temporadas?</h5>
+                                        <p>As temporadas são competições temáticas relacionadas a cada ilha de conhecimento. Participe, complete desafios e ganhe recompensas exclusivas!</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Aba de Ranking -->
+                        <div class="tab-pane fade" id="ranking" role="tabpanel" aria-labelledby="ranking-tab">
+                            <div class="island-ranking p-3">
+                                <h4 class="mb-3">Ranking de {{selectedIsland.name}}</h4>
+
+                                <!-- Estado quando não há temporada ativa -->
+                                <div ng-if="!hasActiveSeason" class="no-season text-center p-5">
+                                    <div class="no-season-icon mb-3">😭</div>
+                                    <h5>Não estamos em temporada 😭</h5>
+                                    <p>A competição começará em breve. Fique ligado!</p>
+                                </div>
+
+                                <!-- Estado quando há temporada ativa -->
+                                <div ng-if="hasActiveSeason && !isLoadingRanking && seasonRanking.length > 0" class="active-season">
+                                    <div class="leaderboard mb-4">
+                                        <div class="leaderboard-item d-flex align-items-center"
+                                             ng-repeat="player in seasonRanking | limitTo:5"
+                                             ng-class="{'bg-moai-highlight': player.player === AuthService.getUserId()}"
+                                             style="--rank-index: {{$index}}">
+                                            <div class="rank-number me-3">{{player.position}}</div>
+                                            <div class="rank-avatar me-3">👤</div>
+                                            <div class="rank-name flex-grow-1">{{getPlayerDisplayName(player.player)}}</div>
+                                            <div class="rank-score">{{player.total}} pts</div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Se o usuário não está no top 5, mostrar sua posição separadamente -->
+                                    <div class="user-rank-info p-4 bg-moai-dark rounded"
+                                         ng-if="userRankingPosition && userRankingPosition.position > 5">
+                                        <h5 class="mb-3">Sua posição</h5>
+                                        <div class="leaderboard-item d-flex align-items-center bg-moai-highlight">
+                                            <div class="rank-number me-3">{{userRankingPosition.position}}</div>
+                                            <div class="rank-avatar me-3">👤</div>
+                                            <div class="rank-name flex-grow-1">Você</div>
+                                            <div class="rank-score">{{userRankingPosition.total}} pts</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Estado quando há temporada ativa sem participantes -->
+                                <div ng-if="hasActiveSeason && !isLoadingRanking && seasonRanking.length === 0" class="text-center p-4">
+                                    <div class="empty-ranking-icon mb-3">🏆</div>
+                                    <h5>Seja o primeiro no ranking!</h5>
+                                    <p>Nenhum jogador participou desta temporada ainda. Participe dos desafios e conquiste o primeiro lugar.</p>
+                                </div>
+
+                                <!-- Estado de carregamento -->
+                                <div ng-if="isLoadingRanking" class="text-center p-5">
+                                    <div class="spinner-border text-light" role="status">
+                                        <span class="visually-hidden">Carregando...</span>
+                                    </div>
+                                    <p class="mt-3">Carregando ranking...</p>
+                                </div>
+
+                                <!-- Estado de erro -->
+                                <div ng-if="rankingError && !isLoadingRanking" class="alert alert-warning" role="alert">
+                                    <p class="mb-0 text-center">
+                                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                                        Não foi possível carregar o ranking. Por favor, tente novamente mais tarde.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Backdrop separado para melhor controle -->
+    <div class="modal-backdrop fade" ng-class="{'show': modalVisible}" ng-if="modalVisible"></div>
+</div>

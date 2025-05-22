@@ -1,0 +1,169 @@
+<div class="rewards-container">
+    <!-- A navbar é incluída aqui -->
+    <div ng-include="'components/navbar.html'"></div>
+
+    <!-- Botão de voltar para o dashboard -->
+    <div class="back-button-container">
+        <a href="#/dashboard" class="back-button" ng-click="$event.preventDefault(); navigate('/dashboard');">
+            <div class="back-icon">
+                <i class="bi bi-arrow-left-circle-fill"></i>
+            </div>
+        </a>
+    </div>
+
+    <!-- O conteúdo principal começa com margem adequada -->
+    <div class="container-moai py-4">
+        <div class="row justify-content-center">
+            <div class="col-md-11 col-lg-10">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h1 class="mb-0">REWARDS </h1>
+                    <!-- Modifique o botão de histórico de compras para ser mais evidente -->
+                    <button type="button" class="btn btn-primary history-button" ng-click="showPurchaseHistory(); $event.stopPropagation();">
+                        <span class="history-icon">🛒</span> Histórico de Compras
+                    </button>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-md-6 mb-3 mb-md-0">
+                        <div class="currency-item d-flex align-items-center p-3 rounded">
+                            <div class="currency-icon coin-icon me-3"></div>
+                            <div class="currency-value">{{userStatus.pointCategories.moaicoins   || 0}} MoaiCoins</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="currency-item d-flex align-items-center p-3 rounded">
+                            <div class="currency-icon money-icon me-3"></div>
+                            <div class="currency-value">{{userStatus.pointCategories.moaimoney || 0}} MoaiMoney</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row g-3 rewards-grid">
+                    <div class="col-6 col-md-4 col-lg-3 mb-4" ng-repeat="item in rewardItems">
+                        <div class="card reward-card" ng-click="showItemDetails(item)">
+                            <div class="card-body d-flex flex-column align-items-center">
+                                <div class="item-icon mb-3" data-item-type="{{getItemType(item.name)}}">
+                                    {{item.name.split(' ')[0]}}
+                                </div>
+                                <div class="reward-name text-center mb-3">{{item.name.split(' ').slice(1).join(' ')}}</div>
+                                <div class="reward-price d-flex align-items-center mb-3 px-3 py-1 rounded">
+                                    <div class="price-icon me-2" ng-class="{'coin-small': item.requires[0].item === 'moaicoins', 'money-small': item.requires[0].item === 'moaimoney'}"></div>
+                                    <div class="price-value">{{item.requires[0].total}}</div>
+                                </div>
+                                <button class="btn btn-moai buy-button w-100 mt-auto">BUY</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para detalhes do item - Versão corrigida -->
+    <div class="custom-modal-container" ng-if="modalVisible">
+        <div class="custom-modal-backdrop" ng-click="closeModal()"></div>
+        <div class="custom-modal">
+            <div class="modal-header">
+                <h5 class="modal-title">{{selectedItem.name}}</h5>
+                <button type="button" class="btn-close btn-close-white" ng-click="closeModal()"></button>
+            </div>
+            <div class="modal-body text-center">
+                <div class="item-icon large mb-4" data-item-type="{{getItemType(selectedItem.name)}}">
+                    {{selectedItem.name.split(' ')[0]}}
+                </div>
+
+                <div class="item-description mb-4 p-3 rounded" ng-if="selectedItem.description">
+                    <p class="mb-0">{{selectedItem.description}}</p>
+                </div>
+                <div class="item-description mb-4 p-3 rounded" ng-if="!selectedItem.description">
+                    <p class="mb-0">Item exclusivo da loja MOAI.</p>
+                </div>
+
+                <div class="item-requirements mb-4 p-3 rounded">
+                    <h5 class="mb-3 pb-2 border-bottom">Requisitos:</h5>
+                    <ul class="list-unstyled">
+                        <li class="d-flex align-items-center p-2 mb-2 rounded" ng-repeat="req in selectedItem.requires" ng-if="req.type === 0">
+                            <span class="req-amount me-2 px-2 py-1 rounded">{{req.total}}</span>
+                            <span class="req-item">{{req.item === 'moaicoins' ? 'MOAIcoins' : 'MOAImoney'}}</span>
+                        </li>
+                        <li class="d-flex align-items-center p-2 mb-2 rounded" ng-if="hasLevelRequirement(selectedItem)">
+                            <span class="req-level">{{getLevelFromRequirements(selectedItem)}}</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="item-availability p-2 rounded" ng-if="selectedItem.amount > 0">
+                    <p class="mb-0">Disponibilidade: {{selectedItem.amount}} unidades</p>
+                </div>
+                <div class="item-availability p-2 rounded" ng-if="selectedItem.amount < 0">
+                    <p class="mb-0">Disponibilidade: Ilimitada</p>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button class="btn buy-button large" ng-click="purchaseItem(selectedItem)" ng-disabled="isProcessing">
+                    <span ng-if="!isProcessing">COMPRAR</span>
+                    <span ng-if="isProcessing">
+                        <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+                        PROCESSANDO...
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Histórico de Compras -->
+    <div class="custom-modal-container" ng-if="historyModalVisible">
+        <div class="custom-modal history-modal">
+            <div class="modal-header">
+                <h5 class="modal-title history-title">Histórico de Compras</h5>
+                <button type="button" class="btn-close btn-close-white" ng-click="closeHistoryModal()"></button>
+            </div>
+
+            <div class="modal-body">
+                <div ng-if="isLoadingHistory" class="text-center p-4">
+                    <div class="spinner-border text-light" role="status">
+                        <span class="visually-hidden">Carregando...</span>
+                    </div>
+                    <p class="mt-2">Carregando histórico...</p>
+                </div>
+
+                <div ng-if="!isLoadingHistory && purchases.length === 0" class="text-center py-5">
+                    <p class="mb-0">Você ainda não realizou nenhuma compra.</p>
+                </div>
+
+                <ul ng-if="!isLoadingHistory && purchases.length > 0" class="list-group list-group-flush history-list">
+                    <li class="list-group-item history-item" ng-repeat="purchase in purchases">
+                        <!-- Pré-calcular valores para evitar bindings repetidos -->
+                        <div ng-init="purchaseName = getPurchaseName(purchase); formattedDate = formatDate(purchase.time); isDelivered = isPurchaseDelivered(purchase); purchasePrices = getPurchasePrices(purchase)">
+                            <div class="purchase-name mb-2">{{purchaseName}}</div>
+
+                            <div class="d-flex justify-content-between flex-wrap mb-2">
+                                <span class="purchase-date">{{formattedDate}}</span>
+                                <span class="badge purchase-status" ng-class="{'bg-warning status-pending': !isDelivered, 'bg-success status-delivered': isDelivered}">
+                                    {{isDelivered ? 'Entregue' : 'Pendente'}}
+                                </span>
+                            </div>
+
+                            <div class="purchase-price-container p-2 rounded">
+                                <div class="purchase-price-title mb-2">Custo da compra:</div>
+                                <div class="purchase-price d-flex flex-wrap">
+                                    <div class="price-detail me-3 mb-2" ng-repeat="price in purchasePrices">
+                                        <div class="price-badge" ng-class="{'coin-badge': price.item === 'moaicoins', 'money-badge': price.item === 'moaimoney'}">
+                                            <div class="price-icon-small me-1" ng-class="{'coin-small': price.item === 'moaicoins', 'money-small': price.item === 'moaimoney'}"></div>
+                                            <span class="price-amount">{{price.total}}</span>
+                                            <span class="price-currency">{{price.item === 'moaicoins' ? 'MOAIcoins' : 'MOAImoney'}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="modal-footer justify-content-center">
+                <button class="btn buy-button" ng-click="closeHistoryModal()">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,39 @@
+<div class="container d-flex justify-content-center align-items-center vh-100">
+    <div class="login-container">
+        <div class="login-card shadow-lg">
+            <div class="text-center mb-4">
+                <img src="public/img/moai-logo.png" alt="MOAI Logo" class="moai-logo img-fluid">
+            </div>
+
+            <form ng-submit="login()" class="login-form">
+                <div class="mb-3">
+                    <label for="email" class="form-label sr-only">Email</label>
+                    <div class="input-with-icon">
+                        <span class="icon">✉️</span>
+                        <input type="email" class="form-control" id="email" ng-model="user.email" placeholder="Email address" required>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="password" class="form-label sr-only">Senha</label>
+                    <div class="input-with-icon">
+                        <span class="icon">🔒</span>
+                        <input type="password" class="form-control" id="password" ng-model="user.password" placeholder="Password" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn w-100 login-button mb-3">Log in</button>
+
+                <div class="text-center mb-3">
+                    <a href="#" class="text-decoration-none">Forgot password?</a>
+                </div>
+
+                <div class="text-center terms">
+                    <a href="#" class="text-decoration-none">Terms of Use</a> | <a href="#" class="text-decoration-none">Privacy Policy</a>
+                </div>
+            </form>
+
+            <audio id="ocean-sound" src="public/audios/ocean-waves.wav" preload="auto"></audio>
+        </div>
+    </div>
+</div>

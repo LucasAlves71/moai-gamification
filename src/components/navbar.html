@@ -1,0 +1,38 @@
+<div class="navbar fixed-bottom py-2 bg-moai-dark" ng-controller="NavbarController">
+    <div class="container">
+        <div class="row w-100 navbar-content">
+            <div class="col-3 p-0">
+                <a href="#/islands" ng-click="navigate('/islands'); $event.preventDefault()"
+                   class="nav-item d-flex flex-column align-items-center"
+                   ng-class="{'active': isActive('/islands')}">
+                    <div class="nav-icon">🏝️</div>
+                    <div class="nav-label">Ilhas</div>
+                </a>
+            </div>
+            <div class="col-3 p-0">
+                <a href="#/development" ng-click="navigate('/development'); $event.preventDefault()"
+                   class="nav-item d-flex flex-column align-items-center"
+                   ng-class="{'active': isActive('/development')}">
+                    <div class="nav-icon">🔨</div>
+                    <div class="nav-label">Desenvolvimento</div>
+                </a>
+            </div>
+            <div class="col-3 p-0">
+                <a href="#/rewards" ng-click="navigate('/rewards'); $event.preventDefault()"
+                   class="nav-item d-flex flex-column align-items-center"
+                   ng-class="{'active': isActive('/rewards')}">
+                    <div class="nav-icon">🎁</div>
+                    <div class="nav-label">Recompensas</div>
+                </a>
+            </div>
+            <div class="col-3 p-0">
+                <a href="#/profile" ng-click="navigate('/profile'); $event.preventDefault()"
+                   class="nav-item d-flex flex-column align-items-center"
+                   ng-class="{'active': isActive('/profile')}">
+                    <div class="nav-icon">👤</div>
+                    <div class="nav-label">Perfil</div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

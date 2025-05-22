@@ -1,0 +1,100 @@
+/* Login Page Styles */
+.login-container {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+}
+
+.login-card {
+    background-color: #003366;
+    border-radius: 8px;
+    padding: 30px 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    color: white;
+    width: 100%;
+}
+
+.logo {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.moai-logo {
+    height: 150px;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.input-group {
+    width: 100%;
+}
+
+.input-with-icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background-color: #004080;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.icon {
+    position: absolute;
+    left: 15px;
+    color: white;
+    font-size: 18px;
+}
+
+input {
+    width: 100%;
+    padding: 15px 15px 15px 45px;
+    border: none;
+    background-color: transparent;
+    color: white;
+    font-size: 16px;
+}
+
+input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+input:focus {
+    outline: none;
+}
+
+.login-button {
+    background-color: #29ABE2;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 15px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.login-button:hover {
+    background-color: #1D8CB8;
+}
+
+.forgot-password {
+    text-align: center;
+    font-size: 14px;
+    color: #29ABE2;
+}
+
+.terms {
+    text-align: center;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.7);
+    margin-top: 20px;
+}
+
+.terms a:hover {
+    text-decoration: underline;
+}

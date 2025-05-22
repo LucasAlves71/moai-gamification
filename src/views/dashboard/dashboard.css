@@ -1,0 +1,230 @@
+/* Dashboard Styles */
+.dashboard-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background: linear-gradient(180deg, #005580 0%, #003366 100%);
+    color: white;
+    position: relative;
+    font-family: 'Arial', sans-serif;
+    overflow-x: hidden;
+}
+
+.dashboard-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 0 20px;
+    padding-bottom: 70px; /* Space for navbar */
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+.island-header {
+    text-align: center;
+    padding: 15px 0;
+    margin-bottom: 10px;
+}
+
+.island-header h1 {
+    margin: 0;
+    font-size: 28px;
+    font-weight: bold;
+    color: #f0f0f0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    letter-spacing: 1px;
+}
+
+.island-visualization {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 500px;
+    position: relative;
+    z-index: 1;
+}
+
+.island-image {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+.user-stats {
+    margin-top: 10px;
+    width: 100%;
+}
+
+.stats-card {
+    background-color: rgba(0, 30, 60, 0.7);
+    border-radius: 20px;
+    padding: 0;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+}
+
+.stats-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0;
+    border-bottom: 2px solid rgba(0, 51, 102, 0.5);
+}
+
+.stats-row:last-of-type {
+    border-bottom: none;
+}
+
+.stat-item {
+    flex: 1;
+    text-align: center;
+    padding: 15px 10px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.stat-item:first-child {
+    border-right: 2px solid rgba(0, 51, 102, 0.5);
+}
+
+.stat-label {
+    font-size: 18px;
+    color: #f0f0f0;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.stat-value {
+    font-size: 32px;
+    font-weight: bold;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 102, 153, 0.6);
+    padding: 8px 20px;
+    border-radius: 15px;
+    min-width: 120px;
+}
+
+/* Custom icons for MOAIcoins and MOAImoney */
+.stats-row:first-child .stat-item:first-child .stat-value::before {
+    content: "";
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23FFD700"><circle cx="12" cy="12" r="10" /></svg>');
+    background-size: contain;
+    margin-right: 10px;
+}
+
+.stats-row:first-child .stat-item:last-child .stat-value::before {
+    content: "";
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%2300CC00"><rect x="4" y="4" width="16" height="16" /></svg>');
+    background-size: contain;
+    margin-right: 10px;
+}
+
+.level-progress {
+    padding: 20px;
+    background-color: rgba(0, 30, 60, 0.9);
+    border-radius: 0 0 20px 20px;
+}
+
+.progress-label {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.progress-bar {
+    height: 20px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 10px;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #00CED1;
+    border-radius: 10px;
+    transition: width 0.3s ease;
+}
+
+.progress-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* Maturity section */
+.level-progress::before {
+    content: "Barra de Progresso";
+    display: block;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    letter-spacing: 2px;
+    color: white;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Responsive adjustments */
+@media (min-width: 768px) {
+    .dashboard-content {
+        max-width: 768px;
+    }
+
+    .island-header h1 {
+        font-size: 32px;
+    }
+
+    .stat-value {
+        font-size: 36px;
+    }
+
+    .level-progress::before {
+        font-size: 28px;
+    }
+}
+
+/* Additional styling for better visual appeal */
+.stats-row:first-child {
+    background-color: rgba(0, 51, 102, 0.8);
+}
+
+.stats-row:nth-child(2) {
+    background-color: rgba(0, 40, 80, 0.8);
+}
+
+/* Estilos específicos para cada nível de maturidade */
+.maturity-fast-track {
+    color: #4CAF50; /* Verde */
+}
+
+.maturity-executivo {
+    color: #2196F3; /* Azul */
+}
+
+.maturity-c-level {
+    color: #9C27B0; /* Roxo */
+}
+
+.maturity-high-end {
+    color: #FF9800; /* Laranja */
+}

@@ -1,0 +1,301 @@
+<div class="development-container">
+    <!-- A navbar é incluída aqui -->
+    <div ng-include="'components/navbar.html'"></div>
+
+    <!-- Botão de voltar para o dashboard -->
+    <div class="back-button-container">
+        <a href="#/dashboard" class="back-button" ng-click="$event.preventDefault(); navigate('/dashboard');">
+            <div class="back-icon">
+                <i class="bi bi-arrow-left-circle-fill"></i>
+            </div>
+        </a>
+    </div>
+
+    <!-- O conteúdo principal começa com margem adequada -->
+    <div class="container-moai py-4">
+        <div class="row justify-content-center">
+            <div class="col-md-11 col-lg-10">
+                <h1 class="display-4 text-center mb-4">Área de Desenvolvimento</h1>
+                <p class="text-center mb-5">Produza recursos para impulsionar seu progresso nas ilhas</p>
+
+                <!-- Status dos recursos -->
+                <div class="resources-status mb-5">
+                    <div class="row g-3">
+                        <div class="col-4">
+                            <div class="resource-card p-3 rounded text-center">
+                                <div class="resource-icon energy-icon">⚡</div>
+                                <div class="resource-value">{{userResources.energia || 0}}</div>
+                                <div class="resource-label">Energia</div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="resource-card p-3 rounded text-center">
+                                <div class="resource-icon tools-icon">🔧</div>
+                                <div class="resource-value">{{userResources.ferramenta || 0}}</div>
+                                <div class="resource-label">Ferramenta</div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="resource-card p-3 rounded text-center">
+                                <div class="resource-icon creativity-icon">💡</div>
+                                <div class="resource-value">{{userResources.criatividade || 0}}</div>
+                                <div class="resource-label">Criatividade</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recursos prontos para colheita -->
+                <div class="ready-resources mb-5" ng-if="readyResources.length > 0">
+                    <h3 class="section-title mb-4">Recursos Prontos</h3>
+                    <div class="resources-container">
+                        <div id="resource-{{resource.id}}" class="resource-ready-card p-3 rounded text-center position-relative"
+                             ng-repeat="resource in readyResources"
+                             ng-style="{'animation-delay': $index * 0.3 + 's'}">
+                            <div class="resource-ready-icon" ng-class="{'energy-icon': resource.type === 'energia', 'tools-icon': resource.type === 'ferramenta', 'creativity-icon': resource.type === 'criatividade'}">
+                                <span ng-if="resource.type === 'energia'">⚡</span>
+                                <span ng-if="resource.type === 'ferramenta'">🔧</span>
+                                <span ng-if="resource.type === 'criatividade'">💡</span>
+                            </div>
+                            <h5>{{resource.amount}} {{resource.type === 'energia' ? 'Energia' : resource.type === 'ferramenta' ? 'Ferramenta' : 'Criatividade'}}</h5>
+                            <button class="btn btn-success harvest-btn mt-2" ng-click="harvestResource(resource)">
+                                Colher Recurso
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mensagem quando não há recursos prontos -->
+                <div class="no-resources mb-5" ng-if="readyResources.length === 0">
+                    <h3 class="section-title mb-4">Recursos Prontos</h3>
+                    <div class="alert alert-info text-center">
+                        <p class="mb-0">
+                            <i class="bi bi-info-circle me-2"></i>
+                            Você não tem recursos prontos para colheita no momento. Utilize as estações de produção acima para criar novos recursos!
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Estações de produção -->
+                <div class="production-stations mb-5">
+                    <h3 class="section-title mb-4">Estações de Produção</h3>
+                    <div class="row g-4">
+                        <!-- Estação de Energia -->
+                        <div class="col-md-4">
+                            <div class="station-card p-3 rounded text-center h-100">
+                                <div class="station-icon mb-3">⚡</div>
+                                <h4 class="station-title">Energia</h4>
+                                <p class="station-description">Participe de eventos, calls, reuniões ou mentorias</p>
+                                <button class="btn btn-warning w-100" ng-click="openResourceModal('participation')">
+                                    Gerar Energia
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Estação de Ferramenta -->
+                        <div class="col-md-4">
+                            <div class="station-card p-3 rounded text-center h-100">
+                                <div class="station-icon mb-3">🔧</div>
+                                <h4 class="station-title">Ferramenta</h4>
+                                <p class="station-description">Envie um insight prático no WhatsApp ou Circle</p>
+                                <button class="btn btn-primary w-100" ng-click="openResourceModal('tool')">
+                                    Criar Ferramentas
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Estação de Criatividade -->
+                        <div class="col-md-4">
+                            <div class="station-card p-3 rounded text-center h-100">
+                                <div class="station-icon mb-3">💡</div>
+                                <h4 class="station-title">Criatividade</h4>
+                                <p class="station-description">Leia conteúdo no Notion, responda quiz/reflexão</p>
+                                <button class="btn btn-success w-100" ng-click="openResourceModal('read')">
+                                    Desenvolver Ideias
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Última atividade -->
+                <div class="last-activity mb-5">
+                    <h3 class="section-title mb-4">Suas Últimas Atividades</h3>
+                    <div class="alert alert-info text-center" ng-if="userActivities.length === 0">
+                        <p class="mb-0">
+                            <i class="bi bi-info-circle me-2"></i>
+                            Você não registrou nenhuma atividade recentemente.
+                        </p>
+                    </div>
+                    <div class="activity-list" ng-if="userActivities.length > 0">
+                        <div class="activity-item p-3 mb-3 rounded" ng-repeat="activity in userActivities"
+                             ng-class="{'new-activity': activity.isNew}">
+                            <div class="d-flex align-items-center">
+                                <div class="activity-icon me-3" ng-class="getActionDetails(activity).iconClass">
+                                    {{getActionDetails(activity).icon}}
+                                </div>
+                                <div class="flex-grow-1">
+                                    <h5 class="mb-1">{{getActionDetails(activity).name}}</h5>
+                                    <p class="mb-1 text-muted">{{getActionDetails(activity).description}}</p>
+                                    <small class="text-muted">{{formatDate(activity.time)}}</small>
+                                </div>
+                                <div class="resource-gained" ng-class="getActionDetails(activity).iconClass">
+                                    +1 {{getActionDetails(activity).actionId === 'participation' ? 'Energia' :
+                                         getActionDetails(activity).actionId === 'tool' ? 'Ferramenta' : 'Criatividade'}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Indicador de carregamento -->
+                    <div class="text-center py-4" ng-if="isLoading.activities">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Carregando...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Energia (Participação) -->
+    <div class="modal fade" id="participationModal" tabindex="-1" aria-labelledby="participationModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-dark text-light">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="participationModalLabel">Gerar Energia ⚡</h5>
+                    <button type="button" class="btn-close btn-close-white" ng-click="closeModal('participation')" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Participe de eventos, calls, reuniões ou mentorias para gerar energia.</p>
+                    <div class="list-group">
+                        <a href="https://meet.google.com" target="_blank" class="list-group-item list-group-item-action bg-dark text-light border-secondary" ng-click="logAction('participation', 'Google Meet')" ng-disabled="isLoading.action">
+                            <div class="d-flex align-items-center">
+                                <div class="external-icon me-3">🎥</div>
+                                <div>
+                                    <h5 class="mb-1">Google Meet</h5>
+                                    <p class="mb-1">Participe de calls e reuniões online</p>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="https://zoom.us" target="_blank" class="list-group-item list-group-item-action bg-dark text-light border-secondary" ng-click="logAction('participation', 'Zoom')">
+                            <div class="d-flex align-items-center">
+                                <div class="external-icon me-3">📹</div>
+                                <div>
+                                    <h5 class="mb-1">Zoom</h5>
+                                    <p class="mb-1">Participe de webinars e eventos virtuais</p>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="https://calendar.google.com" target="_blank" class="list-group-item list-group-item-action bg-dark text-light border-secondary" ng-click="logAction('participation', 'Google Calendar')">
+                            <div class="d-flex align-items-center">
+                                <div class="external-icon me-3">📅</div>
+                                <div>
+                                    <h5 class="mb-1">Google Calendar</h5>
+                                    <p class="mb-1">Agende suas mentorias e compromissos</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" ng-click="closeModal('participation')">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Ferramenta (Tool) -->
+    <div class="modal fade" id="toolModal" tabindex="-1" aria-labelledby="toolModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-dark text-light">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="toolModalLabel">Criar Ferramentas 🔧</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Envie um insight prático no WhatsApp ou Circle para criar ferramentas.</p>
+                    <div class="list-group">
+                        <a href="https://web.whatsapp.com" target="_blank" class="list-group-item list-group-item-action bg-dark text-light border-secondary" ng-click="logAction('tool', 'WhatsApp')">
+                            <div class="d-flex align-items-center">
+                                <div class="external-icon me-3">💬</div>
+                                <div>
+                                    <h5 class="mb-1">WhatsApp</h5>
+                                    <p class="mb-1">Compartilhe insights com seu grupo</p>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="https://circle.so" target="_blank" class="list-group-item list-group-item-action bg-dark text-light border-secondary" ng-click="logAction('tool', 'Circle')">
+                            <div class="d-flex align-items-center">
+                                <div class="external-icon me-3">🔄</div>
+                                <div>
+                                    <h5 class="mb-1">Circle</h5>
+                                    <p class="mb-1">Compartilhe conhecimento com a comunidade</p>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="https://www.linkedin.com" target="_blank" class="list-group-item list-group-item-action bg-dark text-light border-secondary" ng-click="logAction('tool', 'LinkedIn')">
+                            <div class="d-flex align-items-center">
+                                <div class="external-icon me-3">💼</div>
+                                <div>
+                                    <h5 class="mb-1">LinkedIn</h5>
+                                    <p class="mb-1">Compartilhe conteúdo profissional</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Criatividade (Read) -->
+    <div class="modal fade" id="readModal" tabindex="-1" aria-labelledby="readModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-dark text-light">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="readModalLabel">Desenvolver Ideias 💡</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Leia conteúdo no Notion, responda quiz ou reflexão para desenvolver ideias criativas.</p>
+                    <div class="list-group">
+                        <a href="https://www.notion.so" target="_blank" class="list-group-item list-group-item-action bg-dark text-light border-secondary" ng-click="logAction('read', 'Notion')">
+                            <div class="d-flex align-items-center">
+                                <div class="external-icon me-3">📝</div>
+                                <div>
+                                    <h5 class="mb-1">Notion</h5>
+                                    <p class="mb-1">Acesse materiais e conteúdos</p>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="https://forms.google.com" target="_blank" class="list-group-item list-group-item-action bg-dark text-light border-secondary" ng-click="logAction('read', 'Google Forms')">
+                            <div class="d-flex align-items-center">
+                                <div class="external-icon me-3">📋</div>
+                                <div>
+                                    <h5 class="mb-1">Google Forms</h5>
+                                    <p class="mb-1">Responda questionários e avaliações</p>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="https://medium.com" target="_blank" class="list-group-item list-group-item-action bg-dark text-light border-secondary" ng-click="logAction('read', 'Medium')">
+                            <div class="d-flex align-items-center">
+                                <div class="external-icon me-3">📖</div>
+                                <div>
+                                    <h5 class="mb-1">Medium</h5>
+                                    <p class="mb-1">Leia artigos e conteúdos inspiradores</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

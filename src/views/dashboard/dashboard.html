@@ -1,0 +1,70 @@
+<div class="dashboard-container">
+    <div ng-include="'components/navbar.html'"></div>
+
+    <div class="container-moai py-4">
+        <div class="row justify-content-center">
+            <div class="col-md-10 col-lg-8">
+                <div class="island-header text-center mb-3">
+                    <h1 class="display-5">{{userStatus.extra.ilha}}</h1>
+                </div>
+
+                <div class="island-visualization text-center mb-4">
+                    <img src="public/img/ilha-sem-nada.png" alt="Island Visualization" class="island-image img-fluid">
+                </div>
+
+                <div class="user-stats">
+                    <div class="stats-card rounded shadow">
+                        <div class="row stats-row g-0">
+                            <div class="col-6 stat-item p-3">
+                                <div class="stat-label">MOAIcoins</div>
+                                <div class="stat-value">{{userStatus.pointCategories.moaicoins || 0}}</div>
+                            </div>
+                            <div class="col-6 stat-item p-3">
+                                <div class="stat-label">MOAImoney</div>
+                                <div class="stat-value">{{userStatus.pointCategories.moaimoney || 0}}</div>
+                            </div>
+                        </div>
+
+                        <div class="row stats-row g-0">
+                            <div class="col-6 stat-item p-3">
+                                <div class="stat-label">Maturidade</div>
+                                <div class="stat-value" ng-class="{
+                                    'maturity-fast-track': userStatus.extra.maturity == 1,
+                                    'maturity-executivo': userStatus.extra.maturity == 2,
+                                    'maturity-c-level': userStatus.extra.maturity == 3,
+                                    'maturity-high-end': userStatus.extra.maturity == 4
+                                }">{{getMaturityText(userStatus.extra.maturity)}}</div>
+                            </div>
+                            <div class="col-6 stat-item p-3">
+                                <div class="stat-label">Nível</div>
+                                <div class="stat-value">{{userStatus.level.level || 'Nível 1'}}</div>
+                            </div>
+                        </div>
+
+                        <div class="level-progress p-3">
+                            <h5 class="text-center mb-3">Barra de Progresso</h5>
+
+                            <div class="d-flex justify-content-between mb-2 progress-label">
+                                <span>{{userStatus.level.level || 'Nível 1'}}</span>
+                                <span>{{userStatus.level_progress.next_level.level || 'Nível 2'}}</span>
+                            </div>
+
+                            <div class="progress mb-2" style="height: 20px;">
+                                <div class="progress-bar" role="progressbar"
+                                     ng-style="{'width': calculateLevelProgress() + '%'}"
+                                     aria-valuenow="{{calculateLevelProgress()}}"
+                                     aria-valuemin="0"
+                                     aria-valuemax="100"></div>
+                            </div>
+
+                            <div class="d-flex justify-content-between progress-info">
+                                <span>{{calculateLevelProgress()}}% completo</span>
+                                <span>{{userStatus.pointCategories.xp || 0}}/{{userStatus.level_progress.next_level.minPoints || 25}} pontos</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

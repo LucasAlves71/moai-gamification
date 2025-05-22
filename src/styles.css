@@ -1,1 +1,137 @@
-/* You can add global styles to this file, and also import other style files */
+/* Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+body {
+    background-color: #f5f5f5;
+    min-height: 100vh;
+}
+
+/* Adicionar isso para garantir que o body não tenha margens estranhas */
+body.rewards-page,
+body.dashboard-page {
+    padding: 0;
+    margin: 0;
+    padding-bottom: 70px !important; /* Espaço para navbar fixa */
+    background: linear-gradient(160deg, #005580 0%, #003366 60%, #002244 100%);
+    color: white;
+}
+
+/* Corrigir conflitos com classes do Bootstrap */
+.container-moai {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+/* Garantir que modais fiquem visíveis quando abertos */
+.modal.show.d-block {
+    display: block !important;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Garantir que elementos bootstrap não quebrem o design */
+.btn-moai {
+    background: linear-gradient(to bottom, #29ABE2, #1D8CB8) !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 8px !important;
+    padding: 8px 16px !important;
+    font-weight: bold !important;
+}
+
+/* Corrigir problemas de z-index */
+.navbar.fixed-bottom {
+    z-index: 1030 !important;
+}
+
+/* Adicionar estas regras para garantir que os modais apareçam por cima de tudo */
+.custom-modal-container {
+    z-index: 1050 !important;
+}
+
+.custom-modal {
+    z-index: 1051 !important;
+}
+
+/* Corrigir alinhamento de texto em cards */
+.card-moai {
+    text-align: center !important;
+}
+
+/* Global Styles - ajustados para complementar o Bootstrap */
+:root {
+    --moai-blue: #003366;
+    --moai-light-blue: #29ABE2;
+    --moai-dark-blue: #002244;
+    --moai-accent: #00CED1;
+}
+
+/* Resets para garantir compatibilidade com Bootstrap */
+.btn:focus, .form-control:focus {
+    box-shadow: 0 0 0 0.25rem rgba(41, 171, 226, 0.25);
+}
+
+/* Classes utilitárias adicionais */
+.vh-100 {
+    min-height: 100vh;
+}
+
+.text-moai-blue {
+    color: var(--moai-blue);
+}
+
+.bg-moai-blue {
+    background-color: var(--moai-blue);
+}
+
+.bg-moai-dark {
+    background-color: var(--moai-dark-blue);
+}
+
+.bg-gradient-moai {
+    background: linear-gradient(160deg, #005580 0%, #003366 60%, #002244 100%);
+}
+
+/* Garantir espaço na parte inferior para a navbar fixa */
+.content-with-navbar {
+    padding-bottom: 70px;
+}
+
+/* Botão de fechar para modais escuros */
+.btn-close-white {
+    filter: invert(1) grayscale(100%) brightness(200%);
+    opacity: 0.8 !important;
+}
+
+.btn-close-white:hover {
+    opacity: 1 !important;
+}
+
+/* Remover estilização excessiva do Bootstrap para os modais */
+.modal-header, .modal-footer {
+    border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.list-group-item {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-color: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.custom-modal .modal-header {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+}
+
+.custom-modal .modal-footer {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 15px;
+    margin-top: 15px;
+}
