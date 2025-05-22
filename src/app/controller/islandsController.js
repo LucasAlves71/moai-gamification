@@ -1166,6 +1166,7 @@ angular.module('moaiApp').controller('IslandsController', function($scope, $http
         console.log('Inicializando Islands Controller...');
         $scope.loadUserMaturity();
         $scope.loadPlayerJoinedSeasons();
+        loadChallengeStatus(); // Adicionar carregamento do estado dos desafios
 
         // Adicionar um atraso curto para garantir que o refreshData não cause loops
         $timeout(function() {
@@ -1247,7 +1248,7 @@ $scope.formatRemainingTime = function(challenge) {
     return hours + "h " + minutes + "m";
 };
 
-// Função simplificada para iniciar um desafio
+// Função simplificada para iniciar um desafio - agora usando extra.url para redirecionamento
 $scope.startChallenge = function(challenge) {
     // Evitar múltiplos cliques
     if (challenge.isStarting === true) {
@@ -1259,8 +1260,16 @@ $scope.startChallenge = function(challenge) {
     if ($scope.joinedChallenges[challenge._id] === true) {
         console.log('Acessando desafio já iniciado:', challenge.challenge);
 
-        // Redirecionar para URL do desafio existente
-        var challengeUrl = 'https://service2.funifier.com/v3/challenge/view/' + challenge._id;
+        // Redirecionar para URL personalizada se disponível, caso contrário, usar URL padrão
+        var challengeUrl;
+        if (challenge.extra && challenge.extra.url) {
+            challengeUrl = challenge.extra.url;
+            console.log('Redirecionando para URL personalizada:', challengeUrl);
+        } else {
+            challengeUrl = 'https://service2.funifier.com/v3/challenge/view/' + challenge._id;
+            console.log('URL personalizada não encontrada. Usando URL padrão:', challengeUrl);
+        }
+
         window.open(challengeUrl, '_blank');
         return;
     }
@@ -1294,9 +1303,27 @@ $scope.startChallenge = function(challenge) {
             // Atualizar estado localmente
             $scope.joinedChallenges[challenge._id] = true;
 
+            // Também salvar no localStorage para persistir entre sessões
+            try {
+                var joinedChallenges = JSON.parse(localStorage.getItem('joinedChallenges') || '{}');
+                joinedChallenges[challenge._id] = true;
+                localStorage.setItem('joinedChallenges', JSON.stringify(joinedChallenges));
+            } catch (e) {
+                console.error('Erro ao salvar no localStorage:', e);
+            }
+
             // Se houver informações de expiração
             if (response.data && response.data.expires) {
                 $scope.challengeExpires[challenge._id] = response.data.expires;
+
+                // Salvar também no localStorage
+                try {
+                    var challengeExpires = JSON.parse(localStorage.getItem('challengeExpires') || '{}');
+                    challengeExpires[challenge._id] = response.data.expires;
+                    localStorage.setItem('challengeExpires', JSON.stringify(challengeExpires));
+                } catch (e) {
+                    console.error('Erro ao salvar expiração no localStorage:', e);
+                }
             } else if (challenge.join && challenge.join.timeframe) {
                 var expiresIn = 0;
                 var timeframeStr = String(challenge.join.timeframe);
@@ -1311,16 +1338,33 @@ $scope.startChallenge = function(challenge) {
                 }
 
                 if (expiresIn > 0) {
-                    $scope.challengeExpires[challenge._id] = Date.now() + expiresIn;
+                    var expiryTime = Date.now() + expiresIn;
+                    $scope.challengeExpires[challenge._id] = expiryTime;
+
+                    // Salvar no localStorage
+                    try {
+                        var challengeExpires = JSON.parse(localStorage.getItem('challengeExpires') || '{}');
+                        challengeExpires[challenge._id] = expiryTime;
+                        localStorage.setItem('challengeExpires', JSON.stringify(challengeExpires));
+                    } catch (e) {
+                        console.error('Erro ao salvar expiração no localStorage:', e);
+                    }
                 }
             }
 
             // Resetar flag de processamento
             challenge.isStarting = false;
 
-            // Redirecionar para o desafio
+            // Redirecionar para o URL personalizado do desafio, se disponível
             $timeout(function() {
-                var url = 'https://service2.funifier.com/v3/challenge/view/' + challenge._id;
+                var url;
+                if (challenge.extra && challenge.extra.url) {
+                    url = challenge.extra.url;
+                    console.log('Redirecionando para URL personalizada após aceitar desafio:', url);
+                } else {
+                    url = 'https://service2.funifier.com/v3/challenge/view/' + challenge._id;
+                    console.log('URL personalizada não encontrada. Usando URL padrão após aceitar:', url);
+                }
                 window.open(url, '_blank');
             }, 100);
         })
@@ -1335,4 +1379,35 @@ $scope.startChallenge = function(challenge) {
             alert(errorMsg);
         });
 };
+
+// Função para carregar o estado dos desafios do localStorage quando a página é carregada
+function loadChallengeStatus() {
+    try {
+        var joinedChallenges = JSON.parse(localStorage.getItem('joinedChallenges') || '{}');
+        var challengeExpires = JSON.parse(localStorage.getItem('challengeExpires') || '{}');
+
+        $scope.joinedChallenges = joinedChallenges;
+        $scope.challengeExpires = challengeExpires;
+
+        console.log('Status de desafios carregado do localStorage:',
+                    Object.keys(joinedChallenges).length, 'desafios aceitos');
+    } catch (e) {
+        console.error('Erro ao carregar estado dos desafios:', e);
+        $scope.joinedChallenges = {};
+        $scope.challengeExpires = {};
+    }
+}
+
+// Atualizar a função init para carregar o estado dos desafios
+function init() {
+    console.log('Inicializando Islands Controller...');
+    $scope.loadUserMaturity();
+    $scope.loadPlayerJoinedSeasons();
+    loadChallengeStatus(); // Adicionar carregamento do estado dos desafios
+
+    // Adicionar um atraso curto para garantir que o refreshData não cause loops
+    $timeout(function() {
+        $scope.refreshData();
+    }, 100);
+}
 });
