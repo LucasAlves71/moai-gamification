@@ -70,12 +70,13 @@
                                     </div>
                                 </div>
                             </div>
+                            <!-- Alterar o bloco da equipe para exibir XP -->
                             <div class="col-6">
                                 <div class="stat-card p-3 rounded">
-                                    <div class="stat-icon team-icon"></div>
+                                    <div class="stat-icon xp-icon"></div>
                                     <div class="stat-info">
-                                        <div class="stat-value">{{userProfile.teams[0] || 'N/A'}}</div>
-                                        <div class="stat-label">Equipe</div>
+                                        <div class="stat-value">{{userStatus.pointCategories.xp || 0}}</div>
+                                        <div class="stat-label">Pontos XP</div>
                                     </div>
                                 </div>
                             </div>

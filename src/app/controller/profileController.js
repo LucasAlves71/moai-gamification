@@ -30,7 +30,11 @@ angular.module('moaiApp').controller('ProfileController', function($scope, $http
 
     $scope.userStatus = {
         total_points: 0,
-        pointCategories: {},
+        pointCategories: {
+            xp: 0,
+            moaicoins: 0,
+            moaimoney: 0
+        },
         level: { level: 'Nível 1' }
     };
 
@@ -97,7 +101,12 @@ angular.module('moaiApp').controller('ProfileController', function($scope, $http
 
                 // Garantir que pointCategories exista
                 if (!$scope.userStatus.pointCategories) {
-                    $scope.userStatus.pointCategories = { moaicoins: 0, moaimoney: 0 };
+                    $scope.userStatus.pointCategories = { moaicoins: 0, moaimoney: 0, xp: 0 };
+                }
+
+                // Garantir que xp exista
+                if ($scope.userStatus.pointCategories.xp === undefined) {
+                    $scope.userStatus.pointCategories.xp = 0;
                 }
 
                 // Garantir que level exista
