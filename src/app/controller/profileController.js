@@ -150,7 +150,7 @@ angular.module('moaiApp').controller('ProfileController', function($scope, $http
         }
     };
 
-    // Função para alterar a senha
+    // Função para alterar a senha usando a API específica da Funifier para alteração de senha
     $scope.changePassword = function() {
         // Validar que as senhas coincidem
         if ($scope.passwordData.newPassword !== $scope.passwordData.confirmPassword) {
@@ -164,14 +164,23 @@ angular.module('moaiApp').controller('ProfileController', function($scope, $http
             return;
         }
 
+        // Verificar se a senha nova é forte o suficiente
+        if ($scope.passwordData.newPassword.length < 6) {
+            alert('A nova senha deve ter pelo menos 6 caracteres.');
+            return;
+        }
+
         $scope.isProcessing = true;
 
-        // Precisamos primeiro obter o perfil atual completo para não perder dados
+        // Montar a URL com os parâmetros de consulta
         var userId = AuthService.getUserId();
+        var url = API_CONFIG.baseUrl + '/player/password?player=' + userId +
+                  '&old_password=' + encodeURIComponent($scope.passwordData.currentPassword) +
+                  '&new_password=' + encodeURIComponent($scope.passwordData.newPassword);
 
         var req = {
-            method: 'GET',
-            url: API_CONFIG.baseUrl + '/player/' + userId,
+            method: 'PUT',
+            url: url,
             headers: {
                 "Authorization": API_CONFIG.authHeader,
                 "Content-Type": "application/json"
@@ -180,72 +189,42 @@ angular.module('moaiApp').controller('ProfileController', function($scope, $http
 
         $http(req).then(
             function(response) {
-                var currentProfile = response.data;
+                console.log('Senha alterada com sucesso:', response);
+                $scope.isProcessing = false;
 
-                // Criar uma cópia do perfil para atualização
-                var updatedProfile = angular.copy(currentProfile);
-
-                // Definir explicitamente a senha
-                updatedProfile.password = $scope.passwordData.newPassword;
-
-                // Verificar se há campos de autenticação que precisamos preservar
-                if (currentProfile._id) {
-                    updatedProfile._id = currentProfile._id;
-                }
-
-                console.log('Enviando atualização de perfil:', updatedProfile);
-
-                // Enviar perfil atualizado
-                var updateReq = {
-                    method: 'POST',
-                    url: API_CONFIG.baseUrl + '/player',
-                    headers: {
-                        "Authorization": API_CONFIG.authHeader,
-                        "Content-Type": "application/json"
-                    },
-                    data: updatedProfile
+                // Limpar formulário
+                $scope.passwordData = {
+                    currentPassword: '',
+                    newPassword: '',
+                    confirmPassword: ''
                 };
 
-                $http(updateReq).then(
-                    function(updateResponse) {
-                        console.log('Resposta da atualização do perfil:', updateResponse.data);
-                        $scope.isProcessing = false;
-
-                        // Limpar formulário
-                        $scope.passwordData = {
-                            currentPassword: '',
-                            newPassword: '',
-                            confirmPassword: ''
-                        };
-
-                        alert('Sua senha foi alterada com sucesso!');
-                    },
-                    function(updateError) {
-                        console.error('Falha ao alterar senha:', updateError);
-                        $scope.isProcessing = false;
-
-                        // Melhorar a mensagem de erro com informações mais específicas
-                        var errorMessage = 'Não foi possível alterar sua senha.';
-
-                        if (updateError.status === 401 || updateError.status === 403) {
-                            errorMessage += ' Você não tem permissão para realizar esta operação.';
-                        } else if (updateError.status === 400) {
-                            errorMessage += ' Os dados fornecidos são inválidos.';
-                            if (updateError.data && updateError.data.message) {
-                                errorMessage += ' ' + updateError.data.message;
-                            }
-                        } else {
-                            errorMessage += ' Por favor, tente novamente mais tarde.';
-                        }
-
-                        alert(errorMessage);
-                    }
-                );
+                alert('Sua senha foi alterada com sucesso!');
             },
             function(error) {
-                console.error('Falha ao obter perfil atual:', error);
+                console.error('Falha ao alterar senha:', error);
                 $scope.isProcessing = false;
-                alert('Não foi possível processar sua solicitação. Por favor, tente novamente mais tarde.');
+
+                // Melhorar a mensagem de erro com informações mais específicas
+                var errorMessage = 'Não foi possível alterar sua senha.';
+
+                if (error.status === 401 || error.status === 403) {
+                    errorMessage = 'Senha atual incorreta. Por favor, verifique e tente novamente.';
+                } else if (error.status === 400) {
+                    errorMessage = 'Os dados fornecidos são inválidos.';
+                    if (error.data && error.data.message) {
+                        errorMessage += ' ' + error.data.message;
+                    }
+                } else if (error.status === 404) {
+                    errorMessage = 'Usuário não encontrado. Por favor, faça login novamente.';
+                } else {
+                    errorMessage += ' Por favor, tente novamente mais tarde.';
+                    if (error.data && error.data.message) {
+                        errorMessage += ' ' + error.data.message;
+                    }
+                }
+
+                alert(errorMessage);
             }
         );
     };
@@ -350,9 +329,10 @@ angular.module('moaiApp').controller('ProfileController', function($scope, $http
 
     // Adicione esta função ao controller
     $scope.navigate = function(path) {
-      console.log("Navegando para:", path);
-    $location.path(path);
+        console.log("Navegando para:", path);
+        $location.path(path);
     };
+
     // Carregar dados ao inicializar o controller
     $scope.loadUserProfile();
     $scope.loadUserStatus();
