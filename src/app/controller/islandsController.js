@@ -1248,7 +1248,7 @@ $scope.formatRemainingTime = function(challenge) {
     return hours + "h " + minutes + "m";
 };
 
-// Função simplificada para iniciar um desafio - agora usando extra.url para redirecionamento
+// Função simplificada para iniciar um desafio - com verificação de expiração
 $scope.startChallenge = function(challenge) {
     // Evitar múltiplos cliques
     if (challenge.isStarting === true) {
@@ -1256,9 +1256,22 @@ $scope.startChallenge = function(challenge) {
         return;
     }
 
+    // Verificar se o desafio está expirado
+    if ($scope.isChallengeExpired(challenge._id)) {
+        console.log('Desafio expirado:', challenge.challenge);
+        alert('Este desafio expirou e não está mais disponível.');
+        return;
+    }
+
     // Verificar se o desafio já está iniciado
     if ($scope.joinedChallenges[challenge._id] === true) {
         console.log('Acessando desafio já iniciado:', challenge.challenge);
+
+        // Verificar novamente se não expirou (dupla verificação para maior segurança)
+        if ($scope.isChallengeExpired(challenge._id)) {
+            alert('Este desafio expirou e não está mais disponível.');
+            return;
+        }
 
         // Redirecionar para URL personalizada se disponível, caso contrário, usar URL padrão
         var challengeUrl;
