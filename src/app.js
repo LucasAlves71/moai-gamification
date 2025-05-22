@@ -9,6 +9,11 @@ app.config(function($routeProvider) {
             templateUrl: 'views/login/login.html',  // Update this path
             controller: 'LoginController'
         })
+        .when('/onboarding', {
+            templateUrl: 'views/onboarding/onboarding.html',  // Update this path
+            controller: 'OnboardingController',
+            auth: true
+        })
         .when('/dashboard', {
             templateUrl: 'views/dashboard/dashboard.html',  // Update this path
             controller: 'DashboardController'

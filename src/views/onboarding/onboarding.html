@@ -1,0 +1,114 @@
+<div class="onboarding-container">
+    <div class="onboarding-background">
+        <!-- Efeito de oceano similar ao da página de ilhas -->
+        <div class="ocean">
+            <div class="ocean-wave wave-1"></div>
+            <div class="ocean-wave wave-2"></div>
+            <div class="ocean-wave wave-3"></div>
+        </div>
+
+        <!-- Bolhas decorativas -->
+        <div class="bubble bubble-1"></div>
+        <div class="bubble bubble-2"></div>
+        <div class="bubble bubble-3"></div>
+    </div>
+
+    <!-- Modal 1: Boas-vindas -->
+    <div class="modal fade show d-block" id="welcomeModal" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content card-moai">
+                <div class="modal-body text-center p-5">
+                    <img src="public/img/moai-logo.png" alt="MOAI Logo" class="welcome-logo mb-4">
+                    <h2 class="welcome-title mb-4">Bem-vindo à Jornada MOAI!</h2>
+                    <p class="welcome-text mb-4">
+                        Você está prestes a embarcar em uma jornada de descobertas,
+                        desafios e crescimento profissional através da nossa experiência de gamificação.
+                    </p>
+                    <button class="btn btn-moai-primary btn-lg" ng-click="nextStep()" type="button">
+                        Iniciar Jornada
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 2: Explicação da gamificação -->
+    <div class="modal fade" id="explanationModal" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content card-moai">
+                <div class="modal-body p-5">
+                    <div class="row">
+                        <div class="col-md-4 mb-3 mb-md-0">
+                            <div class="guide-character">
+                                <!-- Placeholder para personagem guia (a ser substituído por PNG) -->
+                                <div class="character-placeholder">🧙‍♂️</div>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <h2 class="explanation-title mb-3">Como funciona a MOAI</h2>
+                            <div class="explanation-text">
+                                <p>Na plataforma MOAI você vai:</p>
+                                <ul class="feature-list">
+                                    <li><span class="feature-icon">🏝️</span> Explorar ilhas temáticas com desafios</li>
+                                    <li><span class="feature-icon">⚒️</span> Desenvolver recursos e habilidades</li>
+                                    <li><span class="feature-icon">🏆</span> Participar de temporadas competitivas</li>
+                                    <li><span class="feature-icon">🎁</span> Ganhar recompensas e reconhecimento</li>
+                                </ul>
+                                <p>Tudo isso enquanto evolui profissionalmente!</p>
+                            </div>
+                            <div class="mt-4 text-end">
+                                <button class="btn btn-moai-secondary me-2" ng-click="previousStep()" type="button">Voltar</button>
+                                <button class="btn btn-moai-primary" ng-click="nextStep()" type="button">Continuar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 3: Nome da ilha -->
+    <div class="modal fade" id="islandNameModal" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content card-moai">
+                <div class="modal-body p-5">
+                    <div class="row">
+                        <div class="col-md-4 mb-3 mb-md-0">
+                            <div class="island-illustration">
+                                <img src="public/img/minha-ilha.png" alt="Sua Ilha" class="img-fluid">
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <h2 class="island-name-title mb-3">Nomeie sua ilha</h2>
+                            <p class="island-name-text mb-4">
+                                Esta será a sua base de operações durante toda a jornada.
+                                Como você gostaria de chamar sua ilha?
+                            </p>
+
+                            <div class="form-floating mb-4">
+                                <input type="text" class="form-control" id="islandNameInput"
+                                       ng-model="islandName" placeholder="Nome da ilha">
+                                <label for="islandNameInput">Nome da ilha</label>
+                            </div>
+
+                            <div class="alert alert-danger" role="alert" ng-show="nameError">
+                                Por favor, insira um nome para sua ilha antes de continuar.
+                            </div>
+
+                            <div class="mt-4 text-end">
+                                <button class="btn btn-moai-secondary me-2" ng-click="previousStep()" type="button">Voltar</button>
+                                <button class="btn btn-moai-primary btn-lg" ng-click="finishOnboarding()" type="button">
+                                    <span ng-if="!isProcessing">Começar esse grande legado!</span>
+                                    <span ng-if="isProcessing">
+                                        <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+                                        Processando...
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

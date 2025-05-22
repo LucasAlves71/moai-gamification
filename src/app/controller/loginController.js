@@ -27,19 +27,54 @@ angular.module('moaiApp').controller('LoginController', function($scope, $http, 
         $http(req).then(
             function(response) {
                 console.log('Login successful:', response.data);
-              
+
                 // Store user data in localStorage
                 localStorage.setItem('userId', $scope.user.email);
                 localStorage.setItem('accessToken', response.data.access_token);
 
-                // Redirect to dashboard - este é o ponto chave!
-                $location.path('/dashboard');
+                // Após login bem-sucedido, verificar se é necessário onboarding
+                checkOnboardingStatus($scope.user.email);
+            },
+            function(error) {
+                console.error('Login failed:', error);
+                alert('Login failed. Please check your credentials and try again.');
+            }
+        );
+    };
 
-                // Tente reproduzir o áudio sem bloquear a navegação
+    // Adicionar essa nova função ao controller:
+    function checkOnboardingStatus(userId) {
+        var req = {
+            method: 'GET',
+            url: API_CONFIG.baseUrl + '/player/' + userId,
+            headers: {
+                "Authorization": API_CONFIG.authHeader,
+                "Content-Type": "application/json"
+            }
+        };
+
+        $http(req).then(
+            function(response) {
+                console.log('Player data loaded:', response.data);
+
+                // Verificar se o jogador precisa de onboarding
+                var needsOnboarding = false;
+
+                if (response.data.extra && response.data.extra.onboarding === true) {
+                    needsOnboarding = true;
+                }
+
+                // Direcionar para a página apropriada
+                if (needsOnboarding) {
+                    $location.path('/onboarding');
+                } else {
+                    $location.path('/dashboard');
+                }
+
+                // Tentar reproduzir o áudio sem bloquear a navegação
                 try {
                     var oceanSound = document.getElementById('ocean-sound');
                     if (oceanSound) {
-                        // Desvincula a reprodução do áudio da navegação
                         setTimeout(function() {
                             oceanSound.play().catch(function(error) {
                                 console.log('Audio could not be played:', error);
@@ -48,13 +83,13 @@ angular.module('moaiApp').controller('LoginController', function($scope, $http, 
                     }
                 } catch (e) {
                     console.error('Error trying to play audio:', e);
-                    // Continue mesmo com erro de áudio
                 }
             },
             function(error) {
-                console.error('Login failed:', error);
-                alert('Login failed. Please check your credentials and try again.');
+                console.error('Failed to load player data:', error);
+                // Em caso de falha, direcionar para o dashboard como fallback
+                $location.path('/dashboard');
             }
         );
-    };
+    }
 });
