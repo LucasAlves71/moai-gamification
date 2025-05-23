@@ -60,10 +60,11 @@
                     <span class="island-number">1</span>
                     <span class="island-name">Marketing e Vendas</span>
                 </div>
+                <!-- Aplicar as classes de status da temporada para cada ilha -->
                 <div class="island-status" ng-class="{
                     'status-active': hasActiveSeasonByIsland.marketing,
                     'status-scheduled': !hasActiveSeasonByIsland.marketing && seasonsApi.marketing.length > 0,
-                    'status-finished': seasonsApi.marketing.length === 0
+                    'status-finished': seasonsApi.marketing.length === 0 || isSeasonFinished(getActiveSeasonForCurrentIsland())
                 }"></div>
             </button>
         </div>
@@ -76,6 +77,7 @@
                     <span class="island-number">5</span>
                     <span class="island-name">Gestão e Liderança</span>
                 </div>
+                <!-- Aplicar as classes de status da temporada para cada ilha -->
                 <div class="island-status" ng-class="{
                     'status-active': hasActiveSeasonByIsland.leadership,
                     'status-scheduled': !hasActiveSeasonByIsland.leadership && seasonsApi.leadership.length > 0,
@@ -92,6 +94,7 @@
                     <span class="island-number">4</span>
                     <span class="island-name">Inovação Tecnologia</span>
                 </div>
+                <!-- Aplicar as classes de status da temporada para cada ilha -->
                 <div class="island-status" ng-class="{
                     'status-active': hasActiveSeasonByIsland.innovation,
                     'status-scheduled': !hasActiveSeasonByIsland.innovation && seasonsApi.innovation.length > 0,
@@ -108,6 +111,7 @@
                     <span class="island-number">3</span>
                     <span class="island-name">Experiência do Cliente</span>
                 </div>
+                <!-- Aplicar as classes de status da temporada para cada ilha -->
                 <div class="island-status" ng-class="{
                     'status-active': hasActiveSeasonByIsland.customer,
                     'status-scheduled': !hasActiveSeasonByIsland.customer && seasonsApi.customer.length > 0,
@@ -124,6 +128,7 @@
                     <span class="island-number">5</span>
                     <span class="island-name">Gestão Financeira</span>
                 </div>
+                <!-- Aplicar as classes de status da temporada para cada ilha -->
                 <div class="island-status" ng-class="{
                     'status-active': hasActiveSeasonByIsland.financial,
                     'status-scheduled': !hasActiveSeasonByIsland.financial && seasonsApi.financial.length > 0,

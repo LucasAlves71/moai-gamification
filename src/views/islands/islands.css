@@ -489,7 +489,7 @@
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
-/* Status da Ilha */
+/* Indicadores de status de temporada nas ilhas */
 .island-status {
   position: absolute;
   top: 5px;
@@ -499,32 +499,43 @@
   border-radius: 50%;
   z-index: 4;
   border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
 }
 
+/* Temporada ativa: luz verde pulsante */
 .status-active {
-  background: radial-gradient(circle at center, #ffd700 30%, #ffa500 100%);
-  box-shadow: 0 0 15px #ffd700;
+  background: radial-gradient(circle at center, #00ff00 30%, #008000 100%);
+  box-shadow: 0 0 15px #00ff00;
   animation: pulse 2s infinite;
 }
 
+/* Temporada agendada: luz amarela */
 .status-scheduled {
-  background: radial-gradient(circle at center, #87ceeb 30%, #4682b4 100%);
-  box-shadow: 0 0 10px #87ceeb;
+  background: radial-gradient(circle at center, #ffff00 30%, #ffa500 100%);
+  box-shadow: 0 0 10px #ffff00;
+  animation: pulse 3s infinite;
 }
 
+/* Temporada finalizada: luz vermelha */
 .status-finished {
-  background: radial-gradient(circle at center, #c0c0c0 30%, #808080 100%);
+  background: radial-gradient(circle at center, #ff0000 30%, #8b0000 100%);
+  box-shadow: 0 0 5px #ff0000;
 }
 
+/* Animação pulsante para destacar melhor os status ativos */
 @keyframes pulse {
   0% {
-    box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.7);
+    box-shadow: 0 0 0 0 rgba(255, 255, 0, 0.7);
+    opacity: 0.8;
   }
   70% {
-    box-shadow: 0 0 0 15px rgba(255, 215, 0, 0);
+    box-shadow: 0 0 0 10px rgba(255, 255, 0, 0);
+    opacity: 1;
   }
   100% {
-    box-shadow: 0 0 0 0 rgba(255, 215, 0, 0);
+    box-shadow: 0 0 0 0 rgba(255, 255, 0, 0);
+    opacity: 0.8;
   }
 }
 
@@ -1281,20 +1292,58 @@ body.modal-open {
   border-width: 0.15em;
   opacity: 0.9;
 }
-  
-/* Estilo opcional para botões de desafios expirados */
-.challenge-expired .btn-outline-moai:disabled {
-  background: rgba(220, 53, 69, 0.15);
-  border-color: rgba(220, 53, 69, 0.5);
-  color: rgba(255, 255, 255, 0.8);
+
+/* Placa de campeão para temporadas finalizadas */
+.season-champion-plate {
+  position: absolute;
+  bottom: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, #ffd700 0%, #ffa500 100%);
+  border-radius: 8px;
+  padding: 4px 10px;
+  z-index: 5;
+  box-shadow: 0 2px 10px rgba(255, 215, 0, 0.6);
+  white-space: nowrap;
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.challenge-expired .challenge-icon {
-  background-color: rgba(220, 53, 69, 0.2);
+.champion-plate-content {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  font-weight: bold;
+  color: #000;
 }
 
-/* Adicionar efeito de transparência ao passar sobre as ilhas */
-.island-wrapper:hover ~ .cloud-container .cloud-image {
-  opacity: 0.5; /* Mais transparente quando uma ilha estiver em hover */
-  transition: opacity 0.3s ease;
+.trophy-icon {
+  margin-right: 5px;
+  font-size: 14px;
+}
+
+.champion-name {
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+/* Banner de contagem regressiva para temporadas agendadas */
+.season-scheduled-banner {
+  position: absolute;
+  bottom: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, #29abe2 0%, #0d8aee 100%);
+  border-radius: 8px;
+  padding: 4px 10px;
+  z-index: 5;
+  box-shadow: 0 2px 8px rgba(41, 171, 226, 0.6);
+}
+
+.countdown-text {
+  font-size: 12px;
+  font-weight: bold;
+  color: white;
+  white-space: nowrap;
 }

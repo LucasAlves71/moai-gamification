@@ -516,6 +516,53 @@ angular.module('moaiApp').controller('IslandsController', function($scope, $http
                season.active;
     };
 
+    // Função para verificar se uma temporada está finalizada
+    $scope.isSeasonFinished = function(season) {
+        if (!season || !season.period) return false;
+
+        const now = Date.now();
+        return season.period.endDate < now;
+    };
+
+    // Método para obter a próxima temporada para uma ilha
+    $scope.getNextSeasonForIsland = function(islandKey) {
+        if (!islandKey || !$scope.seasonsApi[islandKey] || $scope.seasonsApi[islandKey].length === 0) {
+            return null;
+        }
+
+        const now = Date.now();
+        // Ordenar as temporadas por data de início e pegar a próxima
+        var upcomingSeasons = $scope.seasonsApi[islandKey]
+            .filter(function(season) {
+                return season.period && season.period.startDate > now;
+            })
+            .sort(function(a, b) {
+                return a.period.startDate - b.period.startDate;
+            });
+
+        return upcomingSeasons.length > 0 ? upcomingSeasons[0] : null;
+    };
+
+    // Método para formatar a contagem regressiva para uma temporada
+    $scope.getCountdownForIsland = function(islandKey) {
+        var nextSeason = $scope.getNextSeasonForIsland(islandKey);
+        if (!nextSeason) return "";
+
+        const now = Date.now();
+        const timeUntilStart = nextSeason.period.startDate - now;
+
+        if (timeUntilStart <= 0) return "Iniciando...";
+
+        const days = Math.floor(timeUntilStart / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((timeUntilStart % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+
+        if (days > 0) {
+            return `Inicia em ${days}d ${hours}h`;
+        } else {
+            return `Inicia em ${hours}h`;
+        }
+    };
+
     // Função para formatar data
     $scope.formatDate = function(timestamp) {
         if (!timestamp) return 'Data não definida';
@@ -1466,4 +1513,26 @@ function init() {
         }, 300);
     }, 100);
 }
+
+// Método para obter o campeão da última temporada finalizada
+$scope.getLastFinishedSeasonChampion = function(islandKey) {
+    if (!islandKey || !$scope.seasonsApi[islandKey]) return null;
+
+    // Temporadas finalizadas ordenadas por data de término (mais recente primeiro)
+    var finishedSeasons = $scope.seasonsApi[islandKey]
+        .filter(function(season) {
+            return $scope.isSeasonFinished(season);
+        })
+        .sort(function(a, b) {
+            return b.period.endDate - a.period.endDate;
+        });
+
+    if (finishedSeasons.length === 0) return null;
+
+    var lastSeason = finishedSeasons[0];
+
+    // Aqui você precisaria buscar o ranking final da temporada para obter o campeão
+    // Retornar o nome do campeão ou null se não houver dados
+    return "Campeão anterior"; // Placeholder - você precisaria implementar a busca real
+};
 });
