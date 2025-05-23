@@ -141,22 +141,171 @@ angular.module('moaiApp').controller('ProfileController', function($scope, $http
                 return;
             }
 
+            $scope.isProcessing = true;
+
             var reader = new FileReader();
-
             reader.onload = function(e) {
-                // Atualizar temporariamente a foto exibida
+                // Mostrar preview da imagem
                 $scope.$apply(function() {
-                    $scope.userProfile.image.medium.url = e.target.result;
+                    $scope.previewImageUrl = e.target.result;
+                    $scope.showImageCropper = true;
                 });
-
-                // Aqui seria onde você enviaria a imagem para um servidor de armazenamento
-                // e então usaria a URL recebida na API da Funifier
-                // Por enquanto, apenas simulamos o upload bem-sucedido
-                alert('Funcionalidade de upload de foto será implementada em uma atualização futura.');
             };
-
             reader.readAsDataURL(file);
         }
+    };
+
+    // Método para upload da imagem após cropping
+    $scope.uploadProfileImage = function(imageDataUrl) {
+        $scope.isProcessing = true;
+
+        // Converter dataURL para Blob para envio
+        var blob = dataURItoBlob(imageDataUrl);
+        var formData = new FormData();
+        formData.append('file', new File([blob], 'profile.jpg'));
+
+        // Configuração para thumbnails
+        var extraData = {
+            session: 'avatar',
+            thumbnails: [
+                { name: 'small', width: 160, height: 160 },
+                { name: 'medium', width: 260, height: 260 }
+            ]
+        };
+        formData.append('extra', JSON.stringify(extraData));
+
+        // PASSO 1: Fazer upload do arquivo para o endpoint de upload genérico
+        $http({
+            method: 'POST',
+            url: API_CONFIG.baseUrl + '/upload/file',
+            headers: {
+                "Authorization": API_CONFIG.authHeader,
+                "Content-Type": undefined // Deixar o browser definir o content-type para multipart/form-data
+            },
+            data: formData
+        }).then(
+            function(response) {
+                console.log('Upload de arquivo realizado com sucesso:', response.data);
+
+                if (response.data.status === 'OK' && response.data.uploads && response.data.uploads.length > 0) {
+                    // Obter a URL da imagem do resultado do upload
+                    var imageUrl = response.data.uploads[0].url;
+
+                    // PASSO 2: Atualizar o perfil do usuário com a nova imagem
+                    updateProfileWithImageUrl(imageUrl);
+                } else {
+                    console.error('Resposta de upload inválida:', response.data);
+                    $scope.isProcessing = false;
+                    $scope.showImageCropper = false;
+                    alert('Falha ao processar a imagem. Por favor, tente novamente.');
+                }
+            },
+            function(error) {
+                console.error('Falha no upload da imagem:', error);
+                $scope.isProcessing = false;
+                $scope.showImageCropper = false;
+                alert('Não foi possível fazer upload da sua foto. Por favor, tente novamente mais tarde.');
+            }
+        );
+    };
+
+    // Função para atualizar o perfil do usuário com a URL da imagem
+    function updateProfileWithImageUrl(imageUrl) {
+        var userId = AuthService.getUserId();
+
+        // Primeiro, obter o perfil atual do usuário
+        $http({
+            method: 'GET',
+            url: API_CONFIG.baseUrl + '/player/' + userId,
+            headers: {
+                "Authorization": API_CONFIG.authHeader,
+                "Content-Type": "application/json"
+            }
+        }).then(
+            function(response) {
+                // Criar cópia do perfil para atualização
+                var updatedProfile = angular.copy(response.data);
+
+                // Atualizar o objeto de imagem no perfil
+                updatedProfile.image = {
+                    small: { url: imageUrl },
+                    medium: { url: imageUrl },
+                    original: { url: imageUrl }
+                };
+
+                // Preservar dados extras existentes
+                if (!updatedProfile.extra) {
+                    updatedProfile.extra = {};
+                }
+
+                // Atualizar o perfil com a nova imagem
+                $http({
+                    method: 'PUT',
+                    url: API_CONFIG.baseUrl + '/player/' + userId,
+                    headers: {
+                        "Authorization": API_CONFIG.authHeader,
+                        "Content-Type": "application/json"
+                    },
+                    data: updatedProfile
+                }).then(
+                    function(updateResponse) {
+                        console.log('Perfil atualizado com sucesso:', updateResponse.data);
+
+                        // Atualizar a foto no modelo local
+                        $scope.userProfile.image = {
+                            small: { url: imageUrl },
+                            medium: { url: imageUrl },
+                            original: { url: imageUrl }
+                        };
+
+                        // Fechar o cropper e limpar estado
+                        $scope.showImageCropper = false;
+                        $scope.isProcessing = false;
+
+                        // Mostrar mensagem de sucesso
+                        alert('Sua foto de perfil foi atualizada com sucesso!');
+                    },
+                    function(error) {
+                        console.error('Falha ao atualizar perfil com a nova imagem:', error);
+                        $scope.isProcessing = false;
+                        $scope.showImageCropper = false;
+                        alert('Não foi possível atualizar sua foto de perfil. Por favor, tente novamente mais tarde.');
+                    }
+                );
+            },
+            function(error) {
+                console.error('Falha ao obter perfil para atualização:', error);
+                $scope.isProcessing = false;
+                $scope.showImageCropper = false;
+                alert('Não foi possível atualizar sua foto de perfil. Por favor, tente novamente mais tarde.');
+            }
+        );
+    }
+
+    // Função para converter Data URI para Blob
+    function dataURItoBlob(dataURI) {
+        // Converter base64 para raw binary data como string
+        var byteString = atob(dataURI.split(',')[1]);
+
+        // Separar o content type
+        var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+
+        // Escrever os bytes da string em um ArrayBuffer
+        var ab = new ArrayBuffer(byteString.length);
+        var ia = new Uint8Array(ab);
+        for (var i = 0; i < byteString.length; i++) {
+            ia[i] = byteString.charCodeAt(i);
+        }
+
+        // Criar um blob com os dados e seu tipo
+        return new Blob([ab], {type: mimeString});
+    }
+
+    // Função para cancelar o upload
+    $scope.cancelImageUpload = function() {
+        $scope.showImageCropper = false;
+        $scope.previewImageUrl = null;
+        $scope.isProcessing = false;
     };
 
     // Função para alterar a senha usando a API específica da Funifier para alteração de senha

@@ -124,4 +124,32 @@
             </div>
         </div>
     </div>
+
+    <!-- Seção do modal de cropping de imagem -->
+    <div class="modal" id="imageCropperModal" style="display: block; background: rgba(0,0,0,0.5);" ng-if="showImageCropper">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Recortar Imagem de Perfil</h5>
+                    <button type="button" class="btn-close" ng-click="cancelImageUpload()"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="text-center mb-3">
+                        <p>Arraste e redimensione para ajustar sua foto de perfil</p>
+                    </div>
+                    <image-cropper
+                        image-source="previewImageUrl"
+                        on-crop-complete="uploadProfileImage(imageDataUrl)"
+                        on-cancel="cancelImageUpload()">
+                    </image-cropper>
+
+                    <!-- Indicador de carregamento simples em vez da barra de progresso -->
+                    <div class="text-center mt-3" ng-if="isProcessing">
+                        <span class="spinner-border text-primary" role="status"></span>
+                        <span class="ms-2">Processando imagem...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

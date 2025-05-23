@@ -60,3 +60,6 @@ app.run(function(ScrollService) {
     // Inicializar o serviço de scroll quando o aplicativo for iniciado
     ScrollService.init();
 });
+
+// Adicionar esta linha para incluir o script da diretiva
+document.write('<script src="app/directives/imageCropper.js"></script>');
