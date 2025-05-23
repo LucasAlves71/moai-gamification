@@ -1,155 +1,211 @@
-<div class="profile-container">
-    <!-- A navbar é incluída aqui -->
-    <div ng-include="'components/navbar.html'"></div>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil do Jogador - MOAI Game</title>
 
-    <!-- Botão de voltar para o dashboard -->
-    <div class="back-button-container">
-        <a href="#/dashboard" class="back-button" ng-click="$event.preventDefault(); navigate('/dashboard');">
-            <div class="back-icon">
-                <i class="bi bi-arrow-left-circle-fill"></i>
-            </div>
-        </a>
-    </div>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="views/profile/profile.css">
+</head>
+<body>
+    <div class="profile-container" ng-controller="ProfileController">
+        <!-- A navbar é incluída aqui -->
+        <div ng-include="'components/navbar.html'"></div>
 
-    <!-- O conteúdo principal começa com margem adequada -->
-    <div class="container-moai py-4">
-        <div class="row justify-content-center">
-            <div class="col-md-8 col-lg-6">
-                <!-- Cabeçalho com título e botão de logout lado a lado -->
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h1 class="mb-0">Perfil do Jogador</h1>
-                    <!-- Botão de logout movido para cá -->
-                    <button class="btn btn-danger logout-btn" ng-click="logout()">
-                        <span class="logout-icon">🚪</span> Sair
-                    </button>
-                </div>
+        <!-- Botão de voltar para o dashboard -->
+        <div class="back-button-container">
+            <a href="#/dashboard" class="back-button" ng-click="$event.preventDefault(); navigate('/dashboard');">
+                <i class="bi bi-arrow-left-circle-fill back-icon"></i>
+            </a>
+        </div>
 
-                <div class="profile-card card-moai p-4 rounded shadow">
-                    <!-- Seção de foto de perfil -->
-                    <div class="profile-photo-section text-center mb-4">
-                        <div class="profile-photo-container mb-3">
-                            <img ng-src="{{userProfile.image && userProfile.image.medium.url || 'public/img/default-avatar.png'}}"
-                                alt="Foto de perfil" class="profile-photo">
-                            <div class="photo-edit-btn" ng-click="openFileSelector()">
-                                <span>✏️</span>
-                            </div>
-                        </div>
-                        <h3 class="profile-name"><br>{{userProfile.name || userProfile._id}}</h3>
-                        <p class="profile-email">{{userProfile.email}}</p>
-                        <input type="file" id="profile-photo-input" accept="image/*" style="display: none;"
-                            onchange="angular.element(this).scope().handleFileSelect(this)">
-                    </div>
-
-                    <!-- Estatísticas do jogador -->
-                    <div class="player-stats mb-4">
-                        <div class="row g-3">
-                            <div class="col-6">
-                                <div class="stat-card p-3 rounded">
-                                    <div class="stat-icon coin-small"></div>
-                                    <div class="stat-info">
-                                        <div class="stat-value">{{userStatus.pointCategories.moaicoins || 0}}</div>
-                                        <div class="stat-label">MOAIcoins</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="stat-card p-3 rounded">
-                                    <div class="stat-icon money-small"></div>
-                                    <div class="stat-info">
-                                        <div class="stat-value">{{userStatus.pointCategories.moaimoney || 0}}</div>
-                                        <div class="stat-label">MOAImoney</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="stat-card p-3 rounded">
-                                    <div class="stat-icon level-icon"></div>
-                                    <div class="stat-info">
-                                        <div class="stat-value">{{userStatus.level.level || 'Nível 1'}}</div>
-                                        <div class="stat-label">Nível</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Alterar o bloco da equipe para exibir XP -->
-                            <div class="col-6">
-                                <div class="stat-card p-3 rounded">
-                                    <div class="stat-icon xp-icon"></div>
-                                    <div class="stat-info">
-                                        <div class="stat-value">{{userStatus.pointCategories.xp || 0}}</div>
-                                        <div class="stat-label">Pontos XP</div>
-                                    </div>
-                                </div>
-                            </div>
+        <!-- O conteúdo principal -->
+        <div class="container container-moai py-4">
+            <div class="row justify-content-center">
+                <div class="col-12 col-lg-10 col-xl-8">
+                    <!-- Cabeçalho com título e botão de logout -->
+                    <div class="page-header">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h1 class="page-title fade-in">Perfil do Jogador</h1>
+                            <button class="btn logout-btn fade-in" ng-click="logout()">
+                                <i class="bi bi-box-arrow-right logout-icon"></i>
+                                <span>Sair</span>
+                            </button>
                         </div>
                     </div>
 
-                    <!-- Formulário para alteração de senha -->
-                    <div class="password-section">
-                        <h4 class="section-title mb-3">Alterar Senha</h4>
-                        <form ng-submit="changePassword()" class="password-form">
-                            <div class="mb-3">
-                                <label for="current-password" class="form-label">Senha Atual</label>
-                                <input type="password" class="form-control" id="current-password"
-                                    ng-model="passwordData.currentPassword" required>
+                    <div class="profile-card slide-up">
+                        <!-- Seção de foto de perfil -->
+                        <div class="profile-photo-section">
+                            <div class="profile-photo-container">
+                                <img ng-src="{{userProfile.image && userProfile.image.medium.url || 'public/img/default-avatar.png'}}"
+                                    alt="Foto de perfil" class="profile-photo">
+                                <div class="photo-edit-btn" ng-click="openFileSelector()">
+                                    <i class="bi bi-pencil-fill"></i>
+                                </div>
                             </div>
-                            <div class="mb-3">
-                                <label for="new-password" class="form-label">Nova Senha</label>
-                                <input type="password" class="form-control" id="new-password"
-                                    ng-model="passwordData.newPassword" required>
+                            <h2 class="profile-name">{{userProfile.name || userProfile._id}}</h2>
+                            <p class="profile-email">{{userProfile.email}}</p>
+                            <input type="file" id="profile-photo-input" accept="image/*" style="display: none;"
+                                onchange="angular.element(this).scope().handleFileSelect(this)">
+                        </div>
+
+                        <!-- Estatísticas do jogador -->
+                        <div class="player-stats">
+                            <div class="row g-3">
+                                <div class="col-6 col-md-3">
+                                    <div class="stat-card">
+                                        <div class="stat-content">
+                                            <div class="stat-icon-container moaicoins-icon">
+                                                <img src="public/img/MoaiCoin.png" alt="MOAIcoins" class="stat-icon-img">
+                                            </div>
+                                            <div class="stat-info">
+                                                <div class="stat-value">{{userStatus.pointCategories.moaicoins || 0}}</div>
+                                                <div class="stat-label">MOAIcoins</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-3">
+                                    <div class="stat-card">
+                                        <div class="stat-content">
+                                            <div class="stat-icon-container moaimoney-icon">
+                                                <img src="public/img/moaimoney.png" alt="MOAImoney" class="stat-icon-img">
+                                            </div>
+                                            <div class="stat-info">
+                                                <div class="stat-value">{{userStatus.pointCategories.moaimoney || 0}}</div>
+                                                <div class="stat-label">MOAImoney</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-3">
+                                    <div class="stat-card">
+                                        <div class="stat-content">
+                                            <div class="stat-icon-container level-icon">
+                                                <i class="bi bi-star-fill stat-icon"></i>
+                                            </div>
+                                            <div class="stat-info">
+                                                <div class="stat-value">{{userStatus.level.level || 'Nível 1'}}</div>
+                                                <div class="stat-label">Nível</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-3">
+                                    <div class="stat-card">
+                                        <div class="stat-content">
+                                            <div class="stat-icon-container xp-icon">
+                                                <i class="bi bi-lightning-charge-fill stat-icon"></i>
+                                            </div>
+                                            <div class="stat-info">
+                                                <div class="stat-value">{{userStatus.pointCategories.xp || 0}}</div>
+                                                <div class="stat-label">Pontos XP</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="mb-3">
-                                <label for="confirm-password" class="form-label">Confirmar Nova Senha</label>
-                                <input type="password" class="form-control" id="confirm-password"
-                                    ng-model="passwordData.confirmPassword" required>
-                            </div>
-                            <div class="d-grid gap-2">
-                                <button type="submit" class="btn btn-moai"
-                                    ng-disabled="isProcessing || !passwordData.currentPassword || !passwordData.newPassword || passwordData.newPassword !== passwordData.confirmPassword">
-                                    <span ng-if="!isProcessing">Alterar Senha</span>
-                                    <span ng-if="isProcessing">
-                                        <span class="spinner-border spinner-border-sm me-2" role="status"></span>
-                                        Processando...
-                                    </span>
-                                </button>
-                                <div class="alert alert-info small mt-3" role="alert">
+                        </div>
+
+                        <!-- Formulário para alteração de senha -->
+                        <div class="password-section">
+                            <h3 class="section-title">
+                                <i class="bi bi-shield-lock me-2"></i>
+                                Alterar Senha
+                            </h3>
+                            <form ng-submit="changePassword()" class="password-form">
+                                <div class="row g-3">
+                                    <div class="col-12">
+                                        <label for="current-password" class="form-label">Senha Atual</label>
+                                        <input type="password" class="form-control" id="current-password"
+                                            ng-model="passwordData.currentPassword" required
+                                            placeholder="Digite sua senha atual">
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <label for="new-password" class="form-label">Nova Senha</label>
+                                        <input type="password" class="form-control" id="new-password"
+                                            ng-model="passwordData.newPassword" required
+                                            placeholder="Digite a nova senha">
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <label for="confirm-password" class="form-label">Confirmar Nova Senha</label>
+                                        <input type="password" class="form-control" id="confirm-password"
+                                            ng-model="passwordData.confirmPassword" required
+                                            placeholder="Confirme a nova senha">
+                                    </div>
+                                </div>
+
+                                <div class="mt-4">
+                                    <button type="submit" class="btn btn-moai w-100"
+                                        ng-disabled="isProcessing || !passwordData.currentPassword || !passwordData.newPassword || passwordData.newPassword !== passwordData.confirmPassword">
+                                        <span ng-if="!isProcessing">
+                                            <i class="bi bi-check-circle me-2"></i>
+                                            Alterar Senha
+                                        </span>
+                                        <span ng-if="isProcessing">
+                                            <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+                                            Processando...
+                                        </span>
+                                    </button>
+                                </div>
+
+                                <div class="alert alert-info mt-3" role="alert">
                                     <i class="bi bi-info-circle-fill me-2"></i>
                                     Para alterar sua senha, primeiro insira sua senha atual e depois a nova senha duas vezes.
                                 </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal de cropping de imagem -->
+        <div class="modal fade" id="imageCropperModal" tabindex="-1" ng-class="{'show d-block': showImageCropper}"
+             style="background: rgba(0,0,0,0.8);" ng-if="showImageCropper">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">
+                            <i class="bi bi-crop me-2"></i>
+                            Recortar Imagem de Perfil
+                        </h5>
+                        <button type="button" class="btn-close" ng-click="cancelImageUpload()"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="text-center mb-3">
+                            <p class="text-muted">Arraste e redimensione para ajustar sua foto de perfil</p>
+                        </div>
+
+                        <!-- Componente de cropping -->
+                        <image-cropper
+                            image-source="previewImageUrl"
+                            on-crop-complete="uploadProfileImage(imageDataUrl)"
+                            on-cancel="cancelImageUpload()">
+                        </image-cropper>
+
+                        <!-- Indicador de carregamento -->
+                        <div class="text-center mt-3" ng-if="isProcessing">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Carregando...</span>
                             </div>
-                        </form>
-                    </div>
-
-                    <!-- Removido o botão de logout daqui, pois foi movido para o topo -->
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Seção do modal de cropping de imagem -->
-    <div class="modal" id="imageCropperModal" style="display: block; background: rgba(0,0,0,0.5);" ng-if="showImageCropper">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Recortar Imagem de Perfil</h5>
-                    <button type="button" class="btn-close" ng-click="cancelImageUpload()"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="text-center mb-3">
-                        <p>Arraste e redimensione para ajustar sua foto de perfil</p>
-                    </div>
-                    <image-cropper
-                        image-source="previewImageUrl"
-                        on-crop-complete="uploadProfileImage(imageDataUrl)"
-                        on-cancel="cancelImageUpload()">
-                    </image-cropper>
-
-                    <!-- Indicador de carregamento simples em vez da barra de progresso -->
-                    <div class="text-center mt-3" ng-if="isProcessing">
-                        <span class="spinner-border text-primary" role="status"></span>
-                        <span class="ms-2">Processando imagem...</span>
+                            <div class="mt-2">Processando imagem...</div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
