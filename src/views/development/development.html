@@ -23,21 +23,27 @@
                     <div class="row g-3">
                         <div class="col-4">
                             <div class="resource-card p-3 rounded text-center">
-                                <div class="resource-icon energy-icon">⚡</div>
+                                <div class="resource-icon energy-icon">
+                                    <img src="public/img/energia-icon.png" alt="Energia" class="resource-icon-img" onerror="this.innerHTML='⚡'">
+                                </div>
                                 <div class="resource-value">{{userResources.energia || 0}}</div>
                                 <div class="resource-label">Energia</div>
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="resource-card p-3 rounded text-center">
-                                <div class="resource-icon tools-icon">🔧</div>
+                                <div class="resource-icon tools-icon">
+                                    <img src="public/img/ferramenta-icon.png" alt="Ferramenta" class="resource-icon-img" onerror="this.innerHTML='🔧'">
+                                </div>
                                 <div class="resource-value">{{userResources.ferramenta || 0}}</div>
                                 <div class="resource-label">Ferramenta</div>
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="resource-card p-3 rounded text-center">
-                                <div class="resource-icon creativity-icon">💡</div>
+                                <div class="resource-icon creativity-icon">
+                                    <img src="public/img/criatividade-icon.png" alt="Criatividade" class="resource-icon-img" onerror="this.innerHTML='💡'">
+                                </div>
                                 <div class="resource-value">{{userResources.criatividade || 0}}</div>
                                 <div class="resource-label">Criatividade</div>
                             </div>
@@ -53,9 +59,9 @@
                              ng-repeat="resource in readyResources"
                              ng-style="{'animation-delay': $index * 0.3 + 's'}">
                             <div class="resource-ready-icon" ng-class="{'energy-icon': resource.type === 'energia', 'tools-icon': resource.type === 'ferramenta', 'creativity-icon': resource.type === 'criatividade'}">
-                                <span ng-if="resource.type === 'energia'">⚡</span>
-                                <span ng-if="resource.type === 'ferramenta'">🔧</span>
-                                <span ng-if="resource.type === 'criatividade'">💡</span>
+                                <img ng-if="resource.type === 'energia'" src="public/img/energia-icon.png" alt="Energia" class="resource-icon-img" onerror="this.outerHTML='<span>⚡</span>'">
+                                <img ng-if="resource.type === 'ferramenta'" src="public/img/ferramenta-icon.png" alt="Ferramenta" class="resource-icon-img" onerror="this.outerHTML='<span>🔧</span>'">
+                                <img ng-if="resource.type === 'criatividade'" src="public/img/criatividade-icon.png" alt="Criatividade" class="resource-icon-img" onerror="this.outerHTML='<span>💡</span>'">
                             </div>
                             <h5>{{resource.amount}} {{resource.type === 'energia' ? 'Energia' : resource.type === 'ferramenta' ? 'Ferramenta' : 'Criatividade'}}</h5>
                             <button class="btn btn-success harvest-btn mt-2" ng-click="harvestResource(resource)">
@@ -83,7 +89,9 @@
                         <!-- Estação de Energia -->
                         <div class="col-md-4">
                             <div class="station-card p-3 rounded text-center h-100">
-                                <div class="station-icon mb-3">⚡</div>
+                                <div class="station-icon mb-3">
+                                    <img src="public/img/energia-icon.png" alt="Energia" class="station-icon-img" onerror="this.outerHTML='<span>⚡</span>'">
+                                </div>
                                 <h4 class="station-title">Energia</h4>
                                 <p class="station-description">Participe de eventos, calls, reuniões ou mentorias</p>
                                 <button class="btn btn-warning w-100" ng-click="openResourceModal('participation')">
@@ -95,7 +103,9 @@
                         <!-- Estação de Ferramenta -->
                         <div class="col-md-4">
                             <div class="station-card p-3 rounded text-center h-100">
-                                <div class="station-icon mb-3">🔧</div>
+                                <div class="station-icon mb-3">
+                                    <img src="public/img/ferramenta-icon.png" alt="Ferramenta" class="station-icon-img" onerror="this.outerHTML='<span>🔧</span>'">
+                                </div>
                                 <h4 class="station-title">Ferramenta</h4>
                                 <p class="station-description">Envie um insight prático no WhatsApp ou Circle</p>
                                 <button class="btn btn-primary w-100" ng-click="openResourceModal('tool')">
@@ -107,7 +117,9 @@
                         <!-- Estação de Criatividade -->
                         <div class="col-md-4">
                             <div class="station-card p-3 rounded text-center h-100">
-                                <div class="station-icon mb-3">💡</div>
+                                <div class="station-icon mb-3">
+                                    <img src="public/img/criatividade-icon.png" alt="Criatividade" class="station-icon-img" onerror="this.outerHTML='<span>💡</span>'">
+                                </div>
                                 <h4 class="station-title">Criatividade</h4>
                                 <p class="station-description">Leia conteúdo no Notion, responda quiz/reflexão</p>
                                 <button class="btn btn-success w-100" ng-click="openResourceModal('read')">
@@ -132,7 +144,9 @@
                              ng-class="{'new-activity': activity.isNew}">
                             <div class="d-flex align-items-center">
                                 <div class="activity-icon me-3" ng-class="getActionDetails(activity).iconClass">
-                                    {{getActionDetails(activity).icon}}
+                                    <img ng-if="getActionDetails(activity).actionId === 'participation'" src="public/img/energia-icon.png" alt="Energia" class="activity-icon-img" onerror="this.outerHTML='<span>⚡</span>'">
+                                    <img ng-if="getActionDetails(activity).actionId === 'tool'" src="public/img/ferramenta-icon.png" alt="Ferramenta" class="activity-icon-img" onerror="this.outerHTML='<span>🔧</span>'">
+                                    <img ng-if="getActionDetails(activity).actionId === 'read'" src="public/img/criatividade-icon.png" alt="Criatividade" class="activity-icon-img" onerror="this.outerHTML='<span>💡</span>'">
                                 </div>
                                 <div class="flex-grow-1">
                                     <h5 class="mb-1">{{getActionDetails(activity).name}}</h5>
