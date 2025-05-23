@@ -175,6 +175,10 @@ angular.module('moaiApp').controller('RewardsController', function($scope, $http
         $scope.selectedItem = item;
         $scope.modalVisible = true;
 
+        // Verificar se o item pode ser comprado no momento da abertura do modal
+        var canPurchase = $scope.canPurchaseItem(item);
+        console.log("Item pode ser comprado:", canPurchase);
+
         // Garantir que a página role para o topo quando o modal abrir
         setTimeout(function() {
             // Garante que o modal seja exibido completamente
@@ -200,52 +204,110 @@ angular.module('moaiApp').controller('RewardsController', function($scope, $http
         }, 300); // Espera a animação terminar
     };
 
-    // Purchase item
-    $scope.purchaseItem = function(item) {
-        console.log('Attempting to purchase item:', item);
+    // Corrigir a função de navegação
+    $scope.navigate = function(path) {
+        console.log("Navegando para:", path);
+        $location.path(path);
+    };
 
-        // Check if user has enough points/money
-        var canPurchase = true;
-        var missingResource = '';
+    // Nova função para verificar se um item pode ser comprado
+    $scope.canPurchaseItem = function(item) {
+        if (!item || !item.requires) return true;
 
-        // Check each requirement
+        console.log('Verificando requisitos de compra para:', item.name);
+
+        if (!$scope.userStatus) {
+            console.log('Dados do usuário não disponíveis');
+            return false;
+        }
+
+        // Verificar cada requisito
         for (var i = 0; i < item.requires.length; i++) {
             var req = item.requires[i];
 
             if (req.type === 0) { // Point requirement
-                if (req.item === 'moaicoins' && $scope.userStatus.total_points < req.total) {
-                    canPurchase = false;
-                    missingResource = 'MOAIcoins';
-                    break;
-                } else if (req.item === 'moaimoney' &&
-                          ($scope.userStatus.pointCategories.moaimoney || 0) < req.total) {
-                    canPurchase = false;
-                    missingResource = 'MOAImoney';
-                    break;
+                if (req.item === 'moaicoins') {
+                    var currentAmount = $scope.userStatus.pointCategories.moaicoins || 0;
+                    console.log('Requisito: ' + req.total + ' MOAIcoins, Disponível: ' + currentAmount);
+                    if (currentAmount < req.total) {
+                        console.log('Requisito de MOAIcoins não atendido: ' + currentAmount + ' < ' + req.total);
+                        return false;
+                    }
+                } else if (req.item === 'moaimoney') {
+                    var currentAmount = ($scope.userStatus.pointCategories && $scope.userStatus.pointCategories.moaimoney) || 0;
+                    console.log('Requisito: ' + req.total + ' MOAImoney, Disponível: ' + currentAmount);
+                    if (currentAmount < req.total) {
+                        console.log('Requisito de MOAImoney não atendido: ' + currentAmount + ' < ' + req.total);
+                        return false;
+                    }
                 }
             } else if (req.type === 3) { // Level requirement
-                // Verificar se o usuário possui o nível mínimo requerido
                 var userLevelNumber = $scope.getUserLevelNumber();
                 var requiredLevelNumber = $scope.getLevelNumberFromId(req.item);
-
-                console.log('Verificando nível:', {
-                    userLevel: userLevelNumber,
-                    requiredLevel: requiredLevelNumber,
-                    userLevelId: $scope.userStatus.level && $scope.userStatus.level._id,
-                    requiredLevelId: req.item
-                });
+                console.log('Requisito: Nível ' + requiredLevelNumber + ', Usuário: Nível ' + userLevelNumber);
 
                 if (userLevelNumber < requiredLevelNumber) {
-                    canPurchase = false;
-                    missingResource = 'nível mínimo requerido (' + $scope.getLevelName(req.item) + ')';
-                    break;
+                    console.log('Requisito de nível não atendido: ' + userLevelNumber + ' < ' + requiredLevelNumber);
+                    return false;
                 }
             }
         }
 
-        if (!canPurchase) {
-            alert('Você não tem ' + missingResource + ' suficiente para esta compra.');
-            return;
+        console.log('Todos os requisitos atendidos, pode comprar');
+        return true;
+    };
+
+    // Melhorar a lógica de verificação de compra
+    $scope.purchaseItem = function(item) {
+        console.log('Attempting to purchase item:', item);
+
+        // Verificação completa novamente no momento da compra
+        // Isso é uma redundância de segurança
+        if (!$scope.canPurchaseItem(item)) {
+            // Check if user has enough points/money
+            var missingResource = '';
+            var missingAmount = 0;
+            var currentAmount = 0;
+
+            // Check each requirement to determine what's missing
+            for (var i = 0; i < item.requires.length; i++) {
+                var req = item.requires[i];
+
+                if (req.type === 0) { // Point requirement
+                    if (req.item === 'moaicoins') {
+                        currentAmount = $scope.userStatus.total_points || 0;
+                        if (currentAmount < req.total) {
+                            missingResource = 'MOAIcoins';
+                            missingAmount = req.total - currentAmount;
+                            break;
+                        }
+                    } else if (req.item === 'moaimoney') {
+                        currentAmount = $scope.userStatus.pointCategories.moaimoney || 0;
+                        if (currentAmount < req.total) {
+                            missingResource = 'MOAImoney';
+                            missingAmount = req.total - currentAmount;
+                            break;
+                        }
+                    }
+                } else if (req.type === 3) { // Level requirement
+                    var userLevelNumber = $scope.getUserLevelNumber();
+                    var requiredLevelNumber = $scope.getLevelNumberFromId(req.item);
+
+                    if (userLevelNumber < requiredLevelNumber) {
+                        missingResource = 'nível';
+                        break;
+                    }
+                }
+            }
+
+            // Mensagem mais informativa de fundos insuficientes
+            if (missingResource === 'nível') {
+                alert('Você precisa atingir o ' + $scope.getLevelName(req.item) + ' para poder comprar este item.');
+            } else {
+                alert('Fundos insuficientes! Faltam ' + missingAmount + ' ' + missingResource +
+                      ' para comprar este item.\nVocê tem: ' + currentAmount + ' ' + missingResource);
+            }
+            return; // IMPORTANTE: Esta linha impede que a compra continue
         }
 
         // Se chegamos aqui, podemos prosseguir com a compra na API
@@ -632,10 +694,4 @@ angular.module('moaiApp').controller('RewardsController', function($scope, $http
             console.log("Executando teste automático de modal em 3 segundos...");
         });
     }, 3000);
-
-    // Adicione esta função ao controller
-    $scope.navigate = function(path) {
-        console.log("Navegando para:", path);
-    $location.path(path);
-    };
 });

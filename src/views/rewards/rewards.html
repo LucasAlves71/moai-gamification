@@ -100,7 +100,8 @@
                 </div>
             </div>
             <div class="modal-footer justify-content-center">
-                <button class="btn buy-button large" ng-click="purchaseItem(selectedItem)" ng-disabled="isProcessing">
+                <button class="btn buy-button large" ng-click="purchaseItem(selectedItem)"
+                        ng-disabled="isProcessing || !canPurchaseItem(selectedItem)">
                     <span ng-if="!isProcessing">COMPRAR</span>
                     <span ng-if="isProcessing">
                         <span class="spinner-border spinner-border-sm me-2" role="status"></span>
