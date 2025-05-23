@@ -209,6 +209,13 @@
     background: rgba(0, 0, 0, 0.2);
 }
 
+/* Estilo para ícones nas atividades */
+.activity-icon-img {
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+}
+
 .resource-gained {
     font-weight: bold;
     padding: 5px 10px;
