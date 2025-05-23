@@ -265,6 +265,9 @@
 }
 
 .profile-photo {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
     border: 3px solid var(--moai-accent);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     transition: all 0.3s ease;
@@ -308,4 +311,29 @@
 /* Garantir que o modal de cropping fique acima do modal de onboarding */
 #imageCropperModal {
     z-index: 1060 !important;
+}
+
+/* Add media queries for responsiveness */
+@media (max-width: 768px) {
+    .profile-photo {
+        width: 120px;
+        height: 120px;
+    }
+
+    .photo-edit-btn {
+        width: 35px;
+        height: 35px;
+    }
+}
+
+@media (max-width: 576px) {
+    .profile-photo {
+        width: 100px;
+        height: 100px;
+    }
+
+    .photo-edit-btn {
+        width: 30px;
+        height: 30px;
+    }
 }
