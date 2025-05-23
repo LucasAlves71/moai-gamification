@@ -125,6 +125,131 @@ angular.module('moaiApp').controller('OnboardingController', function($scope, $h
         }
     };
 
+    // Adicionar variáveis para controle de upload de foto
+    $scope.previewImageUrl = null;
+    $scope.showImageCropper = false;
+    $scope.profileImageRequired = true; // Tornar a imagem obrigatória
+    $scope.hasProfileImage = false; // Flag para indicar se o usuário já adicionou uma imagem
+    $scope.selectedImageUrl = null; // Armazenar a URL da imagem após o upload
+
+    // Abre o seletor de arquivo quando o botão de editar foto é clicado
+    $scope.openFileSelector = function() {
+        document.getElementById('onboarding-photo-input').click();
+    };
+
+    // Lida com a seleção de arquivos para upload de foto de perfil
+    $scope.handleFileSelect = function(fileInput) {
+        if (fileInput.files && fileInput.files[0]) {
+            var file = fileInput.files[0];
+
+            // Validar tamanho e tipo do arquivo
+            if (file.size > 5 * 1024 * 1024) { // 5MB
+                alert('A imagem é muito grande. O tamanho máximo é 5MB.');
+                return;
+            }
+
+            if (!file.type.match('image.*')) {
+                alert('Por favor, selecione uma imagem válida.');
+                return;
+            }
+
+            $scope.isProcessing = true;
+
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                // Mostrar preview da imagem
+                $scope.$apply(function() {
+                    $scope.previewImageUrl = e.target.result;
+                    $scope.showImageCropper = true;
+                });
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
+    // Método para upload da imagem após cropping
+    $scope.uploadProfileImage = function(imageDataUrl) {
+        $scope.isProcessing = true;
+
+        // Converter dataURL para Blob para envio
+        var blob = dataURItoBlob(imageDataUrl);
+        var formData = new FormData();
+        formData.append('file', new File([blob], 'profile.jpg'));
+
+        // Configuração para thumbnails
+        var extraData = {
+            session: 'avatar',
+            thumbnails: [
+                { name: 'small', width: 160, height: 160 },
+                { name: 'medium', width: 260, height: 260 }
+            ]
+        };
+        formData.append('extra', JSON.stringify(extraData));
+
+        // Fazer upload do arquivo para o endpoint de upload genérico
+        $http({
+            method: 'POST',
+            url: API_CONFIG.baseUrl + '/upload/file',
+            headers: {
+                "Authorization": API_CONFIG.authHeader,
+                "Content-Type": undefined // Deixar o browser definir o content-type para multipart/form-data
+            },
+            data: formData
+        }).then(
+            function(response) {
+                console.log('Upload de arquivo realizado com sucesso:', response.data);
+
+                if (response.data.status === 'OK' && response.data.uploads && response.data.uploads.length > 0) {
+                    // Obter a URL da imagem do resultado do upload
+                    var imageUrl = response.data.uploads[0].url;
+                    $scope.selectedImageUrl = imageUrl;
+                    $scope.hasProfileImage = true;
+
+                    // Fechar o cropper e mostrar imagem selecionada
+                    $scope.showImageCropper = false;
+                    $scope.isProcessing = false;
+                } else {
+                    console.error('Resposta de upload inválida:', response.data);
+                    $scope.isProcessing = false;
+                    $scope.showImageCropper = false;
+                    alert('Falha ao processar a imagem. Por favor, tente novamente.');
+                }
+            },
+            function(error) {
+                console.error('Falha no upload da imagem:', error);
+                $scope.isProcessing = false;
+                $scope.showImageCropper = false;
+                alert('Não foi possível fazer upload da sua foto. Por favor, tente novamente mais tarde.');
+            }
+        );
+    };
+
+    // Função para cancelar o upload
+    $scope.cancelImageUpload = function() {
+        $scope.showImageCropper = false;
+        $scope.previewImageUrl = null;
+        $scope.isProcessing = false;
+    };
+
+    // Função para converter Data URI para Blob
+    function dataURItoBlob(dataURI) {
+        // Converter base64 para raw binary data como string
+        var byteString = atob(dataURI.split(',')[1]);
+
+        // Separar o content type
+        var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+
+        // Escrever os bytes da string em um ArrayBuffer
+        var ab = new ArrayBuffer(byteString.length);
+        var ia = new Uint8Array(ab);
+        for (var i = 0; i < byteString.length; i++) {
+            ia[i] = byteString.charCodeAt(i);
+        }
+
+        // Criar um blob com os dados e seu tipo
+        return new Blob([ab], {type: mimeString});
+    }
+
     // Concluir o onboarding e definir o nome da ilha
     $scope.finishOnboarding = function() {
         console.log("Finalizando onboarding");
@@ -132,6 +257,12 @@ angular.module('moaiApp').controller('OnboardingController', function($scope, $h
         // Verificar se o nome da ilha foi fornecido
         if (!$scope.islandName || $scope.islandName.trim() === "") {
             $scope.nameError = true;
+            return;
+        }
+
+        // Verificar se a foto de perfil foi adicionada (se obrigatória)
+        if ($scope.profileImageRequired && !$scope.hasProfileImage) {
+            alert("Por favor, adicione uma foto de perfil para continuar.");
             return;
         }
 
@@ -150,6 +281,7 @@ angular.module('moaiApp').controller('OnboardingController', function($scope, $h
         }
 
         console.log("Nome da ilha:", $scope.islandName);
+        console.log("Imagem de perfil:", $scope.selectedImageUrl);
 
         // Obter primeiro o perfil completo do usuário
         var getProfileRequest = {
@@ -176,6 +308,15 @@ angular.module('moaiApp').controller('OnboardingController', function($scope, $h
                 // Atualizar o nome da ilha e marcar onboarding como concluído
                 updatedProfile.extra.ilha = $scope.islandName;
                 updatedProfile.extra.onboarding = false;
+
+                // Adicionar a imagem ao perfil se disponível
+                if ($scope.selectedImageUrl) {
+                    updatedProfile.image = {
+                        small: { url: $scope.selectedImageUrl },
+                        medium: { url: $scope.selectedImageUrl },
+                        original: { url: $scope.selectedImageUrl }
+                    };
+                }
 
                 // Salvar o perfil atualizado
                 var updateRequest = {

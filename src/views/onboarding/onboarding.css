@@ -255,3 +255,57 @@
 .modal-body {
     pointer-events: auto !important;
 }
+
+/* Adicionar ao final do arquivo */
+
+/* Estilos para o container de foto de perfil */
+.profile-photo-container {
+    position: relative;
+    display: inline-block;
+}
+
+.profile-photo {
+    border: 3px solid var(--moai-accent);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.photo-edit-btn {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    width: 40px;
+    height: 40px;
+    background-color: var(--moai-accent);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s;
+    z-index: 5;
+}
+
+.photo-edit-btn:hover {
+    transform: scale(1.1);
+}
+
+/* Estilos específicos para o modal de cropping */
+#imageCropperModal .modal-content {
+    background: linear-gradient(135deg, #002952 0%, #001e3d 100%);
+    color: white;
+}
+
+#imageCropperModal .modal-header {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+#imageCropperModal .btn-close {
+    filter: invert(1) brightness(200%);
+}
+
+/* Garantir que o modal de cropping fique acima do modal de onboarding */
+#imageCropperModal {
+    z-index: 1060 !important;
+}

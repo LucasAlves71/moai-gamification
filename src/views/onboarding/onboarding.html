@@ -67,7 +67,7 @@
         </div>
     </div>
 
-    <!-- Modal 3: Nome da ilha -->
+    <!-- Modal 3: Nome da ilha e foto do perfil -->
     <div class="modal fade" id="islandNameModal" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content card-moai">
@@ -79,7 +79,7 @@
                             </div>
                         </div>
                         <div class="col-md-8">
-                            <h2 class="island-name-title mb-3">Nomeie sua ilha</h2>
+                            <h2 class="island-name-title mb-3">Personalize sua jornada</h2>
                             <p class="island-name-text mb-4">
                                 Esta será a sua base de operações durante toda a jornada.
                                 Como você gostaria de chamar sua ilha?
@@ -95,9 +95,31 @@
                                 Por favor, insira um nome para sua ilha antes de continuar.
                             </div>
 
+                            <!-- Seção de foto de perfil -->
+                            <h4 class="photo-title mb-3">Adicione sua foto de perfil</h4>
+                            <div class="profile-photo-section mb-4">
+                                <div class="profile-photo-container text-center mb-4">
+                                    <!-- Aumentado o mb-3 para mb-4 para dar mais espaço -->
+                                    <div class="photo-preview-container position-relative d-inline-block">
+                                        <img ng-src="{{selectedImageUrl || 'public/img/default-avatar.png'}}"
+                                             alt="Foto de perfil" class="profile-photo rounded-circle" style="width: 150px; height: 150px; object-fit: cover;">
+                                        <div class="photo-edit-btn position-absolute" ng-click="openFileSelector()"
+                                             style="right: 5px; bottom: 5px; background: #0055AA; color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+                                            <span>✏️</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="text-center" style="margin-top: 10px;">
+                                    <!-- Adicionado um estilo de margin-top para criar mais espaço -->
+                                    <p class="text-muted small">Adicione uma foto para seu perfil MOAI</p>
+                                    <input type="file" id="onboarding-photo-input" accept="image/*" style="display: none;"
+                                           onchange="angular.element(this).scope().handleFileSelect(this)">
+                                </div>
+                            </div>
+
                             <div class="mt-4 text-end">
                                 <button class="btn btn-moai-secondary me-2" ng-click="previousStep()" type="button">Voltar</button>
-                                <button class="btn btn-moai-primary btn-lg" ng-click="finishOnboarding()" type="button">
+                                <button class="btn btn-moai-primary" ng-click="finishOnboarding()" type="button">
                                     <span ng-if="!isProcessing">Começar esse grande legado!</span>
                                     <span ng-if="isProcessing">
                                         <span class="spinner-border spinner-border-sm me-2" role="status"></span>
@@ -106,6 +128,34 @@
                                 </button>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para cropping de imagem -->
+    <div class="modal" id="imageCropperModal" style="display: block; background: rgba(0,0,0,0.5); z-index: 1060;" ng-if="showImageCropper">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Recortar Imagem de Perfil</h5>
+                    <button type="button" class="btn-close" ng-click="cancelImageUpload()"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="text-center mb-3">
+                        <p>Arraste e redimensione para ajustar sua foto de perfil</p>
+                    </div>
+                    <image-cropper
+                        image-source="previewImageUrl"
+                        on-crop-complete="uploadProfileImage(imageDataUrl)"
+                        on-cancel="cancelImageUpload()">
+                    </image-cropper>
+
+                    <!-- Indicador de carregamento simples -->
+                    <div class="text-center mt-3" ng-if="isProcessing">
+                        <span class="spinner-border text-primary" role="status"></span>
+                        <span class="ms-2">Processando imagem...</span>
                     </div>
                 </div>
             </div>
