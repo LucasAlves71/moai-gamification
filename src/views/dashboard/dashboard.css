@@ -45,12 +45,19 @@
     max-width: 500px;
     position: relative;
     z-index: 1;
+    margin-bottom: 20px;
+    transition: all 0.5s ease;
 }
 
 .island-image {
-    width: 100%;
+    max-width: 100%;
     height: auto;
     object-fit: contain;
+    transition: transform 0.5s ease;
+}
+
+.island-visualization:hover .island-image {
+    transform: scale(1.02);
 }
 
 .user-stats {
@@ -333,4 +340,189 @@
 
 .meta-value {
   color: #495057;
+}
+
+/* Adicionar estas novas classes ao CSS */
+
+/* Estilos para visualização da ilha */
+.island-visualization {
+    position: relative;
+    margin-bottom: 20px;
+    transition: all 0.5s ease;
+}
+
+.island-image {
+    max-width: 100%;
+    height: auto;
+    transition: transform 0.5s ease;
+}
+
+.island-visualization:hover .island-image {
+    transform: scale(1.02);
+}
+
+/* Estilos para o preview de upgrades */
+.upgrade-preview {
+    background-color: rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    transition: all 0.3s ease;
+}
+
+.upgrade-preview:hover {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.preview-label {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* Estilos para o estado atual do MOAI no modal */
+.current-moai-status {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 15px;
+    text-align: center;
+}
+
+.current-moai-image {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    padding: 10px;
+    display: inline-block;
+}
+
+/* Animação para transição de evolução */
+@keyframes evolve-glow {
+    0% { box-shadow: 0 0 5px rgba(255, 215, 0, 0.5); }
+    50% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.8); }
+    100% { box-shadow: 0 0 5px rgba(255, 215, 0, 0.5); }
+}
+
+.evolution-active {
+    animation: evolve-glow 2s infinite;
+}
+
+/* Estilos para itens de upgrade */
+.upgrade-item {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.upgrade-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.upgrade-item.owned {
+    background-color: rgba(0, 100, 0, 0.2);
+    border-color: rgba(0, 255, 0, 0.3);
+}
+
+.upgrade-item.unavailable {
+    opacity: 0.6;
+}
+
+.upgrade-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.upgrade-status {
+    display: inline-block;
+    background-color: #28a745;
+    color: white;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.requirement-list {
+    list-style: none;
+    padding-left: 0;
+}
+
+.requirement-list li {
+    margin-bottom: 5px;
+    padding: 5px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+}
+
+.requirement-list li.met {
+    background-color: rgba(40, 167, 69, 0.1);
+}
+
+.requirement-icon {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+    text-align: center;
+    line-height: 24px;
+    font-size: 1rem;
+}
+
+.reward-list {
+    list-style: none;
+    padding-left: 0;
+}
+
+.reward-list li {
+    margin-bottom: 5px;
+    padding: 5px;
+    border-radius: 4px;
+    background-color: rgba(255, 193, 7, 0.1);
+    display: flex;
+    align-items: center;
+}
+
+.reward-icon {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+    text-align: center;
+    line-height: 24px;
+    font-size: 1rem;
+}
+
+.btn-purchase {
+    width: 100%;
+    margin-top: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 4px;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+.btn-purchase:hover:not(:disabled) {
+    background-color: #0069d9;
+}
+
+.btn-purchase:disabled {
+    background-color: #6c757d;
+    cursor: not-allowed;
+}
+
+/* Estilo para o botão de upgrades já adquiridos */
+.upgrade-item.owned .btn-purchase {
+    background-color: #28a745;
+}
+
+.upgrade-item.owned .btn-purchase:hover {
+    background-color: #218838;
 }
