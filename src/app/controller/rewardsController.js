@@ -486,29 +486,62 @@ angular.module('moaiApp').controller('RewardsController', function($scope, $http
                     return achievement.player === userId && achievement.type === 2;
                 });
 
-                // Para cada compra, encontrar os pagamentos associados (extras.origin)
-                userPurchases.forEach(function(purchase) {
-                    var payments = allAchievements.filter(function(achievement) {
-                        return achievement.type === 0 &&
-                               achievement.extra &&
-                               achievement.extra.origin === purchase._id;
-                    });
+                // Buscar o catálogo de todos os itens para filtrar por catálogo depois
+                var itemsReq = {
+                    method: 'GET',
+                    url: API_CONFIG.baseUrl + '/virtualgoods/item',
+                    headers: {
+                        "Authorization": API_CONFIG.authHeader,
+                        "Content-Type": "application/json"
+                    }
+                };
 
-                    // Adicionar as informações de pagamento à compra
-                    purchase.payments = payments;
+                $http(itemsReq).then(
+                    function(itemsResponse) {
+                        // Criar um mapa de ID para catálogo
+                        var itemCatalogMap = {};
+                        itemsResponse.data.forEach(function(item) {
+                            itemCatalogMap[item._id] = item.catalogId;
+                            if (item.code) {
+                                itemCatalogMap[item.code] = item.catalogId;
+                            }
+                        });
 
-                    // Pré-calcular tudo o que precisamos para evitar recálculos durante o digest
-                    $scope.getPurchasePrices(purchase);  // Isso popula o cache
-                    $scope.isPurchaseDelivered(purchase); // Isso popula o cache
-                    $scope.formatDate(purchase.time);    // Isso popula o cache
-                });
+                        // Filtrar apenas compras de itens do catálogo "prizes"
+                        userPurchases = userPurchases.filter(function(purchase) {
+                            return itemCatalogMap[purchase.item] === 'prizes';
+                        });
 
-                $scope.purchases = userPurchases;
+                        // Para cada compra, encontrar os pagamentos associados (extras.origin)
+                        userPurchases.forEach(function(purchase) {
+                            var payments = allAchievements.filter(function(achievement) {
+                                return achievement.type === 0 &&
+                                       achievement.extra &&
+                                       achievement.extra.origin === purchase._id;
+                            });
 
-                // Carregar detalhes dos itens comprados
-                $scope.loadPurchasedItemDetails();
+                            // Adicionar as informações de pagamento à compra
+                            purchase.payments = payments;
 
-                $scope.isLoadingHistory = false;
+                            // Pré-calcular tudo o que precisamos para evitar recálculos durante o digest
+                            $scope.getPurchasePrices(purchase);  // Isso popula o cache
+                            $scope.isPurchaseDelivered(purchase); // Isso popula o cache
+                            $scope.formatDate(purchase.time);    // Isso popula o cache
+                        });
+
+                        $scope.purchases = userPurchases;
+
+                        // Carregar detalhes dos itens comprados
+                        $scope.loadPurchasedItemDetails();
+
+                        $scope.isLoadingHistory = false;
+                    },
+                    function(error) {
+                        console.error('Failed to load items for filtering:', error);
+                        $scope.isLoadingHistory = false;
+                        alert('Falha ao carregar histórico de compras. Por favor, tente novamente.');
+                    }
+                );
             },
             function(error) {
                 console.error('Failed to load purchase history:', error);
