@@ -732,4 +732,6 @@ angular.module('moaiApp').controller('DashboardController', function($scope, $ht
     // Initial load
     $scope.loadUserStatus();
     $scope.loadUserResources();
+    $scope.loadInitialUpgradeStatus(); // Add this line to load upgrades on initialization
+
 });
