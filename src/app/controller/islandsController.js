@@ -34,6 +34,12 @@ angular.module('moaiApp').controller('IslandsController', function($scope, $http
     $scope.hasActiveSeasonByIsland = {};
     $scope.activeTab = 'challenges';
 
+    // Variável para controlar estado de carregamento ao entrar em temporada
+    $scope.isJoiningSeason = false;
+
+    // Variável para armazenar temporadas em que o jogador já participa
+    $scope.playerJoinedSeasons = [];
+
     // Mapeamento de ilhas para informações
     $scope.islands = {
         marketing: {
@@ -403,9 +409,10 @@ angular.module('moaiApp').controller('IslandsController', function($scope, $http
             }
         };
 
-        $http(req).then(
+        // Retornar a promessa para que possamos encadear ações
+        return $http(req).then(
             function(response) {
-                // Filtrar apenas as temporadas associadas à ilha atual
+                // O restante do código permanece o mesmo
                 var allSeasons = response.data || [];
                 console.log('Todas as temporadas disponíveis:', allSeasons);
 
@@ -443,10 +450,12 @@ angular.module('moaiApp').controller('IslandsController', function($scope, $http
                 }
 
                 console.log('Temporadas carregadas para ilha ' + islandKey + ':', $scope.seasonsApi[islandKey]);
+                return islandSeasons; // Retornar os dados para a promessa
             },
             function(error) {
                 console.error('Erro ao carregar temporadas da ilha ' + islandKey + ':', error);
                 $scope.isLoadingSeasons = false;
+                return $q.reject(error); // Rejeitar a promessa em caso de erro
             }
         );
     };
@@ -613,12 +622,6 @@ angular.module('moaiApp').controller('IslandsController', function($scope, $http
 
         return icons[islandKey] || 'bi-star-fill';
     };
-
-    // Variável para controlar estado de carregamento ao entrar em temporada
-    $scope.isJoiningSeason = false;
-
-    // Variável para armazenar temporadas em que o jogador já participa
-    $scope.playerJoinedSeasons = [];
 
     // Carregar temporadas que o jogador já participa
     $scope.loadPlayerJoinedSeasons = function() {
@@ -1164,13 +1167,33 @@ angular.module('moaiApp').controller('IslandsController', function($scope, $http
     // Inicialização modificada
     function init() {
         console.log('Inicializando Islands Controller...');
+        $scope.isLoadingAllIslands = true;
         $scope.loadUserMaturity();
         $scope.loadPlayerJoinedSeasons();
-        loadChallengeStatus(); // Adicionar carregamento do estado dos desafios
+        loadChallengeStatus();
 
         // Adicionar um atraso curto para garantir que o refreshData não cause loops
         $timeout(function() {
             $scope.refreshData();
+
+            // Após carregar dados básicos, carregar informações de temporadas para todas as ilhas
+            $timeout(function() {
+                var loadPromises = [];
+
+                // Carregar dados de todas as ilhas de uma vez
+                Object.keys($scope.islands).forEach(function(islandKey) {
+                    loadPromises.push($scope.loadIslandSeasons(islandKey));
+                });
+
+                // Quando todas as ilhas forem carregadas
+                $q.all(loadPromises).then(function() {
+                    $scope.isLoadingAllIslands = false;
+                    console.log('Todas as ilhas carregadas com sucesso');
+                }).catch(function() {
+                    $scope.isLoadingAllIslands = false;
+                    console.log('Erro ao carregar algumas ilhas');
+                });
+            }, 300);
         }, 100);
     }
 
@@ -1414,13 +1437,33 @@ function loadChallengeStatus() {
 // Atualizar a função init para carregar o estado dos desafios
 function init() {
     console.log('Inicializando Islands Controller...');
+    $scope.isLoadingAllIslands = true;
     $scope.loadUserMaturity();
     $scope.loadPlayerJoinedSeasons();
-    loadChallengeStatus(); // Adicionar carregamento do estado dos desafios
+    loadChallengeStatus();
 
     // Adicionar um atraso curto para garantir que o refreshData não cause loops
     $timeout(function() {
         $scope.refreshData();
+
+        // Após carregar dados básicos, carregar informações de temporadas para todas as ilhas
+        $timeout(function() {
+            var loadPromises = [];
+
+            // Carregar dados de todas as ilhas de uma vez
+            Object.keys($scope.islands).forEach(function(islandKey) {
+                loadPromises.push($scope.loadIslandSeasons(islandKey));
+            });
+
+            // Quando todas as ilhas forem carregadas
+            $q.all(loadPromises).then(function() {
+                $scope.isLoadingAllIslands = false;
+                console.log('Todas as ilhas carregadas com sucesso');
+            }).catch(function() {
+                $scope.isLoadingAllIslands = false;
+                console.log('Erro ao carregar algumas ilhas');
+            });
+        }, 300);
     }, 100);
 }
 });
