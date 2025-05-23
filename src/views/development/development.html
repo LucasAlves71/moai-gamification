@@ -1,315 +1,500 @@
-<div class="development-container">
-    <!-- A navbar é incluída aqui -->
-    <div ng-include="'components/navbar.html'"></div>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Área de Desenvolvimento - MOAI Game</title>
 
-    <!-- Botão de voltar para o dashboard -->
-    <div class="back-button-container">
-        <a href="#/dashboard" class="back-button" ng-click="$event.preventDefault(); navigate('/dashboard');">
-            <div class="back-icon">
-                <i class="bi bi-arrow-left-circle-fill"></i>
-            </div>
-        </a>
-    </div>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="views/development/development.css">
+</head>
+<body>
+    <div class="development-container" ng-controller="DevelopmentController">
+        <!-- A navbar é incluída aqui -->
+        <div ng-include="'components/navbar.html'"></div>
 
-    <!-- O conteúdo principal começa com margem adequada -->
-    <div class="container-moai py-4">
-        <div class="row justify-content-center">
-            <div class="col-md-11 col-lg-10">
-                <h1 class="display-4 text-center mb-4">Área de Desenvolvimento</h1>
-                <p class="text-center mb-5">Produza recursos para impulsionar seu progresso nas ilhas</p>
+        <!-- Botão de voltar para o dashboard -->
+        <div class="back-button-container">
+            <a href="#/dashboard" class="back-button" ng-click="$event.preventDefault(); navigate('/dashboard');">
+                <i class="bi bi-arrow-left-circle-fill back-icon"></i>
+            </a>
+        </div>
 
-                <!-- Status dos recursos -->
-                <div class="resources-status mb-5">
-                    <div class="row g-3">
-                        <div class="col-4">
-                            <div class="resource-card p-3 rounded text-center">
-                                <div class="resource-icon energy-icon">
-                                    <img src="public/img/energia-icon.png" alt="Energia" class="resource-icon-img" onerror="this.innerHTML='⚡'">
+        <!-- Partículas de fundo -->
+        <div class="particles-container">
+            <div class="particle" ng-repeat="i in [1,2,3,4,5,6,7,8,9,10]"></div>
+        </div>
+
+        <!-- O conteúdo principal -->
+        <div class="container container-moai py-4">
+            <div class="row justify-content-center">
+                <div class="col-md-11 col-lg-10">
+                    <!-- Header com título -->
+                    <div class="page-header text-center mb-5">
+                        <h1 class="page-title fade-in">Área de Desenvolvimento</h1>
+                        <div class="title-underline"></div>
+                        <p class="page-subtitle mt-3 slide-up">Produza recursos para impulsionar seu progresso nas ilhas</p>
+                    </div>
+
+                    <!-- Status dos recursos -->
+                    <div class="resources-status mb-5">
+                        <div class="row g-4">
+                            <!-- Energia -->
+                            <div class="col-md-4">
+                                <div class="resource-card energy-card">
+                                    <div class="resource-inner">
+                                        <div class="resource-icon-container">
+                                            <img src="public/img/energia-icon.png" alt="Energia" class="resource-icon-img" onerror="this.outerHTML='<div class=\'resource-icon-fallback\'>⚡</div>'">
+                                            <div class="icon-glow"></div>
+                                        </div>
+                                        <div class="resource-info">
+                                            <div class="resource-value counter">{{userResources.energia || 0}}</div>
+                                            <div class="resource-label">Energia</div>
+                                        </div>
+                                    </div>
+                                    <div class="resource-progress">
+                                        <div class="progress-bar" style="width: {{(userResources.energia || 0) * 10}}%"></div>
+                                    </div>
                                 </div>
-                                <div class="resource-value">{{userResources.energia || 0}}</div>
-                                <div class="resource-label">Energia</div>
                             </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="resource-card p-3 rounded text-center">
-                                <div class="resource-icon tools-icon">
-                                    <img src="public/img/ferramenta-icon.png" alt="Ferramenta" class="resource-icon-img" onerror="this.innerHTML='🔧'">
+
+                            <!-- Ferramenta -->
+                            <div class="col-md-4">
+                                <div class="resource-card tools-card">
+                                    <div class="resource-inner">
+                                        <div class="resource-icon-container">
+                                            <img src="public/img/ferramenta-icon.png" alt="Ferramenta" class="resource-icon-img" onerror="this.outerHTML='<div class=\'resource-icon-fallback\'>🔧</div>'">
+                                            <div class="icon-glow"></div>
+                                        </div>
+                                        <div class="resource-info">
+                                            <div class="resource-value counter">{{userResources.ferramenta || 0}}</div>
+                                            <div class="resource-label">Ferramenta</div>
+                                        </div>
+                                    </div>
+                                    <div class="resource-progress">
+                                        <div class="progress-bar" style="width: {{(userResources.ferramenta || 0) * 10}}%"></div>
+                                    </div>
                                 </div>
-                                <div class="resource-value">{{userResources.ferramenta || 0}}</div>
-                                <div class="resource-label">Ferramenta</div>
                             </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="resource-card p-3 rounded text-center">
-                                <div class="resource-icon creativity-icon">
-                                    <img src="public/img/criatividade-icon.png" alt="Criatividade" class="resource-icon-img" onerror="this.innerHTML='💡'">
+
+                            <!-- Criatividade -->
+                            <div class="col-md-4">
+                                <div class="resource-card creativity-card">
+                                    <div class="resource-inner">
+                                        <div class="resource-icon-container">
+                                            <img src="public/img/criatividade-icon.png" alt="Criatividade" class="resource-icon-img" onerror="this.outerHTML='<div class=\'resource-icon-fallback\'>💡</div>'">
+                                            <div class="icon-glow"></div>
+                                        </div>
+                                        <div class="resource-info">
+                                            <div class="resource-value counter">{{userResources.criatividade || 0}}</div>
+                                            <div class="resource-label">Criatividade</div>
+                                        </div>
+                                    </div>
+                                    <div class="resource-progress">
+                                        <div class="progress-bar" style="width: {{(userResources.criatividade || 0) * 10}}%"></div>
+                                    </div>
                                 </div>
-                                <div class="resource-value">{{userResources.criatividade || 0}}</div>
-                                <div class="resource-label">Criatividade</div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Recursos prontos para colheita -->
-                <div class="ready-resources mb-5" ng-if="readyResources.length > 0">
-                    <h3 class="section-title mb-4">Recursos Prontos</h3>
-                    <div class="resources-container">
-                        <div id="resource-{{resource.id}}" class="resource-ready-card p-3 rounded text-center position-relative"
-                             ng-repeat="resource in readyResources"
-                             ng-style="{'animation-delay': $index * 0.3 + 's'}">
-                            <div class="resource-ready-icon" ng-class="{'energy-icon': resource.type === 'energia', 'tools-icon': resource.type === 'ferramenta', 'creativity-icon': resource.type === 'criatividade'}">
-                                <img ng-if="resource.type === 'energia'" src="public/img/energia-icon.png" alt="Energia" class="resource-icon-img" onerror="this.outerHTML='<span>⚡</span>'">
-                                <img ng-if="resource.type === 'ferramenta'" src="public/img/ferramenta-icon.png" alt="Ferramenta" class="resource-icon-img" onerror="this.outerHTML='<span>🔧</span>'">
-                                <img ng-if="resource.type === 'criatividade'" src="public/img/criatividade-icon.png" alt="Criatividade" class="resource-icon-img" onerror="this.outerHTML='<span>💡</span>'">
-                            </div>
-                            <h5>{{resource.amount}} {{resource.type === 'energia' ? 'Energia' : resource.type === 'ferramenta' ? 'Ferramenta' : 'Criatividade'}}</h5>
-                            <button class="btn btn-success harvest-btn mt-2" ng-click="harvestResource(resource)">
-                                Colher Recurso
-                            </button>
+                    <!-- Recursos prontos para colheita -->
+                    <div class="section-container ready-resources mb-5">
+                        <div class="section-header">
+                            <h2 class="section-title">
+                                <i class="bi bi-basket-fill me-2"></i>
+                                Recursos Prontos
+                            </h2>
+                            <div class="section-divider"></div>
                         </div>
-                    </div>
-                </div>
 
-                <!-- Mensagem quando não há recursos prontos -->
-                <div class="no-resources mb-5" ng-if="readyResources.length === 0">
-                    <h3 class="section-title mb-4">Recursos Prontos</h3>
-                    <div class="alert alert-info text-center">
-                        <p class="mb-0">
-                            <i class="bi bi-info-circle me-2"></i>
-                            Você não tem recursos prontos para colheita no momento. Utilize as estações de produção acima para criar novos recursos!
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Estações de produção -->
-                <div class="production-stations mb-5">
-                    <h3 class="section-title mb-4">Estações de Produção</h3>
-                    <div class="row g-4">
-                        <!-- Estação de Energia -->
-                        <div class="col-md-4">
-                            <div class="station-card p-3 rounded text-center h-100">
-                                <div class="station-icon mb-3">
-                                    <img src="public/img/energia-icon.png" alt="Energia" class="station-icon-img" onerror="this.outerHTML='<span>⚡</span>'">
+                        <!-- Recursos disponíveis -->
+                        <div class="resources-container" ng-if="readyResources.length > 0">
+                            <div id="resource-{{resource.id}}" class="resource-ready-card"
+                                 ng-repeat="resource in readyResources"
+                                 ng-style="{'animation-delay': $index * 0.3 + 's'}">
+                                <div class="resource-glow"></div>
+                                <div class="resource-ready-icon" ng-class="{'energy-icon': resource.type === 'energia', 'tools-icon': resource.type === 'ferramenta', 'creativity-icon': resource.type === 'criatividade'}">
+                                    <img ng-if="resource.type === 'energia'" src="public/img/energia-icon.png" alt="Energia" class="resource-icon-img" onerror="this.outerHTML='<div class=\'resource-icon-fallback\'>⚡</div>'">
+                                    <img ng-if="resource.type === 'ferramenta'" src="public/img/ferramenta-icon.png" alt="Ferramenta" class="resource-icon-img" onerror="this.outerHTML='<div class=\'resource-icon-fallback\'>🔧</div>'">
+                                    <img ng-if="resource.type === 'criatividade'" src="public/img/criatividade-icon.png" alt="Criatividade" class="resource-icon-img" onerror="this.outerHTML='<div class=\'resource-icon-fallback\'>💡</div>'">
                                 </div>
-                                <h4 class="station-title">Energia</h4>
-                                <p class="station-description">Participe de eventos, calls, reuniões ou mentorias</p>
-                                <button class="btn btn-warning w-100" ng-click="openResourceModal('participation')">
-                                    Gerar Energia
+                                <div class="resource-ready-info">
+                                    <div class="resource-ready-amount">+{{resource.amount}}</div>
+                                    <div class="resource-ready-type">{{resource.type === 'energia' ? 'Energia' : resource.type === 'ferramenta' ? 'Ferramenta' : 'Criatividade'}}</div>
+                                </div>
+                                <button class="btn harvest-btn" ng-click="harvestResource(resource)">
+                                    <i class="bi bi-hand-index-thumb me-2"></i>
+                                    Colher
                                 </button>
+                                <div class="resource-particles">
+                                    <div class="particle" ng-repeat="i in [1,2,3,4,5]"></div>
+                                </div>
                             </div>
                         </div>
 
-                        <!-- Estação de Ferramenta -->
-                        <div class="col-md-4">
-                            <div class="station-card p-3 rounded text-center h-100">
-                                <div class="station-icon mb-3">
-                                    <img src="public/img/ferramenta-icon.png" alt="Ferramenta" class="station-icon-img" onerror="this.outerHTML='<span>🔧</span>'">
+                        <!-- Mensagem quando não há recursos -->
+                        <div class="no-resources-message" ng-if="readyResources.length === 0">
+                            <div class="message-icon">
+                                <i class="bi bi-info-circle-fill"></i>
+                            </div>
+                            <p class="message-text">
+                                Você não tem recursos prontos para colheita no momento. Utilize as estações de produção abaixo para criar novos recursos!
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Estações de produção -->
+                    <div class="section-container production-stations mb-5">
+                        <div class="section-header">
+                            <h2 class="section-title">
+                                <i class="bi bi-gear-fill me-2"></i>
+                                Estações de Produção
+                            </h2>
+                            <div class="section-divider"></div>
+                        </div>
+
+                        <div class="row g-4">
+                            <!-- Estação de Energia -->
+                            <div class="col-md-4">
+                                <div class="station-card energy-station">
+                                    <div class="station-glow"></div>
+                                    <div class="station-header">
+                                        <div class="station-icon-container">
+                                            <img src="public/img/energia-icon.png" alt="Energia" class="station-icon-img" onerror="this.outerHTML='<div class=\'station-icon-fallback\'>⚡</div>'">
+                                        </div>
+                                        <h3 class="station-title">Energia</h3>
+                                    </div>
+                                    <div class="station-body">
+                                        <p class="station-description">Participe de eventos, calls, reuniões ou mentorias</p>
+                                    </div>
+                                    <div class="station-footer">
+                                        <button class="btn station-btn energy-btn" ng-click="openResourceModal('participation')">
+                                            <span class="btn-text">Gerar Energia</span>
+                                            <i class="bi bi-lightning-charge-fill btn-icon"></i>
+                                        </button>
+                                    </div>
                                 </div>
-                                <h4 class="station-title">Ferramenta</h4>
-                                <p class="station-description">Envie um insight prático no WhatsApp ou Circle</p>
-                                <button class="btn btn-primary w-100" ng-click="openResourceModal('tool')">
-                                    Criar Ferramentas
-                                </button>
+                            </div>
+
+                            <!-- Estação de Ferramenta -->
+                            <div class="col-md-4">
+                                <div class="station-card tools-station">
+                                    <div class="station-glow"></div>
+                                    <div class="station-header">
+                                        <div class="station-icon-container">
+                                            <img src="public/img/ferramenta-icon.png" alt="Ferramenta" class="station-icon-img" onerror="this.outerHTML='<div class=\'station-icon-fallback\'>🔧</div>'">
+                                        </div>
+                                        <h3 class="station-title">Ferramenta</h3>
+                                    </div>
+                                    <div class="station-body">
+                                        <p class="station-description">Envie um insight prático no WhatsApp ou Circle</p>
+                                    </div>
+                                    <div class="station-footer">
+                                        <button class="btn station-btn tools-btn" ng-click="openResourceModal('tool')">
+                                            <span class="btn-text">Criar Ferramentas</span>
+                                            <i class="bi bi-wrench-adjustable btn-icon"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Estação de Criatividade -->
+                            <div class="col-md-4">
+                                <div class="station-card creativity-station">
+                                    <div class="station-glow"></div>
+                                    <div class="station-header">
+                                        <div class="station-icon-container">
+                                            <img src="public/img/criatividade-icon.png" alt="Criatividade" class="station-icon-img" onerror="this.outerHTML='<div class=\'station-icon-fallback\'>💡</div>'">
+                                        </div>
+                                        <h3 class="station-title">Criatividade</h3>
+                                    </div>
+                                    <div class="station-body">
+                                        <p class="station-description">Leia conteúdo no Notion, responda quiz/reflexão</p>
+                                    </div>
+                                    <div class="station-footer">
+                                        <button class="btn station-btn creativity-btn" ng-click="openResourceModal('read')">
+                                            <span class="btn-text">Desenvolver Ideias</span>
+                                            <i class="bi bi-lightbulb-fill btn-icon"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Última atividade -->
+                    <div class="section-container last-activity mb-5">
+                        <div class="section-header">
+                            <h2 class="section-title">
+                                <i class="bi bi-clock-history me-2"></i>
+                                Suas Últimas Atividades
+                            </h2>
+                            <div class="section-divider"></div>
+                        </div>
+
+                        <!-- Atividades do usuário -->
+                        <div class="activity-list" ng-if="userActivities.length > 0">
+                            <div class="activity-item" ng-repeat="activity in userActivities"
+                                 ng-class="{'new-activity': activity.isNew}">
+                                <div class="activity-time">
+                                    <div class="time-dot"></div>
+                                    <div class="time-line"></div>
+                                    <div class="time-text">{{formatDate(activity.time)}}</div>
+                                </div>
+                                <div class="activity-content">
+                                    <!-- Corrigido o container de ícone e suas imagens -->
+                                    <div class="activity-icon-container" ng-class="{'energy-icon': getActionDetails(activity).actionId === 'participation', 'tools-icon': getActionDetails(activity).actionId === 'tool', 'creativity-icon': getActionDetails(activity).actionId === 'read'}">
+                                        <!-- Energia -->
+                                        <img ng-if="getActionDetails(activity).actionId === 'participation'"
+                                             src="public/img/energia-icon.png"
+                                             alt="Energia"
+                                             class="activity-icon-img"
+                                             onerror="this.outerHTML='<div class=\'resource-icon-fallback\'>⚡</div>'">
+
+                                        <!-- Ferramenta -->
+                                        <img ng-if="getActionDetails(activity).actionId === 'tool'"
+                                             src="public/img/ferramenta-icon.png"
+                                             alt="Ferramenta"
+                                             class="activity-icon-img"
+                                             onerror="this.outerHTML='<div class=\'resource-icon-fallback\'>🔧</div>'">
+
+                                        <!-- Criatividade -->
+                                        <img ng-if="getActionDetails(activity).actionId === 'read'"
+                                             src="public/img/criatividade-icon.png"
+                                             alt="Criatividade"
+                                             class="activity-icon-img"
+                                             onerror="this.outerHTML='<div class=\'resource-icon-fallback\'>💡</div>'">
+                                    </div>
+                                    <div class="activity-details">
+                                        <h4 class="activity-title">{{getActionDetails(activity).name}}</h4>
+                                        <p class="activity-description">{{getActionDetails(activity).description}}</p>
+                                        <div class="activity-reward" ng-class="{'energy-reward': getActionDetails(activity).actionId === 'participation', 'tools-reward': getActionDetails(activity).actionId === 'tool', 'creativity-reward': getActionDetails(activity).actionId === 'read'}">
+                                            <i class="bi" ng-class="{'bi-lightning-charge-fill': getActionDetails(activity).actionId === 'participation', 'bi-wrench-adjustable': getActionDetails(activity).actionId === 'tool', 'bi-lightbulb-fill': getActionDetails(activity).actionId === 'read'}"></i>
+                                            +1 {{getActionDetails(activity).actionId === 'participation' ? 'Energia' : getActionDetails(activity).actionId === 'tool' ? 'Ferramenta' : 'Criatividade'}}
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
-                        <!-- Estação de Criatividade -->
-                        <div class="col-md-4">
-                            <div class="station-card p-3 rounded text-center h-100">
-                                <div class="station-icon mb-3">
-                                    <img src="public/img/criatividade-icon.png" alt="Criatividade" class="station-icon-img" onerror="this.outerHTML='<span>💡</span>'">
-                                </div>
-                                <h4 class="station-title">Criatividade</h4>
-                                <p class="station-description">Leia conteúdo no Notion, responda quiz/reflexão</p>
-                                <button class="btn btn-success w-100" ng-click="openResourceModal('read')">
-                                    Desenvolver Ideias
-                                </button>
+                        <!-- Mensagem quando não há atividades -->
+                        <div class="no-activities-message" ng-if="userActivities.length === 0">
+                            <div class="message-icon">
+                                <i class="bi bi-journal-x"></i>
                             </div>
+                            <p class="message-text">
+                                Você não registrou nenhuma atividade recentemente.
+                            </p>
+                            <p class="message-subtext">
+                                Comece a produzir recursos utilizando as estações acima!
+                            </p>
+                        </div>
+
+                        <!-- Indicador de carregamento -->
+                        <div class="loading-container" ng-if="isLoading.activities">
+                            <div class="spinner">
+                                <div class="double-bounce1"></div>
+                                <div class="double-bounce2"></div>
+                            </div>
+                            <p class="loading-text">Carregando atividades...</p>
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
 
-                <!-- Última atividade -->
-                <div class="last-activity mb-5">
-                    <h3 class="section-title mb-4">Suas Últimas Atividades</h3>
-                    <div class="alert alert-info text-center" ng-if="userActivities.length === 0">
-                        <p class="mb-0">
-                            <i class="bi bi-info-circle me-2"></i>
-                            Você não registrou nenhuma atividade recentemente.
-                        </p>
+        <!-- Modal para Energia (Participação) -->
+        <div class="modal fade custom-modal" id="participationModal" tabindex="-1" aria-labelledby="participationModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="participationModalLabel">
+                            <i class="bi bi-lightning-charge-fill me-2"></i>
+                            Gerar Energia
+                        </h5>
+                        <button type="button" class="btn-close btn-close-white" ng-click="closeModal('participation')" aria-label="Close"></button>
                     </div>
-                    <div class="activity-list" ng-if="userActivities.length > 0">
-                        <div class="activity-item p-3 mb-3 rounded" ng-repeat="activity in userActivities"
-                             ng-class="{'new-activity': activity.isNew}">
-                            <div class="d-flex align-items-center">
-                                <div class="activity-icon me-3" ng-class="getActionDetails(activity).iconClass">
-                                    <img ng-if="getActionDetails(activity).actionId === 'participation'" src="public/img/energia-icon.png" alt="Energia" class="activity-icon-img" onerror="this.outerHTML='<span>⚡</span>'">
-                                    <img ng-if="getActionDetails(activity).actionId === 'tool'" src="public/img/ferramenta-icon.png" alt="Ferramenta" class="activity-icon-img" onerror="this.outerHTML='<span>🔧</span>'">
-                                    <img ng-if="getActionDetails(activity).actionId === 'read'" src="public/img/criatividade-icon.png" alt="Criatividade" class="activity-icon-img" onerror="this.outerHTML='<span>💡</span>'">
+                    <div class="modal-body">
+                        <div class="modal-description">
+                            <p>Participe de eventos, calls, reuniões ou mentorias para gerar energia.</p>
+                        </div>
+                        <div class="action-list">
+                            <a href="https://meet.google.com" target="_blank" class="action-item energy-action" ng-click="logAction('participation', 'Google Meet')" ng-disabled="isLoading.action">
+                                <div class="action-icon">
+                                    <i class="bi bi-camera-video-fill"></i>
                                 </div>
-                                <div class="flex-grow-1">
-                                    <h5 class="mb-1">{{getActionDetails(activity).name}}</h5>
-                                    <p class="mb-1 text-muted">{{getActionDetails(activity).description}}</p>
-                                    <small class="text-muted">{{formatDate(activity.time)}}</small>
+                                <div class="action-content">
+                                    <h5 class="action-title">Google Meet</h5>
+                                    <p class="action-description">Participe de calls e reuniões online</p>
                                 </div>
-                                <div class="resource-gained" ng-class="getActionDetails(activity).iconClass">
-                                    +1 {{getActionDetails(activity).actionId === 'participation' ? 'Energia' :
-                                         getActionDetails(activity).actionId === 'tool' ? 'Ferramenta' : 'Criatividade'}}
+                                <div class="action-arrow">
+                                    <i class="bi bi-arrow-right-circle-fill"></i>
                                 </div>
-                            </div>
+                            </a>
+                            <a href="https://zoom.us" target="_blank" class="action-item energy-action" ng-click="logAction('participation', 'Zoom')">
+                                <div class="action-icon">
+                                    <i class="bi bi-camera-video-fill"></i>
+                                </div>
+                                <div class="action-content">
+                                    <h5 class="action-title">Zoom</h5>
+                                    <p class="action-description">Participe de webinars e eventos virtuais</p>
+                                </div>
+                                <div class="action-arrow">
+                                    <i class="bi bi-arrow-right-circle-fill"></i>
+                                </div>
+                            </a>
+                            <a href="https://calendar.google.com" target="_blank" class="action-item energy-action" ng-click="logAction('participation', 'Google Calendar')">
+                                <div class="action-icon">
+                                    <i class="bi bi-calendar-event-fill"></i>
+                                </div>
+                                <div class="action-content">
+                                    <h5 class="action-title">Google Calendar</h5>
+                                    <p class="action-description">Agende suas mentorias e compromissos</p>
+                                </div>
+                                <div class="action-arrow">
+                                    <i class="bi bi-arrow-right-circle-fill"></i>
+                                </div>
+                            </a>
                         </div>
                     </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" ng-click="closeModal('participation')">Fechar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                    <!-- Indicador de carregamento -->
-                    <div class="text-center py-4" ng-if="isLoading.activities">
-                        <div class="spinner-border text-primary" role="status">
-                            <span class="visually-hidden">Carregando...</span>
+        <!-- Modal para Ferramenta (Tool) -->
+        <div class="modal fade custom-modal" id="toolModal" tabindex="-1" aria-labelledby="toolModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="toolModalLabel">
+                            <i class="bi bi-wrench-adjustable me-2"></i>
+                            Criar Ferramentas
+                        </h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="modal-description">
+                            <p>Envie um insight prático no WhatsApp ou Circle para criar ferramentas.</p>
                         </div>
+                        <div class="action-list">
+                            <a href="https://web.whatsapp.com" target="_blank" class="action-item tools-action" ng-click="logAction('tool', 'WhatsApp')">
+                                <div class="action-icon">
+                                    <i class="bi bi-whatsapp"></i>
+                                </div>
+                                <div class="action-content">
+                                    <h5 class="action-title">WhatsApp</h5>
+                                    <p class="action-description">Compartilhe insights com seu grupo</p>
+                                </div>
+                                <div class="action-arrow">
+                                    <i class="bi bi-arrow-right-circle-fill"></i>
+                                </div>
+                            </a>
+                            <a href="https://circle.so" target="_blank" class="action-item tools-action" ng-click="logAction('tool', 'Circle')">
+                                <div class="action-icon">
+                                    <i class="bi bi-people-fill"></i>
+                                </div>
+                                <div class="action-content">
+                                    <h5 class="action-title">Circle</h5>
+                                    <p class="action-description">Compartilhe conhecimento com a comunidade</p>
+                                </div>
+                                <div class="action-arrow">
+                                    <i class="bi bi-arrow-right-circle-fill"></i>
+                                </div>
+                            </a>
+                            <a href="https://www.linkedin.com" target="_blank" class="action-item tools-action" ng-click="logAction('tool', 'LinkedIn')">
+                                <div class="action-icon">
+                                    <i class="bi bi-linkedin"></i>
+                                </div>
+                                <div class="action-content">
+                                    <h5 class="action-title">LinkedIn</h5>
+                                    <p class="action-description">Compartilhe conteúdo profissional</p>
+                                </div>
+                                <div class="action-arrow">
+                                    <i class="bi bi-arrow-right-circle-fill"></i>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal para Criatividade (Read) -->
+        <div class="modal fade custom-modal" id="readModal" tabindex="-1" aria-labelledby="readModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="readModalLabel">
+                            <i class="bi bi-lightbulb-fill me-2"></i>
+                            Desenvolver Ideias
+                        </h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="modal-description">
+                            <p>Leia conteúdo no Notion, responda quiz ou reflexão para desenvolver ideias criativas.</p>
+                        </div>
+                        <div class="action-list">
+                            <a href="https://www.notion.so" target="_blank" class="action-item creativity-action" ng-click="logAction('read', 'Notion')">
+                                <div class="action-icon">
+                                    <i class="bi bi-journal-text"></i>
+                                </div>
+                                <div class="action-content">
+                                    <h5 class="action-title">Notion</h5>
+                                    <p class="action-description">Acesse materiais e conteúdos</p>
+                                </div>
+                                <div class="action-arrow">
+                                    <i class="bi bi-arrow-right-circle-fill"></i>
+                                </div>
+                            </a>
+                            <a href="https://forms.google.com" target="_blank" class="action-item creativity-action" ng-click="logAction('read', 'Google Forms')">
+                                <div class="action-icon">
+                                    <i class="bi bi-ui-checks"></i>
+                                </div>
+                                <div class="action-content">
+                                    <h5 class="action-title">Google Forms</h5>
+                                    <p class="action-description">Responda questionários e avaliações</p>
+                                </div>
+                                <div class="action-arrow">
+                                    <i class="bi bi-arrow-right-circle-fill"></i>
+                                </div>
+                            </a>
+                            <a href="https://medium.com" target="_blank" class="action-item creativity-action" ng-click="logAction('read', 'Medium')">
+                                <div class="action-icon">
+                                    <i class="bi bi-medium"></i>
+                                </div>
+                                <div class="action-content">
+                                    <h5 class="action-title">Medium</h5>
+                                    <p class="action-description">Leia artigos e conteúdos inspiradores</p>
+                                </div>
+                                <div class="action-arrow">
+                                    <i class="bi bi-arrow-right-circle-fill"></i>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Modal para Energia (Participação) -->
-    <div class="modal fade" id="participationModal" tabindex="-1" aria-labelledby="participationModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content bg-dark text-light">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="participationModalLabel">Gerar Energia ⚡</h5>
-                    <button type="button" class="btn-close btn-close-white" ng-click="closeModal('participation')" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Participe de eventos, calls, reuniões ou mentorias para gerar energia.</p>
-                    <div class="list-group">
-                        <a href="https://meet.google.com" target="_blank" class="list-group-item list-group-item-action bg-dark text-light border-secondary" ng-click="logAction('participation', 'Google Meet')" ng-disabled="isLoading.action">
-                            <div class="d-flex align-items-center">
-                                <div class="external-icon me-3">🎥</div>
-                                <div>
-                                    <h5 class="mb-1">Google Meet</h5>
-                                    <p class="mb-1">Participe de calls e reuniões online</p>
-                                </div>
-                            </div>
-                        </a>
-                        <a href="https://zoom.us" target="_blank" class="list-group-item list-group-item-action bg-dark text-light border-secondary" ng-click="logAction('participation', 'Zoom')">
-                            <div class="d-flex align-items-center">
-                                <div class="external-icon me-3">📹</div>
-                                <div>
-                                    <h5 class="mb-1">Zoom</h5>
-                                    <p class="mb-1">Participe de webinars e eventos virtuais</p>
-                                </div>
-                            </div>
-                        </a>
-                        <a href="https://calendar.google.com" target="_blank" class="list-group-item list-group-item-action bg-dark text-light border-secondary" ng-click="logAction('participation', 'Google Calendar')">
-                            <div class="d-flex align-items-center">
-                                <div class="external-icon me-3">📅</div>
-                                <div>
-                                    <h5 class="mb-1">Google Calendar</h5>
-                                    <p class="mb-1">Agende suas mentorias e compromissos</p>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" ng-click="closeModal('participation')">Fechar</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal para Ferramenta (Tool) -->
-    <div class="modal fade" id="toolModal" tabindex="-1" aria-labelledby="toolModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content bg-dark text-light">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="toolModalLabel">Criar Ferramentas 🔧</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Envie um insight prático no WhatsApp ou Circle para criar ferramentas.</p>
-                    <div class="list-group">
-                        <a href="https://web.whatsapp.com" target="_blank" class="list-group-item list-group-item-action bg-dark text-light border-secondary" ng-click="logAction('tool', 'WhatsApp')">
-                            <div class="d-flex align-items-center">
-                                <div class="external-icon me-3">💬</div>
-                                <div>
-                                    <h5 class="mb-1">WhatsApp</h5>
-                                    <p class="mb-1">Compartilhe insights com seu grupo</p>
-                                </div>
-                            </div>
-                        </a>
-                        <a href="https://circle.so" target="_blank" class="list-group-item list-group-item-action bg-dark text-light border-secondary" ng-click="logAction('tool', 'Circle')">
-                            <div class="d-flex align-items-center">
-                                <div class="external-icon me-3">🔄</div>
-                                <div>
-                                    <h5 class="mb-1">Circle</h5>
-                                    <p class="mb-1">Compartilhe conhecimento com a comunidade</p>
-                                </div>
-                            </div>
-                        </a>
-                        <a href="https://www.linkedin.com" target="_blank" class="list-group-item list-group-item-action bg-dark text-light border-secondary" ng-click="logAction('tool', 'LinkedIn')">
-                            <div class="d-flex align-items-center">
-                                <div class="external-icon me-3">💼</div>
-                                <div>
-                                    <h5 class="mb-1">LinkedIn</h5>
-                                    <p class="mb-1">Compartilhe conteúdo profissional</p>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal para Criatividade (Read) -->
-    <div class="modal fade" id="readModal" tabindex="-1" aria-labelledby="readModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content bg-dark text-light">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="readModalLabel">Desenvolver Ideias 💡</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Leia conteúdo no Notion, responda quiz ou reflexão para desenvolver ideias criativas.</p>
-                    <div class="list-group">
-                        <a href="https://www.notion.so" target="_blank" class="list-group-item list-group-item-action bg-dark text-light border-secondary" ng-click="logAction('read', 'Notion')">
-                            <div class="d-flex align-items-center">
-                                <div class="external-icon me-3">📝</div>
-                                <div>
-                                    <h5 class="mb-1">Notion</h5>
-                                    <p class="mb-1">Acesse materiais e conteúdos</p>
-                                </div>
-                            </div>
-                        </a>
-                        <a href="https://forms.google.com" target="_blank" class="list-group-item list-group-item-action bg-dark text-light border-secondary" ng-click="logAction('read', 'Google Forms')">
-                            <div class="d-flex align-items-center">
-                                <div class="external-icon me-3">📋</div>
-                                <div>
-                                    <h5 class="mb-1">Google Forms</h5>
-                                    <p class="mb-1">Responda questionários e avaliações</p>
-                                </div>
-                            </div>
-                        </a>
-                        <a href="https://medium.com" target="_blank" class="list-group-item list-group-item-action bg-dark text-light border-secondary" ng-click="logAction('read', 'Medium')">
-                            <div class="d-flex align-items-center">
-                                <div class="external-icon me-3">📖</div>
-                                <div>
-                                    <h5 class="mb-1">Medium</h5>
-                                    <p class="mb-1">Leia artigos e conteúdos inspiradores</p>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
