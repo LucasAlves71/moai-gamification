@@ -46,11 +46,17 @@ app.config(function($routeProvider) {
         .otherwise({
             redirectTo: '/'
         });
-});
+})
 
 // API configuration
 app.constant('API_CONFIG', {
     baseUrl: 'https://service2.funifier.com/v3',
     apiKey: '6825e0322327f74f3a3d1f84',
     authHeader: 'Basic NjgyNWUwMzIyMzI3Zjc0ZjNhM2QxZjg0OjY4Mjg5NGE2MjMyN2Y3NGYzYTNkZDM1Mw=='
+})
+
+// Adicionar o ScrollService na função run do seu módulo
+app.run(function(ScrollService) {
+    // Inicializar o serviço de scroll quando o aplicativo for iniciado
+    ScrollService.init();
 });
