@@ -1,4 +1,4 @@
-angular.module('moaiApp').controller('DashboardController', function($scope, $http, $location, API_CONFIG, AuthService) {
+angular.module('moaiApp').controller('DashboardController', function($scope, $http, $location, API_CONFIG, AuthService, $timeout) {
     // Aplicar a classe dashboard-page ao corpo para o espaçamento correto
     angular.element(document.body).addClass('dashboard-page');
 
@@ -181,6 +181,139 @@ angular.module('moaiApp').controller('DashboardController', function($scope, $ht
             }
         );
     };
+
+    // Adicionar variáveis ao escopo
+    $scope.userUpgrades = [];
+    $scope.showUpgradeModal = false;
+    $scope.selectedUpgrade = null;
+    $scope.upgradeItems = [];
+    $scope.isLoadingUpgrades = false;
+
+    // Nova função para carregar upgrades do usuário
+    $scope.loadUserUpgrades = function() {
+        $scope.isLoadingUpgrades = true;
+        var userId = AuthService.getUserId();
+
+        var req = {
+            method: 'GET',
+            url: API_CONFIG.baseUrl + '/achievement',
+            headers: {
+                "Authorization": API_CONFIG.authHeader,
+                "Content-Type": "application/json"
+            }
+        };
+
+        $http(req).then(
+            function(response) {
+                console.log('Conquistas do usuário carregadas:', response.data);
+
+                // Filtrar apenas os itens virtuais (type=1) do usuário atual
+                var allAchievements = response.data;
+                var upgrades = allAchievements.filter(function(achievement) {
+                    return achievement.player === userId && achievement.type === 1;
+                });
+
+                $scope.userUpgrades = upgrades;
+                $scope.isLoadingUpgrades = false;
+
+                // Carregar detalhes dos itens para exibir corretamente
+                $scope.loadUpgradeItemDetails();
+            },
+            function(error) {
+                console.error('Falha ao carregar upgrades do usuário:', error);
+                $scope.isLoadingUpgrades = false;
+            }
+        );
+    };
+
+    // Função para carregar detalhes dos itens de upgrade
+    $scope.loadUpgradeItemDetails = function() {
+        var req = {
+            method: 'GET',
+            url: API_CONFIG.baseUrl + '/virtualgoods/item',
+            headers: {
+                "Authorization": API_CONFIG.authHeader,
+                "Content-Type": "application/json"
+            }
+        };
+
+        $http(req).then(
+            function(response) {
+                console.log('Itens de upgrade carregados:', response.data);
+
+                // Filtrar apenas itens do tipo upgrade
+                $scope.upgradeItems = response.data.filter(function(item) {
+                    return item.type === "upgrade";
+                });
+
+                // Associar detalhes dos itens aos upgrades do usuário
+                $scope.userUpgrades.forEach(function(upgrade) {
+                    var itemDetails = $scope.upgradeItems.find(function(item) {
+                        return item._id === upgrade.item;
+                    });
+
+                    if (itemDetails) {
+                        upgrade.details = itemDetails;
+                    }
+                });
+
+                console.log('Upgrades do usuário com detalhes:', $scope.userUpgrades);
+            },
+            function(error) {
+                console.error('Falha ao carregar detalhes dos upgrades:', error);
+            }
+        );
+    };
+
+    // Função para mostrar detalhes de um upgrade
+    $scope.showUpgradeDetails = function(upgrade) {
+        $scope.selectedUpgrade = upgrade;
+        $scope.showUpgradeModal = true;
+    };
+
+    // Função para fechar o modal de upgrade
+    $scope.closeUpgradeModal = function() {
+        $scope.showUpgradeModal = false;
+        $scope.selectedUpgrade = null;
+    };
+
+    // Verificar se é a primeira vez após o upgrade
+    var firstUpgradeCompleted = localStorage.getItem('firstUpgradeCompleted');
+    if (firstUpgradeCompleted === 'true') {
+        // Limpar o sinalizador para evitar problemas futuros
+        localStorage.removeItem('firstUpgradeCompleted');
+
+        // Mostrar uma notificação de ilha atualizada
+        $timeout(function() {
+            var toast = `
+                <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 5000">
+                    <div id="islandUpdateToast" class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+                        <div class="toast-header bg-moai-blue text-white">
+                            <div class="me-2">🏝️</div>
+                            <strong class="me-auto">Ilha Atualizada!</strong>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"
+                                    onclick="document.getElementById('islandUpdateToast').remove()"></button>
+                        </div>
+                        <div class="toast-body">
+                            Sua ilha foi atualizada com sua primeira construção MOAI!
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Adicionar o toast ao DOM
+            var toastElement = angular.element(toast);
+            angular.element(document.body).append(toastElement);
+
+            // Remover após alguns segundos
+            $timeout(function() {
+                var existingToast = document.getElementById('islandUpdateToast');
+                if (existingToast) {
+                    existingToast.remove();
+                }
+            }, 5000);
+        }, 1000);
+    }
 
     // Load user status on controller initialization
     $scope.loadUserStatus();

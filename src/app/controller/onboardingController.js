@@ -199,7 +199,7 @@ angular.module('moaiApp').controller('OnboardingController', function($scope, $h
 
                 $timeout(function() {
                     $scope.isProcessing = false;
-                    $location.path('/dashboard');
+                    $location.path('/firstupgrade');
                 }, 1000);
             }
         ).catch(

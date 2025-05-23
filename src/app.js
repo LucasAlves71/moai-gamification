@@ -39,6 +39,10 @@ app.config(function($routeProvider) {
             templateUrl: 'views/development/development.html',
             controller: 'DevelopmentController'
         })
+        .when('/firstupgrade', {
+            templateUrl: 'views/firstupgrade/firstupgrade.html',
+            controller: 'UpgradeController'
+        })
         .otherwise({
             redirectTo: '/'
         });

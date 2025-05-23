@@ -1,0 +1,81 @@
+<div class="firstupgrade-container">
+    <div class="ocean-background">
+        <!-- Efeito de oceano similar ao da página de ilhas -->
+        <div class="ocean">
+            <div class="ocean-wave wave-1"></div>
+            <div class="ocean-wave wave-2"></div>
+            <div class="ocean-wave wave-3"></div>
+        </div>
+
+        <!-- Bolhas decorativas -->
+        <div class="bubble bubble-1"></div>
+        <div class="bubble bubble-2"></div>
+        <div class="bubble bubble-3"></div>
+    </div>
+
+    <!-- Container responsivo usando Bootstrap -->
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-md-10 col-lg-8">
+                <!-- Header da ilha com mesmo estilo do dashboard -->
+                <div class="island-header text-center mb-3">
+                    <h1 class="display-5">Ilha {{islandName}}</h1>
+                </div>
+
+                <!-- Mensagem de boas-vindas -->
+                <div class="welcome-section text-center mb-4">
+                    <p class="lead welcome-text">Esta é a sua base de operações. Vamos começar a construir seu legado!</p>
+                </div>
+
+                <!-- Container da ilha inicial com classes do Bootstrap para responsividade -->
+                <div class="island-visualization text-center mb-4">
+                    <!-- Imagem da ilha do jogador (mesma usada no dashboard) -->
+                    <div class="position-relative">
+                        <img src="public/img/ilha-sem-nada.png" alt="Sua Ilha" class="island-image img-fluid">
+
+                        <!-- Container do barco com animação - agora no lado esquerdo -->
+                        <div class="boat-container position-absolute" ng-class="{'animated': boatArrived}">
+                            <img src="public/img/boat-with-stone.png" alt="Barco com pedra MOAI" class="boat-image">
+                        </div>
+
+                        <!-- Pop-up para coletar a primeira pedra - sem texto adicional -->
+                        <div class="tool-popup" ng-class="{'visible': showToolPopup}" ng-click="collectFirstTool()">
+                            <div class="tool-circle">
+                                <div class="tool-icon">🪨</div>
+                            </div>
+                            <div class="tool-glow"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mensagem de tutorial -->
+                <div class="tutorial-message text-center mt-4" ng-if="!boatArrived">
+                    <p class="alert alert-info">
+                        <i class="bi bi-info-circle-fill me-2"></i>
+                        Aguarde... Um barco está chegando com a primeira pedra para seu MOAI!
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Feedback após coletar a primeira pedra - texto atualizado sobre evolução do MOAI -->
+    <div class="upgrade-notification modal-backdrop fade" ng-class="{'show': showUpgradeNotification}"></div>
+    <div class="upgrade-notification-modal" ng-class="{'visible': showUpgradeNotification}">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content card-moai">
+                <div class="modal-body text-center p-4">
+                    <div class="upgrade-icon mb-3">🗿</div>
+                    <h3 class="mb-3">Sua Jornada MOAI Começou!</h3>
+                    <p class="mb-3">Você colocou a primeira pedra no seu caminho rumo ao MOAI de Excelência!</p>
+                    <div class="upgrade-details mb-4">
+                        <p>À medida que avançar na plataforma, conquistando desafios e participando de temporadas, seu MOAI evoluirá até atingir o lendário MOAI Dourado, símbolo máximo de excelência.</p>
+                    </div>
+                    <button class="btn btn-moai-primary btn-lg px-5" ng-click="goToDashboard()">
+                        Iniciar minha evolução
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
