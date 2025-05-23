@@ -126,6 +126,29 @@ angular.module('moaiApp').controller('RewardsController', function($scope, $http
         );
     };
 
+    // Adicionar esta função para obter URL de imagem segura com fallback
+    $scope.getSafeImageUrl = function(item) {
+        // Se o item tem uma imagem válida
+        if (item && item.image) {
+            // Tentar diferentes tamanhos, com fallback para cada um
+            if (item.image.medium && item.image.medium.url) {
+                return item.image.medium.url;
+            } else if (item.image.small && item.image.small.url) {
+                return item.image.small.url;
+            } else if (item.image.original && item.image.original.url) {
+                return item.image.original.url;
+            }
+        }
+
+        // Se não tiver imagem, usar um ícone baseado no tipo de item
+        var itemType = $scope.getItemType(item ? item.name : '');
+        var fallbackImage = 'public/img/rewards/' + itemType + '.png';
+
+        // Verificar se a imagem existe usando Image() - isso não funciona bem no Angular
+        // Em vez disso, usamos um tratamento de erro no HTML com onerror
+        return fallbackImage;
+    };
+
     // Load rewards items
     $scope.loadRewardItems = function() {
         var req = {
@@ -146,6 +169,11 @@ angular.module('moaiApp').controller('RewardsController', function($scope, $http
 
                 // Criar um mapeamento para consulta rápida
                 allItems.forEach(function(item) {
+                    // Pré-processar as imagens para garantir que temos um fallback
+                    if (!item.safeImageUrl) {
+                        item.safeImageUrl = $scope.getSafeImageUrl(item);
+                    }
+
                     $scope.purchaseDetails[item._id] = item;
                     if (item.code) $scope.purchaseDetails[item.code] = item;
                 });
@@ -705,26 +733,20 @@ angular.module('moaiApp').controller('RewardsController', function($scope, $http
         return "Item #" + purchase.item.substring(0, 8);
     };
 
+    // Adicionar após a função getPurchaseName
+    $scope.getPurchaseDetails = function(purchase) {
+        if (!purchase || !purchase.item) return null;
+
+        // Verificar se temos os detalhes em cache
+        if ($scope.purchaseDetails[purchase.item]) {
+            return $scope.purchaseDetails[purchase.item];
+        }
+
+        // Se não temos os detalhes, retornar null
+        return null;
+    };
+
     // Load data on controller initialization
     $scope.loadUserStatus();
     $scope.loadRewardItems();
-
-    // Adicione isso após a inicialização do controller
-    $scope.testModalVisibility = function() {
-        console.log("Testando visibilidade do modal");
-        var testItem = $scope.rewardItems.length > 0 ? $scope.rewardItems[0] : {
-            name: "Item de teste",
-            description: "Este é um item de teste",
-            requires: [{type: 0, item: "moaicoins", total: 100}]
-        };
-
-        $scope.showItemDetails(testItem);
-    };
-
-    // Chame esta função 3 segundos após o carregamento da página para teste
-    setTimeout(function() {
-        $scope.$apply(function() {
-            console.log("Executando teste automático de modal em 3 segundos...");
-        });
-    }, 3000);
 });
