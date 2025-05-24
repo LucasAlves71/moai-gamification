@@ -313,27 +313,200 @@
     z-index: 1060 !important;
 }
 
-/* Add media queries for responsiveness */
-@media (max-width: 768px) {
-    .profile-photo {
-        width: 120px;
-        height: 120px;
-    }
+/* Manter os estilos existentes e adicionar os seguintes: */
 
-    .photo-edit-btn {
-        width: 35px;
-        height: 35px;
+/* Layout principal de onboarding - ajustado para melhor visualização */
+.onboarding-content {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+    padding: 20px;
+    position: relative;
+    z-index: 1;
+    align-items: center;
+}
+
+/* Estilos do personagem - tamanho reduzido */
+.character-container {
+    width: 30%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-right: 20px;
+}
+
+.character-image {
+    position: relative;
+    width: 100%;
+    max-width: 300px; /* Reduzido de 400px */
+    z-index: 2;
+}
+
+.mascote-img {
+    width: 100%;
+    height: auto;
+    filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.5));
+    transition: all 0.3s ease-in-out;
+}
+
+/* Estilos do balão de fala - ajustado para garantir visibilidade */
+.speech-bubble-container {
+    width: 70%; /* Aumentado de 60% */
+    padding-left: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.speech-bubble {
+    background-color: white;
+    border-radius: 20px;
+    padding: 25px;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px;
+    z-index: 1;
+    animation: bubble-appear 0.5s ease-out;
+}
+
+.speech-bubble:before {
+    content: "";
+    position: absolute;
+    left: -20px;
+    top: 50%;
+    transform: translateY(-50%);
+    border-width: 20px 20px 20px 0;
+    border-style: solid;
+    border-color: transparent white transparent transparent;
+}
+
+.speech-title {
+    color: var(--moai-primary, #003366);
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.speech-text {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.speech-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+/* Formulário de customização da ilha */
+.island-form-container {
+    width: 70%; /* Aumentado de 60% */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-left: 20px;
+}
+
+.island-form {
+    background-color: white;
+    border-radius: 20px;
+    padding: 30px;
+    width: 100%;
+    max-width: 600px;
+    animation: form-appear 0.5s ease-out;
+}
+
+.form-title {
+    color: var(--moai-primary);
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+}
+
+.form-subtitle {
+    color: var(--moai-text-secondary);
+    margin-bottom: 20px;
+}
+
+/* Animações */
+@keyframes bubble-appear {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
 
-@media (max-width: 576px) {
-    .profile-photo {
-        width: 100px;
-        height: 100px;
+@keyframes form-appear {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsividade */
+@media (max-width: 992px) {
+    .onboarding-content {
+        flex-direction: column;
+        justify-content: flex-start;
+        overflow-y: auto;
+        padding-top: 50px;
+        padding-bottom: 50px;
     }
 
-    .photo-edit-btn {
-        width: 30px;
-        height: 30px;
+    .character-container {
+        width: 100%;
+        padding: 0;
+        margin-bottom: 40px; /* Aumentado para mais espaço entre elementos */
+    }
+
+    .character-image {
+        max-width: 200px;
+        margin: 0 auto;
+    }
+
+    .speech-bubble-container,
+    .island-form-container {
+        width: 100%;
+        padding: 0;
+    }
+
+    .speech-bubble:before {
+        left: 50%;
+        top: -20px;
+        transform: translateX(-50%);
+        border-width: 0 20px 20px 20px;
+        border-color: transparent transparent white transparent;
+    }
+
+    .speech-bubble {
+        margin-top: 20px;
+    }
+}
+
+/* Para telas muito pequenas */
+@media (max-width: 576px) {
+    .character-image {
+        max-width: 150px;
+    }
+
+    .speech-title {
+        font-size: 1.3rem;
+    }
+
+    .speech-text {
+        font-size: 1rem;
+    }
+
+    .speech-bubble {
+        padding: 15px;
     }
 }
