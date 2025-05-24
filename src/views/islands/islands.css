@@ -1,48 +1,77 @@
-/* Definição de Cores - Moai */
+/* ===== VARIÁVEIS DE CORES TROPICAIS ===== */
 :root {
-  --moai-blue: #29abe2;
-  --moai-dark: #001e3d;
-  /* outras cores */
+  /* Cores principais inspiradas nas ilhas tropicais */
+  --ocean-primary: #0077be;
+  --ocean-secondary: #005a8b;
+  --ocean-deep: #003d5c;
+  --ocean-light: #4da6d9;
+
+  /* Cores das ilhas */
+  --island-green: #2d8f47;
+  --island-sand: #f4e4bc;
+  --island-palm: #228b22;
+
+  /* Cores de destaque */
+  --tropical-coral: #ff6b6b;
+  --tropical-gold: #ffd93d;
+  --tropical-emerald: #6bcf7f;
+  --tropical-sunset: #ff8c42;
+
+  /* Cores de temporada */
+  --season-active: #00ff88;
+  --season-scheduled: #ffaa00;
+  --season-champion: #ff4444;
+  --season-finished: #888888;
+
+  /* Cores neutras */
+  --white: #ffffff;
+  --light-blue: rgba(255, 255, 255, 0.9);
+  --dark-overlay: rgba(0, 0, 0, 0.3);
+
+  /* Sombras */
+  --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.1);
+  --shadow-medium: 0 8px 30px rgba(0, 0, 0, 0.15);
+  --shadow-strong: 0 12px 40px rgba(0, 0, 0, 0.2);
+
+  /* Transições */
+  --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
-/* Estilos da Página de Ilhas */
+/* ===== RESET E BASE ===== */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  overflow-x: hidden;
+}
+
+/* ===== CONTAINER PRINCIPAL ===== */
 .islands-container {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  background: linear-gradient(160deg, #0088cc 0%, #005599 60%, #003366 100%);
-  color: white;
   position: relative;
+  min-height: 100vh;
+  background: linear-gradient(
+    135deg,
+    var(--ocean-light) 0%,
+    var(--ocean-primary) 30%,
+    var(--ocean-secondary) 70%,
+    var(--ocean-deep) 100%
+  );
   overflow: hidden;
 }
 
-/* Mapa de Ilhas */
-.islands-map {
-  flex: 1;
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: calc(100vh - 70px);
-  padding: 20px;
-  z-index: 2;
-}
-
-/* Efeito de oceano melhorado */
+/* ===== EFEITOS DE OCEANO APRIMORADOS ===== */
 .ocean {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: radial-gradient(
-    ellipse at center,
-    rgba(0, 120, 200, 0.2) 0%,
-    rgba(0, 80, 150, 0.3) 50%,
-    rgba(0, 40, 100, 0.4) 100%
-  );
-  overflow: hidden;
-  z-index: 0;
+  z-index: 1;
   pointer-events: none;
 }
 
@@ -50,1454 +79,2114 @@
   position: absolute;
   width: 200%;
   height: 200%;
-  background: radial-gradient(
-    ellipse at center,
-    rgba(0, 120, 200, 0.1) 0%,
-    rgba(0, 80, 150, 0.2) 50%,
-    rgba(0, 40, 100, 0.3) 100%
-  );
   border-radius: 45%;
-  bottom: -100%;
-  left: -50%;
-  animation: ocean-wave-rotate 20s linear infinite;
-  opacity: 0.6;
+  opacity: 0.1;
+  animation: ocean-rotate 25s linear infinite;
 }
 
 .wave-1 {
-  animation: ocean-wave-rotate 20s linear infinite;
-  opacity: 0.6;
+  background: radial-gradient(ellipse at center, var(--ocean-light) 0%, transparent 70%);
+  bottom: -100%;
+  left: -50%;
+  animation-duration: 20s;
 }
 
 .wave-2 {
-  animation: ocean-wave-rotate 15s linear reverse infinite;
-  opacity: 0.4;
+  background: radial-gradient(ellipse at center, var(--tropical-emerald) 0%, transparent 70%);
   bottom: -105%;
+  left: -45%;
+  animation-duration: 30s;
+  animation-direction: reverse;
 }
 
 .wave-3 {
-  animation: ocean-wave-rotate 25s linear infinite;
-  opacity: 0.2;
+  background: radial-gradient(ellipse at center, var(--ocean-primary) 0%, transparent 70%);
   bottom: -110%;
+  left: -55%;
+  animation-duration: 35s;
 }
 
-@keyframes ocean-wave-rotate {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
+.wave-4 {
+  background: radial-gradient(ellipse at center, var(--tropical-coral) 0%, transparent 70%);
+  bottom: -95%;
+  left: -40%;
+  animation-duration: 40s;
+  animation-direction: reverse;
 }
 
-/* Ondas do oceano na parte inferior */
-.ocean-waves {
+@keyframes ocean-rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ===== PARTÍCULAS FLUTUANTES ===== */
+.floating-particles {
   position: absolute;
-  bottom: 0;
+  top: 0;
   left: 0;
   width: 100%;
-  height: 70px;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%230066aa' fill-opacity='0.5' d='M0,192L48,197.3C96,203,192,213,288,229.3C384,245,480,267,576,250.7C672,235,768,181,864,181.3C960,181,1056,235,1152,234.7C1248,235,1344,181,1392,154.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E");
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-  animation: wave-animation 15s linear infinite;
-  z-index: 3;
-}
-
-@keyframes wave-animation {
-  0% {
-    background-position-x: 0;
-  }
-  100% {
-    background-position-x: 1440px;
-  }
-}
-
-/* Bolhas melhoradas */
-.bubble {
-  position: absolute;
-  background: radial-gradient(
-    circle at 30% 30%,
-    rgba(255, 255, 255, 0.8) 0%,
-    rgba(255, 255, 255, 0.3) 40%,
-    rgba(255, 255, 255, 0.1) 100%
-  );
-  border-radius: 50%;
-  z-index: 1;
-  opacity: 0;
+  height: 100%;
+  z-index: 2;
   pointer-events: none;
-  box-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
 }
 
-.bubble-1 {
-  width: 20px;
-  height: 20px;
-  left: 20%;
-  bottom: -50px;
-  animation: bubble-float 15s ease-in infinite;
-  animation-delay: 2s;
+.particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: var(--light-blue);
+  border-radius: 50%;
+  opacity: 0;
+  animation: particle-float 15s ease-in-out infinite;
 }
 
-.bubble-2 {
-  width: 15px;
-  height: 15px;
-  left: 35%;
-  bottom: -30px;
-  animation: bubble-float 10s ease-in infinite;
-  animation-delay: 0s;
-}
+.particle-1 { left: 10%; animation-delay: 0s; }
+.particle-2 { left: 25%; animation-delay: 3s; }
+.particle-3 { left: 45%; animation-delay: 6s; }
+.particle-4 { left: 65%; animation-delay: 9s; }
+.particle-5 { left: 80%; animation-delay: 12s; }
+.particle-6 { left: 90%; animation-delay: 15s; }
 
-.bubble-3 {
-  width: 25px;
-  height: 25px;
-  left: 55%;
-  bottom: -40px;
-  animation: bubble-float 17s ease-in infinite;
-  animation-delay: 5s;
-}
-
-.bubble-4 {
-  width: 12px;
-  height: 12px;
-  left: 70%;
-  bottom: -25px;
-  animation: bubble-float 12s ease-in infinite;
-  animation-delay: 7s;
-}
-
-.bubble-5 {
-  width: 18px;
-  height: 18px;
-  left: 85%;
-  bottom: -35px;
-  animation: bubble-float 14s ease-in infinite;
-  animation-delay: 3s;
-}
-
-@keyframes bubble-float {
-  0% {
-    transform: translateY(0) translateX(0) scale(0.5);
+@keyframes particle-float {
+  0%, 100% {
+    transform: translateY(100vh) scale(0);
     opacity: 0;
   }
   10% {
+    opacity: 1;
+    transform: translateY(90vh) scale(1);
+  }
+  90% {
+    opacity: 1;
+    transform: translateY(-10vh) scale(1);
+  }
+}
+
+/* ===== BOLHAS MELHORADAS ===== */
+.bubble-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.bubble {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 30% 30%,
+    rgba(255, 255, 255, 0.8) 0%,
+    rgba(255, 255, 255, 0.4) 40%,
+    rgba(255, 255, 255, 0.1) 100%
+  );
+  box-shadow:
+    inset 0 0 10px rgba(255, 255, 255, 0.3),
+    0 0 20px rgba(255, 255, 255, 0.2);
+  animation: bubble-rise 12s ease-in infinite;
+}
+
+.bubble-1 { width: 15px; height: 15px; left: 15%; animation-delay: 0s; }
+.bubble-2 { width: 25px; height: 25px; left: 30%; animation-delay: 2s; }
+.bubble-3 { width: 12px; height: 12px; left: 50%; animation-delay: 4s; }
+.bubble-4 { width: 20px; height: 20px; left: 70%; animation-delay: 6s; }
+.bubble-5 { width: 18px; height: 18px; left: 85%; animation-delay: 8s; }
+.bubble-6 { width: 22px; height: 22px; left: 25%; animation-delay: 10s; }
+.bubble-7 { width: 16px; height: 16px; left: 60%; animation-delay: 1s; }
+.bubble-8 { width: 14px; height: 14px; left: 80%; animation-delay: 7s; }
+
+@keyframes bubble-rise {
+  0% {
+    bottom: -50px;
+    opacity: 0;
+    transform: translateX(0) scale(0.5);
+  }
+  10% {
     opacity: 0.8;
-    transform: translateY(-30px) translateX(-5px) scale(0.7);
+    transform: translateX(-10px) scale(0.8);
   }
   50% {
     opacity: 0.6;
-    transform: translateY(-150px) translateX(10px) scale(0.9);
-  }
-  80% {
-    opacity: 0.4;
-    transform: translateY(-300px) translateX(-10px) scale(0.7);
+    transform: translateX(20px) scale(1);
   }
   100% {
-    transform: translateY(-500px) translateX(0) scale(0.5);
+    bottom: 100vh;
     opacity: 0;
+    transform: translateX(-5px) scale(0.3);
   }
 }
 
-/* Nuvens */
-.clouds {
-  display: none;
-}
-
-/* Corrigir a exibição das nuvens */
-.cloud-container {
-  position: absolute;
-  z-index: 6; /* Aumentar de 4 para 6 para ficar acima de todos os elementos da ilha */
-  pointer-events: none;
-  filter: drop-shadow(0 5px 15px rgba(255, 255, 255, 0.2));
-}
-
-.cloud-image {
+/* ===== MAPA DE ILHAS - NOVA DISPOSIÇÃO ===== */
+.islands-map {
+  position: relative;
   width: 100%;
-  height: 100%;
-  opacity: 0.9;
-  filter: brightness(1.2) contrast(1.1);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 3;
+  padding: 40px 20px;
 }
 
-/* Adicionando posições para nuvens PNG */
-.cloud-1 {
-  top: 15%;
-  left: 10%;
-  width: 150px;
-  height: 80px;
-  animation: cloud-move-slow 120s linear infinite;
-}
-
-.cloud-2 {
-  top: 25%;
-  right: 15%;
-  width: 180px;
-  height: 90px;
-  animation: cloud-move-reverse 150s linear infinite;
-}
-
-.cloud-3 {
-  bottom: 30%;
-  left: 20%;
-  width: 160px;
-  height: 85px;
-  animation: cloud-move-slow 180s linear infinite;
-}
-
-.cloud-4 {
-  bottom: 40%;
-  right: 20%;
-  width: 140px;
-  height: 75px;
-  animation: cloud-move-reverse 140s linear infinite;
-}
-
-.cloud-5 {
-  top: 10%;
-  right: 35%;
-  width: 120px;
-  height: 65px;
-  animation: cloud-move-slow 160s linear infinite;
-  animation-delay: 15s;
-}
-
-.cloud-6 {
-  bottom: 45%;
-  left: 35%;
-  width: 170px;
-  height: 85px;
-  animation: cloud-move-slow 200s linear infinite;
-  animation-delay: 7s;
-}
-
-.cloud-7 {
-  top: 35%;
-  left: 25%;
-  width: 110px;
-  height: 60px;
-  animation: cloud-move-reverse 130s linear infinite;
-  animation-delay: 22s;
-}
-
-.cloud-8 {
-  bottom: 15%;
-  right: 30%;
-  width: 150px;
-  height: 75px;
-  animation: cloud-move-reverse 170s linear infinite;
-  animation-delay: 5s;
-}
-
-/* Animações para as nuvens */
-@keyframes cloud-move-slow {
-  from {
-    transform: translateX(-100%);
-  }
-  to {
-    transform: translateX(1000px);
-  }
-}
-
-@keyframes cloud-move-reverse {
-  from {
-    transform: translateX(1000px);
-  }
-  to {
-    transform: translateX(-100%);
-  }
-}
-
-/* Posicionamento das Ilhas em Círculo - Tamanhos aumentados */
+/* ===== ILHAS - LAYOUT E POSICIONAMENTO OTIMIZADO ===== */
 .island-wrapper {
   position: absolute;
-  width: 180px; /* Aumentado de 140px */
-  height: 180px; /* Aumentado de 140px */
-  transition: transform 0.3s ease;
-  animation: float 3s ease-in-out infinite;
-  filter: drop-shadow(0 8px 15px rgba(0, 0, 0, 0.4)); /* Sombra mais proeminente */
+  width: 180px;
+  height: 180px;
+  transition: var(--transition-smooth);
+  cursor: pointer;
+  z-index: 4;
 }
 
-/* Ilha central com tamanho melhorado */
+.island-wrapper:hover {
+  transform: scale(1.08) translateY(-8px);
+  z-index: 6;
+}
+
+/* Posicionamento otimizado das ilhas */
 .island-wrapper.center {
+  width: 140px;
+  height: 140px;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 140px; /* Aumentado de 100px */
-  height: 140px; /* Aumentado de 100px */
   z-index: 5;
-  animation-name: float-center-center;
-  animation-duration: 4s;
 }
 
-/* Ajustar espaçamento para o layout em círculo */
 .island-wrapper.position-top {
-  top: 12%; /* Ajustado para melhor visibilidade */
+  top: 8%;
   left: 50%;
   transform: translateX(-50%);
 }
 
 .island-wrapper.position-top-right {
-  top: 25%;
-  right: 15%;
+  top: 20%;
+  right: 12%;
 }
 
-.island-wrapper.position-bottom-right {
-  bottom: 25%;
-  right: 15%;
+.island-wrapper.position-right {
+  top: 50%;
+  right: 8%;
+  transform: translateY(-50%);
 }
 
-.island-wrapper.position-bottom-left {
-  bottom: 25%;
-  left: 15%;
+.island-wrapper.position-left {
+  top: 50%;
+  left: 8%;
+  transform: translateY(-50%);
 }
 
 .island-wrapper.position-bottom {
-  bottom: 12%; /* Ajustado para melhor visibilidade */
+  bottom: 8%;
   left: 50%;
   transform: translateX(-50%);
 }
 
-/* Melhorar visibilidade das imagens das ilhas */
-.island-image {
-  max-width: 100%;
-  height: auto;
-  filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.5));
-  transition: all 0.3s ease;
-  /* Remover qualquer fundo branco - importante para PNGs */
-  mix-blend-mode: luminosity;
-  filter: contrast(1.1) brightness(1.2);
-}
-
-/* Adicionar classe para o botão da ilha para melhor controle */
+/* ===== BOTÕES DAS ILHAS ===== */
 .island-button {
-  background: transparent;
-  border: none;
+  position: relative;
   width: 100%;
   height: 100%;
+  background: transparent;
+  border: none;
   padding: 0;
   cursor: pointer;
-  position: relative;
-  transition: transform 0.3s ease;
+  transition: var(--transition-smooth);
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-}
-
-.island-button:hover {
-  transform: scale(1.05);
+  justify-content: center;
 }
 
 .island-button:focus {
   outline: none;
 }
 
-/* Melhorar a informação da ilha */
+/* ===== EFEITO DE BRILHO DAS ILHAS ===== */
+.island-glow {
+  position: absolute;
+  top: -15px;
+  left: -15px;
+  right: -15px;
+  bottom: -15px;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.3) 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    transparent 70%
+  );
+  border-radius: 50%;
+  opacity: 0;
+  transition: var(--transition-smooth);
+  z-index: -1;
+}
+
+.island-wrapper:hover .island-glow {
+  opacity: 1;
+  transform: scale(1.2);
+}
+
+/* ===== IMAGENS DAS ILHAS ===== */
+.island-image {
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  filter:
+    drop-shadow(0 8px 16px rgba(0, 0, 0, 0.3))
+    brightness(1.1)
+    contrast(1.05)
+    saturate(1.1);
+  transition: var(--transition-smooth);
+  z-index: 2;
+}
+
+.island-wrapper:hover .island-image {
+  filter:
+    drop-shadow(0 12px 24px rgba(0, 0, 0, 0.4))
+    brightness(1.2)
+    contrast(1.1)
+    saturate(1.2);
+}
+
+/* ===== INFORMAÇÕES DAS ILHAS - COMPACTAS ===== */
 .island-info {
   position: absolute;
-  bottom: -45px; /* Ajustado para acomodar o tamanho maior */
+  bottom: -35px;
   left: 50%;
   transform: translateX(-50%);
-  background-color: rgba(0, 85, 170, 0.8); /* Cor de fundo mais visível */
-  border-radius: 12px;
-  padding: 6px 15px;
-  min-width: 140px; /* Aumentado para texto maior */
+  background: linear-gradient(135deg, var(--ocean-primary), var(--ocean-secondary));
+  border-radius: 15px;
+  padding: 8px 16px;
+  min-width: 120px;
   text-align: center;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  box-shadow: var(--shadow-medium);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: var(--transition-smooth);
   z-index: 3;
-  backdrop-filter: blur(5px);
-  transition: all 0.3s ease;
+}
+
+.island-info.compact {
+  padding: 6px 12px;
+  min-width: 100px;
+  bottom: -30px;
+}
+
+.island-wrapper:hover .island-info {
+  transform: translateX(-50%) translateY(-5px);
+  box-shadow: var(--shadow-strong);
+}
+
+.island-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  background: var(--white);
+  color: var(--ocean-primary);
+  border-radius: 50%;
+  font-weight: bold;
+  font-size: 12px;
+  margin-bottom: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.island-badge.home {
+  background: linear-gradient(135deg, var(--tropical-gold), var(--tropical-sunset));
+  color: var(--white);
 }
 
 .island-number {
-  display: inline-block;
-  width: 28px; /* Aumentado */
-  height: 28px; /* Aumentado */
-  background-color: #ffffff;
-  color: #0055aa;
-  border-radius: 50%;
-  text-align: center;
-  line-height: 28px; /* Ajustar para novo tamanho */
+  font-size: 12px;
   font-weight: bold;
-  margin-bottom: 4px; /* Mais espaço */
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25);
-  font-size: 14px; /* Texto mais visível */
 }
 
 .island-name {
-  font-size: 14px; /* Aumentado de 12px */
-  font-weight: bold;
-  color: #ffffff; /* Mudado para branco para melhor visibilidade */
-  line-height: 1.3;
-  text-shadow: 0 2px 3px rgba(0, 0, 0, 0.7); /* Sombra mais forte para melhor legibilidade */
+  display: block;
+  color: var(--white);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.2;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
-/* Adicionar um efeito de brilho nas ilhas com temporadas ativas */
-.island-wrapper:has(.status-active) {
-  filter: drop-shadow(0 0 25px rgba(0, 255, 0, 0.15));
+/* ===== EFEITOS DE TEMPORADA ATIVA - FOGOS DE ARTIFÍCIO ===== */
+.season-effects {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
 }
 
-.island-wrapper:has(.status-scheduled) {
-  filter: drop-shadow(0 0 25px rgba(255, 255, 0, 0.15));
+.fireworks-container {
+  position: absolute;
+  top: -20px;
+  left: -20px;
+  right: -20px;
+  bottom: -20px;
 }
 
-/* Ajustar a animação de pulse para os status */
-@keyframes pulse {
+.firework {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  animation: firework-explosion 2s ease-out infinite;
+}
+
+.firework-1 {
+  top: 20%;
+  left: 30%;
+  background: var(--tropical-gold);
+  animation-delay: 0s;
+}
+
+.firework-2 {
+  top: 40%;
+  right: 25%;
+  background: var(--tropical-coral);
+  animation-delay: 0.7s;
+}
+
+.firework-3 {
+  bottom: 30%;
+  left: 40%;
+  background: var(--tropical-emerald);
+  animation-delay: 1.4s;
+}
+
+@keyframes firework-explosion {
   0% {
-    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7);
+    transform: scale(0);
+    opacity: 1;
+    box-shadow:
+      0 0 0 0 currentColor,
+      0 0 0 0 currentColor,
+      0 0 0 0 currentColor,
+      0 0 0 0 currentColor;
+  }
+  20% {
+    transform: scale(1);
+    opacity: 1;
+    box-shadow:
+      0 -20px 0 -2px currentColor,
+      20px 0 0 -2px currentColor,
+      0 20px 0 -2px currentColor,
+      -20px 0 0 -2px currentColor;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 0.8;
+    box-shadow:
+      0 -35px 0 -4px currentColor,
+      25px -25px 0 -4px currentColor,
+      35px 0 0 -4px currentColor,
+      25px 25px 0 -4px currentColor,
+      0 35px 0 -4px currentColor,
+      -25px 25px 0 -4px currentColor,
+      -35px 0 0 -4px currentColor,
+      -25px -25px 0 -4px currentColor;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0;
+    box-shadow:
+      0 -50px 0 -6px transparent,
+      35px -35px 0 -6px transparent,
+      50px 0 0 -6px transparent,
+      35px 35px 0 -6px transparent,
+      0 50px 0 -6px transparent,
+      -35px 35px 0 -6px transparent,
+      -50px 0 0 -6px transparent,
+      -35px -35px 0 -6px transparent;
+  }
+}
+
+.energy-aura {
+  position: absolute;
+  top: -30px;
+  left: -30px;
+  right: -30px;
+  bottom: -30px;
+  background: radial-gradient(
+    circle,
+    rgba(0, 255, 136, 0.3) 0%,
+    rgba(0, 255, 136, 0.1) 50%,
+    transparent 70%
+  );
+  border-radius: 50%;
+  animation: energy-pulse 3s ease-in-out infinite;
+}
+
+@keyframes energy-pulse {
+  0%, 100% {
+    transform: scale(0.8);
+    opacity: 0.3;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.6;
+  }
+}
+
+/* ===== INDICADORES DE TEMPORADA APRIMORADOS ===== */
+.season-indicator {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+  transition: var(--transition-smooth);
+  overflow: hidden;
+}
+
+.status-icon {
+  font-size: 20px;
+  z-index: 3;
+  position: relative;
+}
+
+.status-glow {
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  right: -5px;
+  bottom: -5px;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+/* Temporada ativa */
+.season-indicator.season-active {
+  background: linear-gradient(135deg, var(--season-active), #00cc66);
+  color: var(--white);
+  box-shadow:
+    0 0 20px rgba(0, 255, 136, 0.6),
+    inset 0 0 20px rgba(255, 255, 255, 0.2);
+  animation: active-glow 2s ease-in-out infinite;
+}
+
+.season-indicator.season-active .status-glow {
+  background: radial-gradient(circle, rgba(0, 255, 136, 0.8) 0%, transparent 70%);
+  animation: glow-pulse 2s ease-in-out infinite;
+}
+
+@keyframes active-glow {
+  0%, 100% {
+    box-shadow:
+      0 0 20px rgba(0, 255, 136, 0.6),
+      inset 0 0 20px rgba(255, 255, 255, 0.2);
+  }
+  50% {
+    box-shadow:
+      0 0 35px rgba(0, 255, 136, 0.9),
+      inset 0 0 25px rgba(255, 255, 255, 0.3);
+  }
+}
+
+@keyframes glow-pulse {
+  0%, 100% {
+    transform: scale(1);
     opacity: 0.8;
   }
-  70% {
-    box-shadow: 0 0 0 10px rgba(255, 255, 255, 0);
+  50% {
+    transform: scale(1.3);
+    opacity: 0.4;
+  }
+}
+
+/* Temporada agendada */
+.season-indicator.season-scheduled {
+  background: linear-gradient(135deg, var(--season-scheduled), #ff8800);
+  color: var(--white);
+  box-shadow: 0 0 15px rgba(255, 170, 0, 0.6);
+  animation: scheduled-pulse 3s ease-in-out infinite;
+}
+
+.countdown-ring {
+  position: absolute;
+  top: -3px;
+  left: -3px;
+  right: -3px;
+  bottom: -3px;
+  border: 2px solid var(--season-scheduled);
+  border-radius: 50%;
+  animation: countdown-rotate 4s linear infinite;
+  z-index: 2;
+}
+
+.countdown-text {
+  position: absolute;
+  bottom: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: var(--white);
+  padding: 2px 6px;
+  border-radius: 8px;
+  font-size: 10px;
+  font-weight: bold;
+  white-space: nowrap;
+  z-index: 4;
+}
+
+@keyframes scheduled-pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes countdown-rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Temporada campeã */
+.season-indicator.season-champion {
+  background: linear-gradient(135deg, var(--season-champion), #cc0000);
+  color: var(--white);
+  box-shadow: 0 0 15px rgba(255, 68, 68, 0.6);
+  animation: champion-shine 2s ease-in-out infinite;
+}
+
+.champion-glow {
+  position: absolute;
+  top: -8px;
+  left: -8px;
+  right: -8px;
+  bottom: -8px;
+  background: conic-gradient(
+    from 0deg,
+    var(--tropical-gold) 0deg,
+    var(--season-champion) 90deg,
+    var(--tropical-gold) 180deg,
+    var(--season-champion) 270deg,
+    var(--tropical-gold) 360deg
+  );
+  border-radius: 50%;
+  animation: champion-rotate 3s linear infinite;
+  z-index: 1;
+}
+
+.champion-name {
+  position: absolute;
+  bottom: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, var(--tropical-gold), var(--tropical-sunset));
+  color: var(--white);
+  padding: 2px 6px;
+  border-radius: 8px;
+  font-size: 9px;
+  font-weight: bold;
+  white-space: nowrap;
+  z-index: 4;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes champion-shine {
+  0%, 100% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  50% {
+    transform: scale(1.05);
+    filter: brightness(1.2);
+  }
+}
+
+@keyframes champion-rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Temporada finalizada */
+.season-indicator.season-finished {
+  background: linear-gradient(135deg, var(--season-finished), #666666);
+  color: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 0 10px rgba(136, 136, 136, 0.4);
+  opacity: 0.8;
+}
+
+/* ===== ANÉIS DE PULSO ===== */
+.pulse-ring {
+  position: absolute;
+  top: -8px;
+  left: -8px;
+  right: -8px;
+  bottom: -8px;
+  border: 3px solid var(--season-active);
+  border-radius: 50%;
+  opacity: 0;
+  animation: pulse-ring 2s ease-out infinite;
+  z-index: 2;
+}
+
+.pulse-ring-delay {
+  animation-delay: 1s;
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.8);
     opacity: 1;
   }
   100% {
-    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
-    opacity: 0.8;
+    transform: scale(1.4);
+    opacity: 0;
   }
 }
 
-/* Responsividade atualizada para telas médias */
-@media (min-width: 768px) and (max-width: 1199px) {
+/* ===== NUVENS ===== */
+.clouds-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 6;
+  pointer-events: none;
+}
+
+.cloud-container {
+  position: absolute;
+  opacity: 0.8;
+  filter: drop-shadow(0 5px 15px rgba(255, 255, 255, 0.3));
+}
+
+.cloud-image {
+  width: 100%;
+  height: 100%;
+  filter: brightness(1.3) contrast(1.1);
+}
+
+.cloud-1 {
+  top: 5%;
+  left: 5%;
+  width: 100px;
+  height: 60px;
+  animation: cloud-drift 80s linear infinite;
+}
+
+.cloud-2 {
+  top: 15%;
+  right: 10%;
+  width: 120px;
+  height: 70px;
+  animation: cloud-drift-reverse 100s linear infinite;
+}
+
+.cloud-3 {
+  bottom: 35%;
+  left: 15%;
+  width: 110px;
+  height: 65px;
+  animation: cloud-drift 120s linear infinite;
+  animation-delay: 20s;
+}
+
+.cloud-4 {
+  bottom: 45%;
+  right: 20%;
+  width: 90px;
+  height: 55px;
+  animation: cloud-drift-reverse 90s linear infinite;
+  animation-delay: 10s;
+}
+
+.cloud-5 {
+  top: 25%;
+  left: 30%;
+  width: 80px;
+  height: 50px;
+  animation: cloud-drift 110s linear infinite;
+  animation-delay: 30s;
+}
+
+.cloud-6 {
+  bottom: 20%;
+  right: 35%;
+  width: 115px;
+  height: 65px;
+  animation: cloud-drift-reverse 130s linear infinite;
+  animation-delay: 5s;
+}
+
+@keyframes cloud-drift {
+  from { transform: translateX(-150px); }
+  to { transform: translateX(calc(100vw + 150px)); }
+}
+
+@keyframes cloud-drift-reverse {
+  from { transform: translateX(calc(100vw + 150px)); }
+  to { transform: translateX(-150px); }
+}
+
+/* ===== ONDAS NA PARTE INFERIOR ===== */
+.ocean-waves-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  z-index: 7;
+  pointer-events: none;
+}
+
+.wave-layer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 200%;
+  height: 100%;
+  background-repeat: repeat-x;
+  animation: wave-move 15s linear infinite;
+}
+
+.wave-layer-1 {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23ffffff' fill-opacity='0.1' d='M0,192L48,197.3C96,203,192,213,288,229.3C384,245,480,267,576,250.7C672,235,768,181,864,181.3C960,181,1056,235,1152,234.7C1248,235,1344,181,1392,154.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E");
+  animation-duration: 15s;
+}
+
+.wave-layer-2 {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23ffffff' fill-opacity='0.05' d='M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,149.3C960,160,1056,160,1152,138.7C1248,117,1344,75,C960,160,1056,160,1152,138.7C1248,117,1344,75,1392,53.3L1440,32L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E");
+  animation-duration: 20s;
+  animation-direction: reverse;
+}
+
+.wave-layer-3 {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23ffffff' fill-opacity='0.03' d='M0,256L48,240C96,224,192,192,288,197.3C384,203,480,245,576,250.7C672,256,768,224,864,197.3C960,171,1056,149,1152,165.3C1248,181,1344,235,1392,261.3L1440,288L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E");
+  animation-duration: 25s;
+}
+
+@keyframes wave-move {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* ===== MODAL APRIMORADO ===== */
+.modal {
+  z-index: 1000;
+}
+
+.modal-dialog {
+  max-width: 900px;
+  margin: 2rem auto;
+}
+
+.modal-content {
+  background: linear-gradient(135deg, var(--ocean-deep) 0%, var(--ocean-secondary) 100%);
+  border: none;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  backdrop-filter: blur(20px);
+}
+
+.modal-header {
+  background: rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 25px 30px;
+}
+
+.modal-header-content {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.modal-island-icon {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, var(--tropical-emerald), var(--island-green));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  color: var(--white);
+  box-shadow: var(--shadow-medium);
+}
+
+.modal-title-section {
+  flex: 1;
+}
+
+.modal-title {
+  color: var(--white);
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin: 0 0 5px 0;
+}
+
+.modal-subtitle {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1rem;
+  margin: 0;
+}
+
+.btn-close {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--white);
+  font-size: 18px;
+  transition: var(--transition-smooth);
+}
+
+.btn-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.1);
+}
+
+.modal-body {
+  padding: 30px;
+}
+
+/* ===== ABAS CUSTOMIZADAS ===== */
+.custom-tabs {
+  width: 100%;
+}
+
+.tab-nav {
+  display: flex;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 15px;
+  padding: 5px;
+  margin-bottom: 30px;
+  gap: 5px;
+}
+
+.tab-button {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.7);
+  padding: 15px 20px;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: var(--transition-smooth);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.tab-button:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--white);
+}
+
+.tab-button.active {
+  background: linear-gradient(135deg, var(--tropical-emerald), var(--island-green));
+  color: var(--white);
+  box-shadow: var(--shadow-medium);
+}
+
+.tab-content {
+  min-height: 400px;
+}
+
+.tab-pane {
+  display: none;
+}
+
+.tab-pane.active {
+  display: block;
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== SEÇÕES DO MODAL ===== */
+.section-header {
+  margin-bottom: 25px;
+}
+
+.section-header h5 {
+  color: var(--white);
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0 0 8px 0;
+}
+
+.section-description {
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0;
+}
+
+/* ===== ESTADO DE CARREGAMENTO ===== */
+.loading-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.loading-spinner {
+  margin-bottom: 20px;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top: 3px solid var(--tropical-emerald);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ===== GRID DE DESAFIOS ===== */
+.challenges-grid {
+  display: grid;
+  gap: 20px;
+}
+
+.challenge-card {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  padding: 25px;
+  transition: var(--transition-smooth);
+  backdrop-filter: blur(10px);
+}
+
+.challenge-card:hover {
+  background: rgba(0, 0, 0, 0.4);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-medium);
+}
+
+.challenge-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.challenge-icon {
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, var(--tropical-emerald), var(--island-green));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  color: var(--white);
+  box-shadow: var(--shadow-soft);
+}
+
+.challenge-status .status-badge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.status-badge.status-active {
+  background: var(--tropical-emerald);
+  color: var(--white);
+}
+
+.status-badge.status-expired {
+  background: var(--tropical-coral);
+  color: var(--white);
+}
+
+.challenge-content {
+  color: var(--white);
+}
+
+.challenge-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0 0 10px 0;
+}
+
+.challenge-description {
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0 0 15px 0;
+  line-height: 1.5;
+}
+
+.challenge-details {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  padding: 12px;
+  margin-bottom: 15px;
+}
+
+.time-remaining {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--tropical-gold);
+  font-weight: 500;
+}
+
+.challenge-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.challenge-rewards {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--tropical-gold);
+  font-weight: 500;
+}
+
+/* ===== BOTÕES ===== */
+.btn-challenge {
+  background: linear-gradient(135deg, var(--tropical-emerald), var(--island-green));
+  border: none;
+  color: var(--white);
+  padding: 10px 20px;
+  border-radius: 25px;
+  font-weight: 500;
+  transition: var(--transition-smooth);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-challenge:hover:not(:disabled) {
+  background: linear-gradient(135deg, var(--island-green), var(--tropical-emerald));
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-medium);
+}
+
+.btn-challenge:disabled {
+  background: rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.5);
+  cursor: not-allowed;
+}
+
+.btn-challenge.btn-secondary {
+  background: linear-gradient(135deg, var(--ocean-primary), var(--ocean-secondary));
+}
+
+.btn-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top: 2px solid var(--white);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+/* ===== SEÇÃO DE TEMPORADA ===== */
+.season-card {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  padding: 25px;
+  backdrop-filter: blur(10px);
+}
+
+.season-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.season-info {
+  flex: 1;
+}
+
+.season-title {
+  color: var(--white);
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin: 0 0 8px 0;
+}
+
+.season-status {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.season-status.status-active {
+  background: var(--tropical-emerald);
+  color: var(--white);
+}
+
+.season-status.status-upcoming {
+  background: var(--tropical-gold);
+  color: var(--white);
+}
+
+.season-icon {
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, var(--tropical-coral), var(--tropical-sunset));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  color: var(--white);
+  box-shadow: var(--shadow-soft);
+}
+
+.season-progress {
+  margin-bottom: 20px;
+}
+
+.progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  color: var(--white);
+  font-size: 0.9rem;
+}
+
+.progress-percentage {
+  font-weight: 600;
+  color: var(--tropical-emerald);
+}
+
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--tropical-emerald), var(--island-green));
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.season-dates {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  gap: 15px;
+}
+
+.date-item {
+  text-align: center;
+  flex: 1;
+}
+
+.date-label {
+  display: block;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.8rem;
+  margin-bottom: 4px;
+}
+
+.date-value {
+  display: block;
+  color: var(--white);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.date-value.highlight {
+  color: var(--tropical-gold);
+}
+
+.season-rewards {
+  margin-bottom: 25px;
+}
+
+.rewards-title {
+  color: var(--white);
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0 0 15px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.rewards-title i {
+  color: var(--tropical-gold);
+}
+
+.rewards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 15px;
+}
+
+.reward-item {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  padding: 15px;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.reward-icon {
+  font-size: 24px;
+  margin-bottom: 8px;
+}
+
+.reward-icon-img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  vertical-align: middle;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.reward-details {
+  color: var(--white);
+}
+
+.reward-name {
+  display: block;
+  font-weight: 500;
+  font-size: 0.9rem;
+  margin-bottom: 4px;
+}
+
+.reward-amount {
+  display: block;
+  color: var(--tropical-gold);
+  font-weight: 600;
+  font-size: 0.8rem;
+}
+
+.btn-season {
+  width: 100%;
+  background: linear-gradient(135deg, var(--tropical-coral), var(--tropical-sunset));
+  border: none;
+  color: var(--white);
+  padding: 15px 25px;
+  border-radius: 25px;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: var(--transition-smooth);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.btn-season:hover:not(:disabled) {
+  background: linear-gradient(135deg, var(--tropical-sunset), var(--tropical-coral));
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-medium);
+}
+
+.btn-season:disabled {
+  background: rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.5);
+  cursor: not-allowed;
+}
+
+/* ===== SEÇÃO DE RANKING ===== */
+.leaderboard {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 15px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.leaderboard-item {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  margin-bottom: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  transition: var(--transition-smooth);
+}
+
+.leaderboard-item:last-child {
+  margin-bottom: 0;
+}
+
+.leaderboard-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.leaderboard-item.current-player {
+  background: linear-gradient(135deg, var(--tropical-emerald), var(--island-green));
+  box-shadow: var(--shadow-soft);
+}
+
+.rank-position {
+  width: 50px;
+  text-align: center;
+  margin-right: 15px;
+}
+
+.position-number {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: var(--white);
+}
+
+.player-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--ocean-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 15px;
+  color: var(--white);
+  font-size: 20px;
+}
+
+.player-info {
+  flex: 1;
+}
+
+.player-name {
+  color: var(--white);
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.player-score {
+  text-align: right;
+}
+
+.score-value {
+  color: var(--white);
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.score-label {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.8rem;
+  margin-left: 4px;
+}
+
+.user-position {
+  margin-top: 20px;
+}
+
+.position-divider {
+  text-align: center;
+  margin-bottom: 15px;
+  position: relative;
+}
+
+.position-divider::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.2);
+  z-index: 1;
+}
+
+.position-divider span {
+  background: var(--ocean-deep);
+  color: rgba(255, 255, 255, 0.8);
+  padding: 0 15px;
+  font-size: 0.9rem;
+  position: relative;
+  z-index: 2;
+}
+
+/* ===== ESTADO VAZIO ===== */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.empty-icon {
+  font-size: 48px;
+  margin-bottom: 20px;
+  opacity: 0.6;
+}
+
+.empty-state h6 {
+  color: var(--white);
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0 0 10px 0;
+}
+
+.empty-state p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* ===== BACKDROP DO MODAL ===== */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(5px);
+  z-index: 999;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.modal-backdrop.show {
+  opacity: 1;
+}
+
+/* ===== RESPONSIVIDADE ===== */
+/* ===== RESPONSIVIDADE APRIMORADA PARA INDICADORES ===== */
+@media (max-width: 1200px) {
   .island-wrapper {
-    width: 160px; /* Tamanho intermediário */
+    width: 160px;
     height: 160px;
   }
 
   .island-wrapper.center {
-    width: 130px;
-    height: 130px;
+    width: 120px;
+    height: 120px;
+  }
+
+  .season-indicator {
+    width: 38px;
+    height: 38px;
+    top: 8px;
+    right: 8px;
+  }
+
+  .status-icon {
+    font-size: 17px;
+  }
+
+  .countdown-text, .champion-name {
+    font-size: 9px;
+    bottom: -22px;
   }
 }
 
-/* Tamanhos maiores para telas grandes */
-@media (min-width: 1200px) {
+@media (max-width: 992px) {
   .island-wrapper {
-    width: 200px; /* Ainda maior para telas grandes */
-    height: 200px;
+    width: 140px;
+    height: 140px;
   }
 
   .island-wrapper.center {
-    width: 150px;
-    height: 150px;
+    width: 110px;
+    height: 110px;
   }
 
-  .island-info {
-    min-width: 160px;
-    padding: 8px 20px;
+  .island-info.compact {
+    bottom: -25px;
+    min-width: 90px;
+    padding: 5px 10px;
   }
 
   .island-name {
+    font-size: 11px;
+  }
+
+  .season-indicator {
+    width: 35px;
+    height: 35px;
+    top: 6px;
+    right: 6px;
+  }
+
+  .status-icon {
     font-size: 16px;
   }
+
+  .countdown-text, .champion-name {
+    font-size: 8px;
+    bottom: -20px;
+    padding: 1px 4px;
+  }
+
+  .pulse-ring {
+    top: -6px;
+    left: -6px;
+    right: -6px;
+    bottom: -6px;
+    border-width: 2px;
+  }
+
+  .countdown-ring {
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border-width: 2px;
+  }
+
+  .champion-glow {
+    top: -6px;
+    left: -6px;
+    right: -6px;
+    bottom: -6px;
+  }
+
+  .modal-dialog {
+    max-width: 700px;
+    margin: 1rem;
+  }
 }
 
-/* Responsividade para telas pequenas - ajustada para melhor visualização */
-@media (max-width: 767px) {
-  .island-wrapper {
-    width: 140px; /* Aumentado de 120px */
-    height: 140px;
-  }
-
-  .island-wrapper.center {
-    width: 110px; /* Aumentado de 90px */
-    height: 110px;
-  }
-
+@media (max-width: 768px) {
   .islands-map {
-    padding: 40px 10px; /* Adicionar mais espaço vertical */
+    padding: 30px 15px;
   }
-}
 
-/* Ajustes para telas muito pequenas */
-@media (max-width: 576px) {
   .island-wrapper {
-    width: 120px; /* Aumentado de 100px */
-    height: 120px;
-  }
-
-  .island-wrapper.center {
-    width: 100px; /* Aumentado de 80px */
-    height: 100px;
-  }
-
-  .island-info {
-    min-width: 100px;
-    bottom: -35px;
-    padding: 5px 10px;
-  }
-
-  /* Ajustar posicionamento para melhor layout em telas pequenas */
-  .island-wrapper.position-top {
-    top: 8%;
-  }
-
-  .island-wrapper.position-bottom {
-    bottom: 8%;
-  }
-
-  /* Melhorar visualização do texto */
-  .island-name {
-    font-size: 12px;
-  }
-}
-
-/* Ajustes para telas muito estreitas */
-@media (max-width: 420px) {
-  .island-wrapper {
-    width: 100px;
-    height: 100px;
-  }
-
-  .island-wrapper.center {
-    width: 90px;
-    height: 90px;
-  }
-
-  /* Aproximar mais as ilhas do centro para melhor visualização */
-  .island-wrapper.position-top-right {
-    right: 10%;
-  }
-
-  .island-wrapper.position-bottom-right {
-    right: 10%;
-  }
-
-  .island-wrapper.position-bottom-left {
-    left: 10%;
-  }
-}
-
-/* Melhorar indicadores de status de temporada */
-.island-status {
-  position: absolute;
-  top: 10px; /* Aumentado para maior visibilidade */
-  right: 10px; /* Aumentado para maior visibilidade */
-  width: 20px; /* Aumentado para maior visibilidade */
-  height: 20px; /* Aumentado para maior visibilidade */
-  border-radius: 50%;
-  z-index: 4;
-  border: 2px solid rgba(255, 255, 255, 0.7); /* Borda mais visível */
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
-}
-
-/* Temporada ativa: luz verde pulsante mais visível */
-.status-active {
-  background: radial-gradient(circle at center, #00ff00 30%, #008000 100%);
-  box-shadow: 0 0 20px #00ff00;
-  animation: pulse 2s infinite;
-}
-
-/* Temporada agendada: luz amarela mais visível */
-.status-scheduled {
-  background: radial-gradient(circle at center, #ffff00 30%, #ffa500 100%);
-  box-shadow: 0 0 15px #ffff00;
-  animation: pulse 3s infinite;
-}
-
-/* Temporada finalizada: luz vermelha mais visível */
-.status-finished {
-  background: radial-gradient(circle at center, #ff0000 30%, #8b0000 100%);
-  box-shadow: 0 0 10px #ff0000;
-}
-
-/* Efeito de reflexo na água - Melhorado */
-.island-wrapper::after {
-  content: "";
-  position: absolute;
-  width: 90%;
-  height: 40%;
-  left: 5%;
-  top: 100%;
-  background-image: url(""); /* Remover qualquer imagem de fundo */
-  background-color: transparent;
-  transform-origin: top center;
-  transform: scaleY(-1) scaleX(0.8);
-  filter: blur(2px) brightness(0.7);
-  opacity: 0.3;
-  z-index: 1;
-  pointer-events: none;
-  animation: water-reflection 4s ease-in-out infinite alternate;
-  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%);
-  -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%);
-}
-
-.island-wrapper.center::after {
-  height: 30%;
-  opacity: 0.25;
-}
-
-@keyframes water-reflection {
-  0% {
-    filter: blur(2px) brightness(0.7);
-    transform: scaleY(-1) scaleX(0.8) translateY(0);
-    opacity: 0.3;
-  }
-  100% {
-    filter: blur(3px) brightness(0.6);
-    transform: scaleY(-1) scaleX(0.75) translateY(5px);
-    opacity: 0.2;
-  }
-}
-
-/* Estilos do Modal - Redesenhado */
-.modal-content {
-  background: linear-gradient(135deg, #002952 0%, #001e3d 100%);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-  overflow: hidden;
-}
-
-.modal-header {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 20px 25px;
-  background: rgba(0, 0, 0, 0.2);
-}
-
-.modal-title {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: white;
-}
-
-.modal-body {
-  padding: 25px;
-}
-
-.modal-footer {
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 15px 25px;
-  background: rgba(0, 0, 0, 0.2);
-}
-
-.btn-close-white {
-  filter: brightness(0) invert(1);
-  opacity: 0.8;
-  transition: opacity 0.2s;
-}
-
-.btn-close-white:hover {
-  opacity: 1;
-}
-
-/* Estilos para as abas do modal - Redesenhado */
-.nav-tabs {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  margin-bottom: 25px;
-}
-
-.nav-tabs .nav-link {
-  color: rgba(255, 255, 255, 0.7);
-  border: none;
-  border-bottom: 3px solid transparent;
-  background-color: transparent;
-  padding: 12px 20px;
-  transition: all 0.2s ease;
-  font-weight: 500;
-  font-size: 1rem;
-}
-
-.nav-tabs .nav-link:hover,
-.nav-tabs .nav-link:focus {
-  color: white;
-  border-bottom: 3px solid rgba(41, 171, 226, 0.5);
-  background-color: rgba(255, 255, 255, 0.05);
-}
-
-.nav-tabs .nav-link.active {
-  color: #29abe2;
-  border-bottom: 3px solid #29abe2;
-  background-color: rgba(41, 171, 226, 0.1);
-}
-
-/* Estilo para itens de desafio - Redesenhado */
-.challenge-item {
-  background-color: rgba(0, 30, 60, 0.7);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: white;
-  margin-bottom: 15px;
-  border-radius: 12px;
-  transition: all 0.3s ease;
-  padding: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.challenge-item:hover {
-  background-color: rgba(0, 40, 80, 0.8);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-}
-
-.challenge-icon {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background-color: rgba(41, 171, 226, 0.2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 24px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.challenge-content {
-  flex: 1;
-}
-
-.challenge-content h5 {
-  font-size: 1.2rem;
-  font-weight: 600;
-  margin-bottom: 10px;
-}
-
-.challenge-content p {
-  color: rgba(255, 255, 255, 0.9);
-  margin-bottom: 15px;
-  font-weight: normal;
-}
-
-/* Badge de status */
-.badge {
-  padding: 6px 12px;
-  font-weight: 500;
-  border-radius: 20px;
-  font-size: 0.8rem;
-}
-
-.badge.bg-warning {
-  background-color: #ffc107 !important;
-  color: #000000 !important;
-  font-weight: 600;
-}
-
-.badge.bg-danger,
-.badge.bg-success {
-  background-color: #dc3545 !important;
-  color: #ffffff !important;
-  font-weight: 600;
-}
-
-/* Botões personalizados - Redesenhado */
-.btn-moai {
-  background: linear-gradient(135deg, #29abe2 0%, #1a8ed1 100%);
-  border: none;
-  color: white !important;
-  font-weight: 500;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  transition: all 0.3s ease;
-  border-radius: 8px;
-  padding: 8px 16px;
-}
-
-.btn-moai:hover:not(:disabled) {
-  background: linear-gradient(135deg, #1a8ed1 0%, #0a7ec1 100%);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-}
-
-.btn-moai:active:not(:disabled) {
-  transform: translateY(0);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.btn-moai:disabled {
-  background: linear-gradient(135deg, rgba(41, 171, 226, 0.5) 0%, rgba(26, 142, 209, 0.5) 100%);
-  cursor: not-allowed;
-  opacity: 0.7;
-  box-shadow: none;
-}
-
-.btn-outline-moai {
-  background: transparent;
-  color: #29abe2 !important;
-  border: 2px solid #29abe2;
-  font-weight: 500;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-  border-radius: 8px;
-  padding: 8px 16px;
-}
-
-.btn-outline-moai:hover:not(:disabled) {
-  background-color: rgba(41, 171, 226, 0.1);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.btn-outline-moai:active:not(:disabled) {
-  transform: translateY(0);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-}
-
-.btn-outline-moai:disabled {
-  border-color: rgba(41, 171, 226, 0.5);
-  color: rgba(41, 171, 226, 0.5) !important;
-  cursor: not-allowed;
-  opacity: 0.7;
-  box-shadow: none;
-}
-
-/* Estilos para o spinner no botão */
-.spinner-border-sm {
-  width: 1rem;
-  height: 1rem;
-  border-width: 0.2em;
-  margin-right: 0.5rem;
-}
-
-/* Responsividade */
-@media (min-width: 768px) {
-  .island-wrapper {
-    width: 160px;
-    height: 160px;
-  }
-
-  .island-wrapper.center {
     width: 120px;
     height: 120px;
   }
 
-  .island-info {
-    min-width: 140px;
-    padding: 8px 15px;
+  .island-wrapper.center {
+    width: 100px;
+    height: 100px;
+  }
+
+  .island-wrapper.position-top-right,
+  .island-wrapper.position-right {
+    right: 5%;
+  }
+
+  .island-wrapper.position-left {
+    left: 5%;
+  }
+
+  .island-info.compact {
+    bottom: -20px;
+    min-width: 80px;
+    padding: 4px 8px;
+  }
+
+  .island-badge {
+    width: 20px;
+    height: 20px;
+    font-size: 10px;
   }
 
   .island-name {
-    font-size: 14px;
-  }
-}
-
-@media (max-width: 767px) {
-  .island-wrapper {
-    width: 140px; /* Aumentado de 120px */
-    height: 140px;
+    font-size: 10px;
   }
 
-  .island-wrapper.center {
-    width: 110px; /* Aumentado de 90px */
-    height: 110px;
+  .season-indicator {
+    width: 32px;
+    height: 32px;
+    top: 5px;
+    right: 5px;
   }
 
-  .islands-map {
-    padding: 40px 10px; /* Adicionar mais espaço vertical */
+  .status-icon {
+    font-size: 15px;
+  }
+
+  .countdown-text, .champion-name {
+    font-size: 7px;
+    bottom: -18px;
+    padding: 1px 3px;
+    border-radius: 6px;
+  }
+
+  .pulse-ring {
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    border-width: 2px;
+  }
+
+  .countdown-ring {
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border-width: 1px;
+  }
+
+  .champion-glow {
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+  }
+
+  .status-glow {
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+  }
+
+  .modal-body {
+    padding: 20px;
+  }
+
+  .tab-nav {
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .tab-button {
+    padding: 12px 15px;
+  }
+
+  .challenges-grid {
+    gap: 15px;
+  }
+
+  .challenge-card {
+    padding: 20px;
+  }
+
+  .season-dates {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .rewards-grid {
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 10px;
   }
 }
 
 @media (max-width: 576px) {
-  .island-wrapper {
-    width: 120px; /* Aumentado de 100px */
-    height: 120px;
-  }
-
-  .island-wrapper.center {
-    width: 100px; /* Aumentado de 80px */
-    height: 100px;
-  }
-
-  .island-info {
-    min-width: 100px;
-    bottom: -35px;
-    padding: 5px 10px;
-  }
-
-  /* Ajustar posicionamento para melhor layout em telas pequenas */
-  .island-wrapper.position-top {
-    top: 8%;
-  }
-
-  .island-wrapper.position-bottom {
-    bottom: 8%;
-  }
-
-  /* Melhorar visualização do texto */
-  .island-name {
-    font-size: 12px;
-  }
-}
-
-@media (max-width: 420px) {
   .island-wrapper {
     width: 100px;
     height: 100px;
   }
 
   .island-wrapper.center {
-    width: 90px;
-    height: 90px;
+    width: 85px;
+    height: 85px;
   }
 
-  /* Aproximar mais as ilhas do centro para melhor visualização */
-  .island-wrapper.position-top-right {
-    right: 10%;
+  .island-wrapper.position-top {
+    top: 5%;
   }
 
-  .island-wrapper.position-bottom-right {
-    right: 10%;
+  .island-wrapper.position-bottom {
+    bottom: 5%;
   }
 
-  .island-wrapper.position-bottom-left {
-    left: 10%;
+  .island-info.compact {
+    bottom: -18px;
+    min-width: 70px;
+    padding: 3px 6px;
+  }
+
+  .island-badge {
+    width: 18px;
+    height: 18px;
+    font-size: 9px;
+  }
+
+  .island-name {
+    font-size: 9px;
+  }
+
+  .season-indicator {
+    width: 28px;
+    height: 28px;
+    top: 4px;
+    right: 4px;
+  }
+
+  .status-icon {
+    font-size: 13px;
+  }
+
+  .countdown-text, .champion-name {
+    font-size: 6px;
+    bottom: -16px;
+    padding: 1px 2px;
+    border-radius: 4px;
+    min-width: 20px;
+  }
+
+  .pulse-ring {
+    top: -4px;
+    left: -4px;
+    right: -4px;
+    bottom: -4px;
+    border-width: 1px;
+  }
+
+  .countdown-ring {
+    top: -1px;
+    left: -1px;
+    right: -1px;
+    bottom: -1px;
+    border-width: 1px;
+  }
+
+  .champion-glow {
+    top: -4px;
+    left: -4px;
+    right: -4px;
+    bottom: -4px;
+  }
+
+  .status-glow {
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+  }
+
+  .modal-dialog {
+    margin: 0.5rem;
+  }
+
+  .modal-header {
+    padding: 20px;
+  }
+
+  .modal-header-content {
+    gap: 15px;
+  }
+
+  .modal-island-icon {
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+  }
+
+  .modal-title {
+    font-size: 1.4rem;
+  }
+
+  .cloud-1, .cloud-2, .cloud-3, .cloud-4, .cloud-5, .cloud-6 {
+    width: 60px;
+    height: 40px;
+  }
+
+  .firework {
+    width: 4px;
+    height: 4px;
   }
 }
 
-/* Melhorar indicadores de status de temporada */
-.island-status {
-  position: absolute;
-  top: 10px; /* Aumentado para maior visibilidade */
-  right: 10px; /* Aumentado para maior visibilidade */
-  width: 20px; /* Aumentado para maior visibilidade */
-  height: 20px; /* Aumentado para maior visibilidade */
-  border-radius: 50%;
-  z-index: 4;
-  border: 2px solid rgba(255, 255, 255, 0.7); /* Borda mais visível */
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
-}
-
-/* Temporada ativa: luz verde pulsante mais visível */
-.status-active {
-  background: radial-gradient(circle at center, #00ff00 30%, #008000 100%);
-  box-shadow: 0 0 20px #00ff00;
-  animation: pulse 2s infinite;
-}
-
-/* Temporada agendada: luz amarela mais visível */
-.status-scheduled {
-  background: radial-gradient(circle at center, #ffff00 30%, #ffa500 100%);
-  box-shadow: 0 0 15px #ffff00;
-  animation: pulse 3s infinite;
-}
-
-/* Temporada finalizada: luz vermelha mais visível */
-.status-finished {
-  background: radial-gradient(circle at center, #ff0000 30%, #8b0000 100%);
-  box-shadow: 0 0 10px #ff0000;
-}
-
-/* Efeito de reflexo na água - Melhorado */
-.island-wrapper::after {
-  content: "";
-  position: absolute;
-  width: 90%;
-  height: 40%;
-  left: 5%;
-  top: 100%;
-  background-image: url(""); /* Remover qualquer imagem de fundo */
-  background-color: transparent;
-  transform-origin: top center;
-  transform: scaleY(-1) scaleX(0.8);
-  filter: blur(2px) brightness(0.7);
-  opacity: 0.3;
-  z-index: 1;
-  pointer-events: none;
-  animation: water-reflection 4s ease-in-out infinite alternate;
-  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%);
-  -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%);
-}
-
-.island-wrapper.center::after {
-  height: 30%;
-  opacity: 0.25;
-}
-
-@keyframes water-reflection {
-  0% {
-    filter: blur(2px) brightness(0.7);
-    transform: scaleY(-1) scaleX(0.8) translateY(0);
-    opacity: 0.3;
+@media (max-width: 420px) {
+  .island-wrapper {
+    width: 85px;
+    height: 85px;
   }
-  100% {
-    filter: blur(3px) brightness(0.6);
-    transform: scaleY(-1) scaleX(0.75) translateY(5px);
-    opacity: 0.2;
+
+  .island-wrapper.center {
+    width: 75px;
+    height: 75px;
+  }
+
+  .island-wrapper.position-top-right,
+  .island-wrapper.position-right {
+    right: 3%;
+  }
+
+  .island-wrapper.position-left {
+    left: 3%;
+  }
+
+  .season-indicator {
+    width: 24px;
+    height: 24px;
+    top: 3px;
+    right: 3px;
+  }
+
+  .status-icon {
+    font-size: 11px;
+  }
+
+  .countdown-text, .champion-name {
+    font-size: 5px;
+    bottom: -14px;
+    padding: 0px 2px;
+    border-radius: 3px;
+    min-width: 18px;
+  }
+
+  .pulse-ring {
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+    border-width: 1px;
+  }
+
+  .countdown-ring {
+    top: -1px;
+    left: -1px;
+    right: -1px;
+    bottom: -1px;
+    border-width: 1px;
+  }
+
+  .champion-glow {
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+  }
+
+  .status-glow {
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+  }
+
+  .modal-body {
+    padding: 15px;
+  }
+
+  .tab-button {
+    padding: 10px 12px;
+    font-size: 0.9rem;
+  }
+
+  .challenge-card {
+    padding: 15px;
+  }
+
+  .season-card {
+    padding: 20px;
   }
 }
 
-/* Estilos do Modal - Redesenhado */
-.modal-content {
-  background: linear-gradient(135deg, #002952 0%, #001e3d 100%);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-  overflow: hidden;
+/* ===== AJUSTES ESPECÍFICOS PARA TELAS MUITO PEQUENAS ===== */
+@media (max-width: 360px) {
+  .season-indicator {
+    width: 22px;
+    height: 22px;
+    top: 2px;
+    right: 2px;
+  }
+
+  .status-icon {
+    font-size: 10px;
+  }
+
+  .countdown-text, .champion-name {
+    font-size: 4px;
+    bottom: -12px;
+    padding: 0px 1px;
+    border-radius: 2px;
+    min-width: 16px;
+  }
+
+  .pulse-ring {
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border-width: 1px;
+  }
+
+  .countdown-ring {
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    border-width: 1px;
+  }
+
+  .champion-glow {
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+  }
+
+  .status-glow {
+    top: -1px;
+    left: -1px;
+    right: -1px;
+    bottom: -1px;
+  }
 }
 
-.modal-header {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 20px 25px;
+/* ===== ANIMAÇÕES DE ENTRADA ===== */
+.island-wrapper {
+  animation: island-appear 0.8s ease-out;
+  animation-fill-mode: both;
+}
+
+.island-wrapper.center {
+  animation-delay: 0.2s;
+}
+
+.island-wrapper.position-top {
+  animation-delay: 0.4s;
+}
+
+.island-wrapper.position-top-right {
+  animation-delay: 0.6s;
+}
+
+.island-wrapper.position-right {
+  animation-delay: 0.8s;
+}
+
+.island-wrapper.position-bottom {
+  animation-delay: 1s;
+}
+
+.island-wrapper.position-left {
+  animation-delay: 1.2s;
+}
+
+@keyframes island-appear {
+  from {
+    opacity: 0;
+    transform: translateY(50px) scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ===== MELHORIAS DE ACESSIBILIDADE ===== */
+.island-button:focus-visible {
+  outline: 3px solid var(--tropical-gold);
+  outline-offset: 2px;
+}
+
+.tab-button:focus-visible,
+.btn-challenge:focus-visible,
+.btn-season:focus-visible {
+  outline: 2px solid var(--tropical-gold);
+  outline-offset: 2px;
+}
+
+/* ===== OTIMIZAÇÕES DE PERFORMANCE ===== */
+.island-wrapper,
+.bubble,
+.particle,
+.cloud-container,
+.firework,
+.season-effects {
+  will-change: transform;
+}
+
+.ocean-wave {
+  will-change: transform;
+}
+
+/* ===== MODO ESCURO APRIMORADO ===== */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ocean-primary: #0088cc;
+    --ocean-secondary: #006699;
+    --ocean-deep: #004466;
+  }
+}
+
+/* ===== REDUÇÃO DE MOVIMENTO ===== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Estilo para a informação de maturidade */
+.maturity-info {
   background: rgba(0, 0, 0, 0.2);
-}
-
-.modal-title {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: white;
-}
-
-.modal-body {
-  padding: 25px;
-}
-
-.modal-footer {
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 15px 25px;
-  background: rgba(0, 0, 0, 0.2);
-}
-
-.btn-close-white {
-  filter: brightness(0) invert(1);
-  opacity: 0.8;
-  transition: opacity 0.2s;
-}
-
-.btn-close-white:hover {
-  opacity: 1;
-}
-
-/* Estilos para as abas do modal - Redesenhado */
-.nav-tabs {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  margin-bottom: 25px;
-}
-
-.nav-tabs .nav-link {
-  color: rgba(255, 255, 255, 0.7);
-  border: none;
-  border-bottom: 3px solid transparent;
-  background-color: transparent;
-  padding: 12px 20px;
-  transition: all 0.2s ease;
-  font-weight: 500;
-  font-size: 1rem;
-}
-
-.nav-tabs .nav-link:hover,
-.nav-tabs .nav-link:focus {
-  color: white;
-  border-bottom: 3px solid rgba(41, 171, 226, 0.5);
-  background-color: rgba(255, 255, 255, 0.05);
-}
-
-.nav-tabs .nav-link.active {
-  color: #29abe2;
-  border-bottom: 3px solid #29abe2;
-  background-color: rgba(41, 171, 226, 0.1);
-}
-
-/* Estilo para itens de desafio - Redesenhado */
-.challenge-item {
-  background-color: rgba(0, 30, 60, 0.7);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: white;
+  border-radius: 10px;
+  padding: 10px 15px;
   margin-bottom: 15px;
-  border-radius: 12px;
-  transition: all 0.3s ease;
-  padding: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.challenge-item:hover {
-  background-color: rgba(0, 40, 80, 0.8);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-}
-
-.challenge-icon {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background-color: rgba(41, 171, 226, 0.2);
   display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: 24px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  justify-content: space-between;
+  flex-wrap: wrap;
 }
 
-.challenge-content {
-  flex: 1;
+.maturity-label {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9rem;
+  margin-right: 10px;
 }
 
-.challenge-content h5 {
-  font-size: 1.2rem;
+.maturity-value {
   font-weight: 600;
-  margin-bottom: 10px;
-}
-
-.challenge-content p {
-  color: rgba(255, 255, 255, 0.9);
-  margin-bottom: 15px;
-  font-weight: normal;
-}
-
-/* Badge de status */
-.badge {
-  padding: 6px 12px;
-  font-weight: 500;
+  font-size: 0.95rem;
+  padding: 3px 10px;
   border-radius: 20px;
-  font-size: 0.8rem;
+  background: rgba(0, 0, 0, 0.3);
 }
 
-.badge.bg-warning {
-  background-color: #ffc107 !important;
-  color: #000000 !important;
-  font-weight: 600;
+.maturity-fast-track {
+  color: #4caf50;
+  text-shadow: 0 0 8px rgba(76, 175, 80, 0.5);
 }
 
-.badge.bg-danger,
-.badge.bg-success {
-  background-color: #dc3545 !important;
-  color: #ffffff !important;
-  font-weight: 600;
+.maturity-executivo {
+  color: #2196f3;
+  text-shadow: 0 0 8px rgba(33, 150, 243, 0.5);
 }
 
-/* Botões personalizados - Redesenhado */
-.btn-moai {
-  background: linear-gradient(135deg, #29abe2 0%, #1a8ed1 100%);
-  border: none;
-  color: white !important;
-  font-weight: 500;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  transition: all 0.3s ease;
-  border-radius: 8px;
-  padding: 8px 16px;
+.maturity-c-level {
+  color: #9c27b0;
+  text-shadow: 0 0 8px rgba(156, 39, 176, 0.5);
 }
 
-.btn-moai:hover:not(:disabled) {
-  background: linear-gradient(135deg, #1a8ed1 0%, #0a7ec1 100%);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-}
-
-.btn-moai:active:not(:disabled) {
-  transform: translateY(0);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.btn-moai:disabled {
-  background: linear-gradient(135deg, rgba(41, 171, 226, 0.5) 0%, rgba(26, 142, 209, 0.5) 100%);
-  cursor: not-allowed;
-  opacity: 0.7;
-  box-shadow: none;
-}
-
-.btn-outline-moai {
-  background: transparent;
-  color: #29abe2 !important;
-  border: 2px solid #29abe2;
-  font-weight: 500;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-  border-radius: 8px;
-  padding: 8px 16px;
-}
-
-.btn-outline-moai:hover:not(:disabled) {
-  background-color: rgba(41, 171, 226, 0.1);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.btn-outline-moai:active:not(:disabled) {
-  transform: translateY(0);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-}
-
-.btn-outline-moai:disabled {
-  border-color: rgba(41, 171, 226, 0.5);
-  color: rgba(41, 171, 226, 0.5) !important;
-  cursor: not-allowed;
-  opacity: 0.7;
-  box-shadow: none;
-}
-
-/* Estilos para o spinner no botão */
-.spinner-border-sm {
-  width: 1rem;
-  height: 1rem;
-  border-width: 0.2em;
-  margin-right: 0.5rem;
-}
-
-/* Responsividade */
-@media (min-width: 768px) {
-  .island-wrapper {
-    width: 160px;
-    height: 160px;
-  }
-
-  .island-wrapper.center {
-    width: 120px;
-    height: 120px;
-  }
-
-  .island-info {
-    min-width: 140px;
-    padding: 8px 15px;
-  }
-
-  .island-name {
-    font-size: 14px;
-  }
-}
-
-@media (max-width: 767px) {
-  .island-wrapper {
-    width: 140px; /* Aumentado de 120px */
-    height: 140px;
-  }
-
-  .island-wrapper.center {
-    width: 110px; /* Aumentado de 90px */
-    height: 110px;
-  }
-
-  .islands-map {
-    padding: 40px 10px; /* Adicionar mais espaço vertical */
-  }
-}
-
+/* Ajuste responsivo */
 @media (max-width: 576px) {
-  .island-wrapper {
-    width: 120px; /* Aumentado de 100px */
-    height: 120px;
+  .maturity-info {
+    flex-direction: column;
+    align-items: flex-start;
   }
 
-  .island-wrapper.center {
-    width: 100px; /* Aumentado de 80px */
-    height: 100px;
+  .maturity-label {
+    margin-bottom: 5px;
   }
-
-  .island-info {
-    min-width: 100px;
-    bottom: -35px;
-    padding: 5px 10px;
-  }
-
-  /* Ajustar posicionamento para melhor layout em telas pequenas */
-  .island-wrapper.position-top {
-    top: 8%;
-  }
-
-  .island-wrapper.position-bottom {
-    bottom: 8%;
-  }
-
-  /* Melhorar visualização do texto */
-  .island-name {
-    font-size: 12px;
-  }
-}
-
-@media (max-width: 420px) {
-  .island-wrapper {
-    width: 100px;
-    height: 100px;
-  }
-
-  .island-wrapper.center {
-    width: 90px;
-    height: 90px;
-  }
-
-  /* Aproximar mais as ilhas do centro para melhor visualização */
-  .island-wrapper.position-top-right {
-    right: 10%;
-  }
-
-  .island-wrapper.position-bottom-right {
-    right: 10%;
-  }
-
-  .island-wrapper.position-bottom-left {
-    left: 10%;
-  }
-}
-
-/* Melhorar indicadores de status de temporada */
-.island-status {
-  position: absolute;
-  top: 10px; /* Aumentado para maior visibilidade */
-  right: 10px; /* Aumentado para maior visibilidade */
-  width: 20px; /* Aumentado para maior visibilidade */
-  height: 20px; /* Aumentado para maior visibilidade */
-  border-radius: 50%;
-  z-index: 4;
-  border: 2px solid rgba(255, 255, 255, 0.7); /* Borda mais visível */
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
-}
-
-/* Temporada ativa: luz verde pulsante mais visível */
-.status-active {
-  background: radial-gradient(circle at center, #00ff00 30%, #008000 100%);
-  box-shadow: 0 0 20px #00ff00;
-  animation: pulse 2s infinite;
-}
-
-/* Temporada agendada: luz amarela mais visível */
-.status-scheduled {
-  background: radial-gradient(circle at center, #ffff00 30%, #ffa500 100%);
-  box-shadow: 0 0 15px #ffff00;
-  animation: pulse 3s infinite;
-}
-
-/* Temporada finalizada: luz vermelha mais visível */
-.status-finished {
-  background: radial-gradient(circle at center, #ff0000 30%, #8b0000 100%);
-  box-shadow: 0 0 10px #ff0000;
-}
-
-/* Efeito de reflexo na água - Melhorado */
-.island-wrapper::after {
-  content: "";
-  position: absolute;
-  width: 90%;
-  height: 40%;
-  left: 5%;
-  top: 100%;
-  background-image: url(""); /* Remover qualquer imagem de fundo */
-  background-color: transparent;
-  transform-origin: top center;
-  transform: scaleY(-1) scaleX(0.8);
-  filter: blur(2px) brightness(0.7);
-  opacity: 0.3;
-  z-index: 1;
-  pointer-events: none;
-  animation: water-reflection 4s ease-in-out infinite alternate;
-  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%);
-  -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%);
-}
-
-.island-wrapper.center::after {
-  height: 30%;
-  opacity: 0.25;
-}
-
-@keyframes water-reflection {
-  0% {
-    filter: blur(2px) brightness(0.7);
-    transform: scaleY(-1) scaleX(0.8) translateY(0);
-    opacity: 0.3;
-  }
-  100% {
-    filter: blur(3px) brightness(0.6);
-    transform: scaleY(-1) scaleX(0.75) translateY(5px);
-    opacity: 0.2;
-  }
-}
-
-/* Estilos do Modal - Redesenhado */
-.modal-content {
-  background: linear-gradient(135deg, #002952 0%, #001e3d 100%);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-  overflow: hidden;
-}
-
-.modal-header {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 20px 25px;
-  background: rgba(0, 0, 0, 0.2);
-}
-
-.modal-title {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: white;
-}
-
-.modal-body {
-  padding: 25px;
-}
-
-.modal-footer {
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 15px 25px;
-  background: rgba(0, 0, 0, 0.2);
-}
-
-.btn-close-white {
-  filter: brightness(0) invert(1);
-  opacity: 0.8;
-  transition: opacity 0.2s;
-}
-
-.btn-close-white:hover {
-  opacity: 1;
-}
-
-/* Estilos para as abas do modal - Redesenhado */
-.nav-tabs {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  margin-bottom: 25px;
-}
-
-.nav-tabs .nav-link {
-  color: rgba(255, 255, 255, 0.7);
-  border: none;
-  border-bottom: 3px solid transparent;
-  background-color: transparent;
-  padding: 12px 20px;
-  transition: all 0.2s ease;
-  font-weight: 500;
-  font-size: 1rem;
-}
-
-.nav-tabs .nav-link:hover,
-.nav-tabs .nav-link:focus {
-  color: white;
-  border-bottom: 3px solid rgba(41, 171, 226, 0.5);
-  background-color: rgba(255, 255, 255, 0.05);
-}
-
-.nav-tabs .nav-link.active {
-  color: #29abe2;
-  border-bottom: 3px solid #29abe2;
-  background-color: rgba(41, 171, 226, 0.1);
-}
-
-/* Estilo para itens de desafio - Redesenhado */
-.challenge-item {
-  background-color: rgba(0, 30, 60, 0.7);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: white;
-  margin-bottom: 15px;
-  border-radius: 12px;
-  transition: all 0.3s ease;
-  padding: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.challenge-item:hover {
-  background-color: rgba(0, 40, 80, 0.8);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-}
-
-.challenge-icon {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background-color: rgba(41, 171, 226, 0.2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 24px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.challenge-content {
-  flex: 1;
-}
-
-.challenge-content h5 {
-  font-size: 1.2rem;
-  font-weight: 600;
-  margin-bottom: 10px;
-}
-
-.challenge-content p {
-  color: rgba(255, 255, 255, 0.9);
-  margin-bottom: 15px;
-  font-weight: normal;
 }

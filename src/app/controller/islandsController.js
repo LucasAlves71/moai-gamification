@@ -277,12 +277,12 @@ angular.module('moaiApp').controller('IslandsController', function($scope, $http
             var activeSeason = $scope.getActiveSeasonForCurrentIsland();
             if (activeSeason) {
                 $scope.loadSeasonRanking(activeSeason._id);
-            } else {
-                // Limpar dados do ranking se não houver temporada ativa
-                $scope.seasonRanking = [];
-                $scope.userRankingPosition = null;
-                $scope.hasActiveSeason = false;
             }
+        }
+
+        // Aplicar as mudanças imediatamente
+        if (!$scope.$$phase) {
+            $scope.$apply();
         }
     };
 
@@ -1130,15 +1130,26 @@ angular.module('moaiApp').controller('IslandsController', function($scope, $http
         return rewardTexts.join(', ');
     };
 
-    // Função para obter recompensas de uma temporada
+    // Função para obter recompensas de uma temporada com cache eficiente
     $scope.getSeasonRewards = function(season) {
         // Se não for fornecida uma temporada, retornar array vazio
         if (!season || !season.rewards) return [];
 
-        console.log('Processando recompensas da temporada:', season.title);
+        // Usar um cache baseado no ID da temporada
+        var cacheKey = 'rewards_' + (season._id || 'unknown');
+
+        // Verificar se já temos os resultados em cache
+        if ($scope._rewardsCache && $scope._rewardsCache[cacheKey]) {
+            return $scope._rewardsCache[cacheKey];
+        }
+
+        // Inicializar cache se necessário
+        if (!$scope._rewardsCache) {
+            $scope._rewardsCache = {};
+        }
 
         // Mapear as recompensas para um formato mais fácil de exibir
-        return season.rewards.map(function(reward) {
+        var rewards = season.rewards.map(function(reward) {
             // Determinar a posição da recompensa
             var position = 0;
             if (reward.extra && reward.extra.position_start) {
@@ -1149,66 +1160,49 @@ angular.module('moaiApp').controller('IslandsController', function($scope, $http
             var rewardInfo = {
                 type: reward.type,
                 item: reward.item,
-                total: reward.total,
+                total: reward.total || 0,
                 position: position,
-                amount: reward.total,
-                description: reward.extra && reward.extra.description ? reward.extra.description : null
+                icon: '🏆',
+                name: 'Prêmio ' + (position > 0 ? position + 'º lugar' : ''),
+                iconClass: 'reward-default',
+                amount: ''
             };
 
-            // Com base no tipo de recompensa, definir ícone, nome e classe
-            switch(reward.type) {
-                case 0: // Pontos/moedas
-                    if (reward.item === 'moaicoins') {
-                        rewardInfo.name = 'MOAIcoins';
-                        rewardInfo.icon = '🏆';
-                        rewardInfo.iconClass = 'reward-moaicoins';
-                    } else if (reward.item === 'moaimoney') {
-                        rewardInfo.name = 'MOAImoney';
+            // Personalizar com base no tipo de recompensa
+            if (reward.type === 0) { // Pontos/moedas
+                switch(reward.item) {
+                    case 'moaicoins':
                         rewardInfo.icon = '💰';
-                        rewardInfo.iconClass = 'reward-moaimoney';
-                    } else if (reward.item === 'xp') {
-                        rewardInfo.name = 'Experiência';
+                        rewardInfo.name = 'MOAIcoins';
+                        rewardInfo.amount = reward.total;
+                        rewardInfo.iconClass = 'reward-coins';
+                        break;
+                    case 'moaimoney':
+                        rewardInfo.icon = '💵';
+                        rewardInfo.name = 'MOAIMoney';
+                        rewardInfo.amount = reward.total;
+                        rewardInfo.iconClass = 'reward-money';
+                        break;
+                    case 'xp':
                         rewardInfo.icon = '⭐';
+                        rewardInfo.name = 'Experiência';
+                        rewardInfo.amount = reward.total + ' XP';
                         rewardInfo.iconClass = 'reward-xp';
-                    } else {
-                        rewardInfo.name = reward.item;
+                        break;
+                    default:
+                        rewardInfo.name = 'Recompensa';
                         rewardInfo.icon = '🎁';
                         rewardInfo.iconClass = 'reward-default';
-                    }
-                    break;
-
-                case 1: // Item
-                    rewardInfo.name = 'Item Exclusivo';
-                    rewardInfo.icon = '🎁';
-                    rewardInfo.iconClass = 'reward-item';
-                    break;
-
-                case 2: // Conquista
-                    rewardInfo.name = 'Conquista Especial';
-                    rewardInfo.icon = '🎖️';
-                    rewardInfo.iconClass = 'reward-achievement';
-
-                    // Se for a conquista específica da resposta da API
-                    if (reward.item === 'EVwBmRm') {
-                        rewardInfo.name = 'Conquista do Campeão';
-                        rewardInfo.description = 'Uma recompensa misteriosa te espera!';
-                    }
-                    break;
-
-                case 3: // Experiência
-                    rewardInfo.name = 'Experiência';
-                    rewardInfo.icon = '⭐';
-                    rewardInfo.iconClass = 'reward-xp';
-                    break;
-
-                default:
-                    rewardInfo.name = 'Recompensa';
-                    rewardInfo.icon = '🎁';
-                    rewardInfo.iconClass = 'reward-default';
+                }
             }
 
             return rewardInfo;
         });
+
+        // Salvar em cache
+        $scope._rewardsCache[cacheKey] = rewards;
+
+        return rewards;
     };
 
     // Inicialização modificada
