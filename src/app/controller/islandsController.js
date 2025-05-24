@@ -1,10 +1,12 @@
 angular.module('moaiApp').controller('IslandsController', function($scope, $http, $q, $timeout, $location, API_CONFIG, AuthService) {
-    // Aplicar a classe islands-page ao corpo para o espaçamento correto
+    // Aplicar a classe islands-page ao body quando entrar na página
     angular.element(document.body).addClass('islands-page');
 
     // Remover a classe quando sair da página
     $scope.$on('$destroy', function() {
         angular.element(document.body).removeClass('islands-page');
+        // Restaurar a rolagem normal
+        document.body.style.overflow = '';
     });
 
     // Verificação de autenticação usando o serviço
@@ -247,23 +249,15 @@ angular.module('moaiApp').controller('IslandsController', function($scope, $http
         // Carregar dados específicos da ilha
         $scope.loadIslandData(islandKey);
 
-        // Garantir que a página role para o topo quando o modal abrir
-        setTimeout(function() {
-            window.scrollTo(0, 0);
-            document.body.style.overflow = 'hidden';
-
-            // Ativar a primeira aba (challenges)
-            var firstTab = document.getElementById('challenges-tab');
-            if (firstTab) {
-                firstTab.click();
-            }
-        }, 100);
+        // Manter a página bloqueada mas permitir rolagem dentro do modal
+        document.body.style.overflow = 'hidden';
     };
 
     // Função para fechar o modal
     $scope.closeModal = function() {
         $scope.modalVisible = false;
-        document.body.style.overflow = '';
+        // Manter a página sem rolagem após fechar o modal
+        document.body.style.overflow = 'hidden';
         $scope.selectedIsland = null;
         $scope.selectedIslandKey = null;
     };
@@ -860,6 +854,12 @@ angular.module('moaiApp').controller('IslandsController', function($scope, $http
                     $scope.getPlayerDisplayName(rank.player);
                 });
 
+                // Pré-carregar imagens de perfil dos jogadores no ranking
+                $scope.seasonRanking.forEach(function(rank) {
+                    // Iniciar carregamento em background das imagens
+                    $scope.getPlayerProfileImage(rank.player);
+                });
+
                 console.log('Posição do usuário no ranking:', $scope.userRankingPosition);
                 console.log('Total de jogadores no ranking:', $scope.seasonRanking.length);
             },
@@ -949,6 +949,130 @@ angular.module('moaiApp').controller('IslandsController', function($scope, $http
             }
         );
     };
+
+    // Adicione um objeto para armazenar as imagens de perfil
+$scope.playerProfileImages = {};
+
+// Função para obter a imagem de perfil do jogador
+$scope.getPlayerProfileImage = function(playerId) {
+    // Se já temos a imagem em cache, retorná-la
+    if ($scope.playerProfileImages[playerId]) {
+        return $scope.playerProfileImages[playerId];
+    }
+
+    // Se não temos a imagem, mas estamos carregando, retornar undefined
+    if ($scope.playerProfileImages[playerId] === 'loading') {
+        return undefined;
+    }
+
+    // Marcar como em carregamento
+    $scope.playerProfileImages[playerId] = 'loading';
+
+    // Fazer requisição para obter os dados do perfil do jogador
+    $http({
+        method: 'GET',
+        url: API_CONFIG.baseUrl + '/player/' + playerId,
+        headers: {
+            "Authorization": API_CONFIG.authHeader,
+            "Content-Type": "application/json"
+        }
+    }).then(
+        function(response) {
+            var playerData = response.data;
+            var profileImage = null;
+
+            // Verificar se o jogador tem uma imagem de perfil
+            if (playerData.image) {
+                if (playerData.image.medium && playerData.image.medium.url) {
+                    profileImage = playerData.image.medium.url;
+                } else if (playerData.image.small && playerData.image.small.url) {
+                    profileImage = playerData.image.small.url;
+                } else if (playerData.image.original && playerData.image.original.url) {
+                    profileImage = playerData.image.original.url;
+                }
+            }
+
+            // Salvar a imagem no cache
+            $scope.playerProfileImages[playerId] = profileImage || 'public/img/default-avatar.png';
+
+            // Forçar atualização da view
+            if (!$scope.$$phase) {
+                $scope.$apply();
+            }
+        },
+        function(error) {
+            console.error('Erro ao carregar imagem do jogador:', error);
+            // Definir uma imagem padrão em caso de erro
+            $scope.playerProfileImages[playerId] = 'public/img/default-avatar.png';
+
+            // Forçar atualização da view
+            if (!$scope.$$phase) {
+                $scope.$apply();
+            }
+        }
+    );
+
+    return undefined; // Retornar undefined enquanto carrega
+};
+
+// Modificar a função loadSeasonRanking para carregar as imagens dos jogadores
+$scope.loadSeasonRanking = function(seasonId) {
+    if (!seasonId) {
+        $scope.seasonRanking = [];
+        $scope.userRankingPosition = null;
+        $scope.hasActiveSeason = false;
+        return;
+    }
+
+    $scope.isLoadingRanking = true;
+    $scope.rankingError = null;
+    $scope.hasActiveSeason = true;
+
+    var userId = AuthService.getUserId();
+
+    var req = {
+        method: 'POST',
+        url: 'https://service2.funifier.com/v3/competition/leader/aggregate?id=' + seasonId,
+        headers: {
+            "Authorization": "Basic NjgyNWUwMzIyMzI3Zjc0ZjNhM2QxZjg0OjY4Mjg5NGE2MjMyN2Y3NGYzYTNkZDM1Mw==",
+            "Content-Type": "application/json"
+        },
+        data: [] // Empty array as per the example
+    };
+
+    $http(req).then(
+        function(response) {
+            console.log('Ranking da temporada carregado:', response.data);
+            $scope.seasonRanking = response.data || [];
+            $scope.isLoadingRanking = false;
+
+            // Encontrar posição do usuário atual no ranking
+            $scope.userRankingPosition = $scope.seasonRanking.find(function(rank) {
+                return rank.player === userId;
+            });
+
+            // Pré-carregar nomes dos jogadores
+            $scope.seasonRanking.forEach(function(rank) {
+                // Iniciar carregamento em background dos nomes
+                $scope.getPlayerDisplayName(rank.player);
+            });
+
+            // Pré-carregar imagens de perfil dos jogadores no ranking
+            $scope.seasonRanking.forEach(function(rank) {
+                // Iniciar carregamento em background das imagens
+                $scope.getPlayerProfileImage(rank.player);
+            });
+
+            console.log('Posição do usuário no ranking:', $scope.userRankingPosition);
+            console.log('Total de jogadores no ranking:', $scope.seasonRanking.length);
+        },
+        function(error) {
+            console.error('Erro ao carregar ranking da temporada:', error);
+            $scope.isLoadingRanking = false;
+            $scope.rankingError = error;
+        }
+    );
+};
 
     // Remover funções duplicadas ou redundantes
     // Já existe um método $scope.getActiveSeasonForCurrentIsland definido em dois lugares

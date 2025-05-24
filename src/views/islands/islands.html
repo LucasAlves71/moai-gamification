@@ -20,7 +20,7 @@
 
           <!-- Audio do oceano -->
           <audio id="ocean-sound" src="public/audios/som_do_mar.mp3" loop preload="auto"></audio>
-          
+
           <!-- Partículas flutuantes -->
           <div class="floating-particles">
               <div class="particle particle-1"></div>
@@ -499,7 +499,18 @@
 
                                                       <div class="rewards-grid">
                                                           <div class="reward-item" ng-repeat="reward in getSeasonRewards(getActiveSeasonForCurrentIsland()) track by $index">
-                                                              <div class="reward-icon">{{reward.icon}}</div>
+                                                              <div class="reward-icon">
+                                                                  <!-- Se for MOAIcoin ou MOAImoney, use os arquivos estáticos -->
+                                                                  <img ng-if="reward.name === 'MOAIcoins'" src="public/img/MoaiCoin.png" alt="MOAIcoins" class="reward-totem-img">
+                                                                  <img ng-if="reward.name === 'MOAIMoney'" src="public/img/MoaiMoney.png" alt="MOAIMoney" class="reward-totem-img">
+
+                                                                  <!-- Se for qualquer outro prêmio, use um totem aleatório -->
+                                                                  <img ng-if="reward.name !== 'MOAIcoins' && reward.name !== 'MOAIMoney'"
+                                                                       ng-src="public/img/totens/totem-{{$index % 5 + 1}}.png"
+                                                                       alt="Totem de recompensa"
+                                                                       class="reward-totem-img"
+                                                                       onerror="this.src='public/img/totens/totem-1.png'; this.onerror=null;">
+                                                              </div>
                                                               <div class="reward-details">
                                                                   <span class="reward-name">{{reward.name}}</span>
                                                                   <span class="reward-amount" ng-if="reward.amount">{{reward.amount}}</span>
@@ -564,7 +575,10 @@
                                                           }" ng-if="player.position <= 3"></i>
                                                       </div>
                                                       <div class="player-avatar">
-                                                          <i class="bi bi-person-circle"></i>
+                                                          <img ng-src="{{getPlayerProfileImage(player.player) || 'public/img/default-avatar.png'}}"
+                                                               alt="Avatar do jogador"
+                                                               class="player-profile-image"
+                                                               onerror="this.src='public/img/default-avatar.png'; this.onerror=null;">
                                                       </div>
                                                       <div class="player-info">
                                                           <span class="player-name">{{getPlayerDisplayName(player.player)}}</span>
@@ -586,7 +600,10 @@
                                                           <span class="position-number">{{userRankingPosition.position}}</span>
                                                       </div>
                                                       <div class="player-avatar">
-                                                          <i class="bi bi-person-circle"></i>
+                                                          <img ng-src="{{getPlayerProfileImage(AuthService.getUserId()) || 'public/img/default-avatar.png'}}"
+                                                               alt="Seu avatar"
+                                                               class="player-profile-image"
+                                                               onerror="this.src='public/img/default-avatar.png'; this.onerror=null;">
                                                       </div>
                                                       <div class="player-info">
                                                           <span class="player-name">Você</span>
