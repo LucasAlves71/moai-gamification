@@ -21,6 +21,22 @@ body.dashboard-page {
     color: white;
 }
 
+/* Garantir que todas as páginas exceto login possam rolar */
+body:not(.login-page) {
+    overflow-y: auto !important;
+}
+
+/* Corrigir overflow para conteúdos específicos */
+.onboarding-content,
+.firstupgrade-container,
+.dashboard-container,
+.profile-container,
+.rewards-container,
+.islands-container,
+.development-container {
+    overflow-y: auto;
+}
+
 /* Corrigir conflitos com classes do Bootstrap */
 .container-moai {
     width: 100%;

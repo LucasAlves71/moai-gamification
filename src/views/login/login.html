@@ -1,35 +1,93 @@
-<div class="container d-flex justify-content-center align-items-center vh-100">
-    <div class="login-container">
-        <div class="login-card shadow-lg">
-            <div class="text-center mb-4">
-                <img src="public/img/moai-logo.png" alt="MOAI Logo" class="moai-logo img-fluid">
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MOAI - Login</title>
+    <link rel="stylesheet" href="views/login/login.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="login-wrapper">
+        <div class="background-animation">
+            <div class="wave wave1"></div>
+            <div class="wave wave2"></div>
+            <div class="wave wave3"></div>
+        </div>
+
+        <div class="container">
+            <div class="login-container">
+                <div class="login-card">
+                    <div class="logo-section">
+                        <div class="logo-container">
+                            <img src="public/img/moai-logo.png" alt="MOAI Logo" class="moai-logo">
+                        </div>
+                        <h1 class="welcome-text">Seja bem-vindo!</h1>
+                        <p class="subtitle">Entre com a sua conta!</p>
+                    </div>
+
+                    <form ng-submit="login()" class="login-form">
+                        <div class="form-group">
+                            <label for="email" class="form-label">Email</label>
+                            <div class="input-wrapper">
+                                <div class="input-icon">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                        <polyline points="22,6 12,13 2,6"></polyline>
+                                    </svg>
+                                </div>
+                                <input
+                                    type="email"
+                                    class="form-input"
+                                    id="email"
+                                    ng-model="user.email"
+                                    placeholder="Insira o seu email"
+                                    required
+                                    autocomplete="email"
+                                >
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password" class="form-label">Senha</label>
+                            <div class="input-wrapper">
+                                <div class="input-icon">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                        <circle cx="12" cy="16" r="1"></circle>
+                                        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                                    </svg>
+                                </div>
+                                <input
+                                    type="password"
+                                    class="form-input"
+                                    id="password"
+                                    ng-model="user.password"
+                                    placeholder="Insira a sua senha"
+                                    required
+                                    autocomplete="current-password"
+                                >
+                            </div>
+                        </div>
+
+                        <button type="submit" class="login-button">
+                            <span class="button-text">Entrar</span>
+                            <div class="button-loader"></div>
+                        </button>
+
+                        <div class="form-footer">
+                            <div class="links-container">
+                                <a href="#" class="footer-link">Termos de uso</a>
+                                <span class="separator">•</span>
+                                <a href="#" class="footer-link">Política de privacidade</a>
+                            </div>
+                        </div>
+                    </form>
+
+                    <audio id="ocean-sound" src="public/audios/ocean-waves.wav" preload="auto"></audio>
+                </div>
             </div>
-
-            <form ng-submit="login()" class="login-form">
-                <div class="mb-3">
-                    <label for="email" class="form-label sr-only">Email</label>
-                    <div class="input-with-icon">
-                        <span class="icon">✉️</span>
-                        <input type="email" class="form-control" id="email" ng-model="user.email" placeholder="Email address" required>
-                    </div>
-                </div>
-
-                <div class="mb-3">
-                    <label for="password" class="form-label sr-only">Senha</label>
-                    <div class="input-with-icon">
-                        <span class="icon">🔒</span>
-                        <input type="password" class="form-control" id="password" ng-model="user.password" placeholder="Password" required>
-                    </div>
-                </div>
-
-                <button type="submit" class="btn w-100 login-button mb-3">Log in</button>
-
-                <div class="text-center terms">
-                    <a href="#" class="text-decoration-none">Terms of Use</a> | <a href="#" class="text-decoration-none">Privacy Policy</a>
-                </div>
-            </form>
-
-            <audio id="ocean-sound" src="public/audios/ocean-waves.wav" preload="auto"></audio>
         </div>
     </div>
-</div>
+</body>
+</html>

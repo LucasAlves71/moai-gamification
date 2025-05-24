@@ -1,4 +1,12 @@
 angular.module('moaiApp').controller('LoginController', function($scope, $http, $location, API_CONFIG) {
+    // Adicionar classe login-page ao body
+    angular.element(document.body).addClass('login-page');
+
+    // Remover a classe quando sair da página
+    $scope.$on('$destroy', function() {
+        angular.element(document.body).removeClass('login-page');
+    });
+
     // Initialize user object
     $scope.user = {
         email: '',
