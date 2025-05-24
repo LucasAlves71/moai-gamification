@@ -474,7 +474,35 @@ angular.module('moaiApp').controller('DevelopmentController', function($scope, $
             element.classList.add('harvesting');
         }
 
-        // Aguardar um momento para a animação de colheita começar antes de chamar a API
+        // Reproduzir o som apropriado para o tipo de recurso
+        try {
+            var audioId = '';
+            switch(resource.type) {
+                case 'energia':
+                    audioId = 'som_energia';
+                    break;
+                case 'ferramenta':
+                    audioId = 'som_ferramenta';
+                    break;
+                case 'criatividade':
+                    audioId = 'som_criatividade';
+                    break;
+            }
+
+            if (audioId) {
+                var audio = document.getElementById(audioId);
+                if (audio) {
+                    audio.currentTime = 0; // Reiniciar áudio
+                    audio.play().catch(function(error) {
+                        console.log('Não foi possível reproduzir o som:', error);
+                    });
+                }
+            }
+        } catch (e) {
+            console.error('Erro ao reproduzir som de recurso:', e);
+        }
+
+        // Pequeno delay para a animação
         $timeout(function() {
             var req = {
                 method: 'POST',

@@ -15,6 +15,11 @@
     <link rel="stylesheet" href="views/development/development.css">
 </head>
 <body>
+    <!-- Adicionar elementos de áudio para cada tipo de recurso -->
+    <audio id="som_energia" src="public/audios/som_shockwave.mp3" preload="auto"></audio>
+    <audio id="som_ferramenta" src="public/audios/som_martelo.wav" preload="auto"></audio>
+    <audio id="som_criatividade" src="public/audios/som_pensando.wav" preload="auto"></audio>
+
     <div class="development-container" ng-controller="DevelopmentController">
         <!-- A navbar é incluída aqui -->
         <div ng-include="'components/navbar.html'"></div>

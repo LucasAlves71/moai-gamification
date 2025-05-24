@@ -15,6 +15,9 @@
     <link rel="stylesheet" href="views/rewards/rewards.css">
 </head>
 <body>
+    <!-- Adicionar elemento de áudio para o som de compra -->
+    <audio id="som_de_compra" src="public/audios/som_de_compra.wav" preload="auto"></audio>
+
     <div class="rewards-container" ng-controller="RewardsController">
         <!-- A navbar é incluída aqui -->
         <div ng-include="'components/navbar.html'"></div>
@@ -197,7 +200,7 @@
 
                                 <div class="requirement-item" ng-if="hasLevelRequirement(selectedItem)">
                                     <div class="req-icon-container level-req">
-                                        <i class="bi bi-star-fill"></i>
+                                        <img src="public/img/xp-icon.png" alt="Nível" class="req-icon">
                                     </div>
                                     <div class="req-details">
                                         <span class="req-level">{{getLevelFromRequirements(selectedItem)}}</span>

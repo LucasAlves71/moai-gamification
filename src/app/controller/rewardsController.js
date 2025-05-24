@@ -379,6 +379,19 @@ angular.module('moaiApp').controller('RewardsController', function($scope, $http
                 console.log('Purchase successful:', response.data);
                 $scope.isProcessing = false;
 
+                // Play purchase sound
+                try {
+                    var purchaseSound = document.getElementById('som_de_compra');
+                    if (purchaseSound) {
+                        purchaseSound.currentTime = 0; // Reset to beginning
+                        purchaseSound.play().catch(function(error) {
+                            console.log('Could not play purchase sound:', error);
+                        });
+                    }
+                } catch (e) {
+                    console.error('Error playing purchase sound:', e);
+                }
+
                 // Exibir mensagem de sucesso
                 alert('Compra realizada com sucesso!');
 
