@@ -1529,4 +1529,37 @@ $scope.getLastFinishedSeasonChampion = function(islandKey) {
     // Retornar o nome do campeão ou null se não houver dados
     return "Campeão anterior"; // Placeholder - você precisaria implementar a busca real
 };
+
+// Iniciar som automaticamente se permitido pelo navegador
+$timeout(function() {
+    // Tentar reproduzir o som quando a página carregar
+    try {
+        var oceanSound = document.getElementById('ocean-sound');
+        if (oceanSound) {
+            // Definir volume muito baixo para ser ambiente e não intrusivo
+            oceanSound.volume = 0.2;
+            var playPromise = oceanSound.play();
+
+            if (playPromise !== undefined) {
+                playPromise.then(function() {
+                    console.log('Áudio do oceano iniciado como ambiente');
+                    $scope.oceanSoundPlaying = true;
+                }).catch(function(error) {
+                    console.log('Reprodução automática bloqueada pelo navegador:', error);
+                    $scope.oceanSoundPlaying = false;
+                });
+            }
+        }
+    } catch (e) {
+        console.error('Erro ao tentar reproduzir áudio:', e);
+    }
+}, 1000);
+
+// Quando o controller for destruído, parar o som
+$scope.$on('$destroy', function() {
+    var oceanSound = document.getElementById('ocean-sound');
+    if (oceanSound) {
+        oceanSound.pause();
+    }
+});
 });
