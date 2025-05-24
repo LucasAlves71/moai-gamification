@@ -22,9 +22,15 @@
                     <h1 class="display-5">Ilha {{islandName}}</h1>
                 </div>
 
-                <!-- Mensagem de boas-vindas -->
-                <div class="welcome-section text-center mb-4">
-                    <p class="lead welcome-text">Esta é a sua base de operações. Vamos começar a construir seu legado!</p>
+                <!-- Personagem Mascote com Balão de Fala -->
+                <div class="mascote-container mb-4">
+                    <div class="character-image">
+                        <img src="public/img/mascote/mascote-11.png" alt="Manu'Kai" class="mascote-img">
+                    </div>
+                    <div class="speech-bubble">
+                        <h3 class="speech-title">Veja! Os habitantes de outras ilhas te enviaram um presente.</h3>
+                        <p class="speech-text">Um bloco de pedra. É nele que você começará a esculpir o seu legado.</p>
+                    </div>
                 </div>
 
                 <!-- Container da ilha inicial com classes do Bootstrap para responsividade -->
@@ -38,10 +44,12 @@
                             <img src="public/img/boat-with-stone.png" alt="Barco com pedra MOAI" class="boat-image">
                         </div>
 
-                        <!-- Pop-up para coletar a primeira pedra - sem texto adicional -->
+                        <!-- Pop-up para coletar a primeira pedra - com ícone de ferramenta -->
                         <div class="tool-popup" ng-class="{'visible': showToolPopup}" ng-click="collectFirstTool()">
                             <div class="tool-circle">
-                                <div class="tool-icon">🪨</div>
+                                <div class="tool-icon">
+                                    <img src="public/img/ferramenta-icon.png" alt="Ferramenta" class="tool-icon-img" onerror="this.outerHTML='<div>🪨</div>'">
+                                </div>
                             </div>
                             <div class="tool-glow"></div>
                         </div>
