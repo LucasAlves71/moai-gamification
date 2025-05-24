@@ -1,38 +1,55 @@
-<div class="navbar fixed-bottom py-2 bg-moai-dark" ng-controller="NavbarController">
-    <div class="container">
-        <div class="row w-100 navbar-content">
-            <div class="col-3 p-0">
-                <a href="#/islands" ng-click="navigate('/islands'); $event.preventDefault()"
-                   class="nav-item d-flex flex-column align-items-center"
-                   ng-class="{'active': isActive('/islands')}">
-                    <div class="nav-icon">🏝️</div>
-                    <div class="nav-label">Ilhas</div>
-                </a>
-            </div>
-            <div class="col-3 p-0">
-                <a href="#/development" ng-click="navigate('/development'); $event.preventDefault()"
-                   class="nav-item d-flex flex-column align-items-center"
-                   ng-class="{'active': isActive('/development')}">
-                    <div class="nav-icon">🔨</div>
-                    <div class="nav-label">Desenvolvimento</div>
-                </a>
-            </div>
-            <div class="col-3 p-0">
-                <a href="#/rewards" ng-click="navigate('/rewards'); $event.preventDefault()"
-                   class="nav-item d-flex flex-column align-items-center"
-                   ng-class="{'active': isActive('/rewards')}">
-                    <div class="nav-icon">🎁</div>
-                    <div class="nav-label">Recompensas</div>
-                </a>
-            </div>
-            <div class="col-3 p-0">
-                <a href="#/profile" ng-click="navigate('/profile'); $event.preventDefault()"
-                   class="nav-item d-flex flex-column align-items-center"
-                   ng-class="{'active': isActive('/profile')}">
-                    <div class="nav-icon">👤</div>
-                    <div class="nav-label">Perfil</div>
-                </a>
-            </div>
+<!-- Navbar Moai - HTML Isolado -->
+<nav class="navbar-moai" ng-controller="NavbarController">
+    <div class="navbar-moai-container">
+        <div class="navbar-moai-content">
+            <!-- Ilhas -->
+            <a href="#/islands"
+               ng-click="navigate('/islands'); $event.preventDefault()"
+               class="nav-item-moai"
+               ng-class="{'active': isActive('/islands')}"
+               aria-label="Ilhas">
+                <div class="nav-icon-moai">
+                    <img src="public/img/islands-icon.png" alt="Ilhas" class="nav-icon-img" onerror="this.outerHTML='🏝️'">
+                </div>
+                <div class="nav-label-moai">Ilhas</div>
+            </a>
+
+            <!-- Desenvolvimento -->
+            <a href="#/development"
+               ng-click="navigate('/development'); $event.preventDefault()"
+               class="nav-item-moai"
+               ng-class="{'active': isActive('/development')}"
+               aria-label="Desenvolvimento">
+                <div class="nav-icon-moai">
+                    <img src="public/img/development-icon.png" alt="Desenvolvimento" class="nav-icon-img" onerror="this.outerHTML='🔨'">
+                </div>
+                <div class="nav-label-moai">Desenvolvimento</div>
+            </a>
+
+            <!-- Recompensas -->
+            <a href="#/rewards"
+               ng-click="navigate('/rewards'); $event.preventDefault()"
+               class="nav-item-moai"
+               ng-class="{'active': isActive('/rewards')}"
+               aria-label="Recompensas">
+                <div class="nav-icon-moai">
+                    <img src="public/img/rewards-icon.png" alt="Recompensas" class="nav-icon-img" onerror="this.outerHTML='🎁'">
+                </div>
+                <div class="nav-label-moai">Recompensas</div>
+            </a>
+
+            <!-- Perfil -->
+            <a href="#/profile"
+               ng-click="navigate('/profile'); $event.preventDefault()"
+               class="nav-item-moai"
+               ng-class="{'active': isActive('/profile')}"
+               aria-label="Perfil">
+                <div class="nav-icon-moai">
+                    <img src="public/img/profile-icon.png" alt="Perfil" class="nav-icon-img" onerror="this.outerHTML='👤'">
+                </div>
+                <div class="nav-label-moai">Perfil</div>
+            </a>
         </div>
     </div>
-</div>
+
+</nav></nav>
