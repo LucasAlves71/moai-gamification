@@ -1454,3 +1454,11 @@ body {
         padding: 0.4rem 0.8rem;
     }
 }
+
+.section-icon {
+    width: 40px;  /* Aumentado de 24px */
+    height: 40px;  /* Aumentado de 24px */
+    vertical-align: middle;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+    margin-right: 10px;  /* Adicionado para dar mais espaço entre o ícone e o texto */
+}
