@@ -1,83 +1,154 @@
-<div class="dashboard-container">
-    <div ng-include="'components/navbar.html'"></div>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard MOAI</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="views/dashboard/dashboard.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <div ng-include="'components/navbar.html'"></div>
 
-    <div class="container-moai py-4">
-        <div class="row justify-content-center">
-            <div class="col-md-10 col-lg-8">
-                <div class="island-header text-center mb-3">
-                    <h1 class="display-5">{{userStatus.extra.ilha}}</h1>
+        <div class="container-moai">
+            <div class="main-content">
+
+                <!-- Header da Ilha com Coqueiros -->
+                <div class="island-header fade-in">
+                    <div class="island-name-card">
+                        <div class="palm-tree palm-left">🌴</div>
+                        <div class="island-content">
+                            <h1>{{userStatus.extra.ilha}}</h1>
+                            <p class="island-subtitle">SUA ILHA TROPICAL</p>
+                        </div>
+                        <div class="palm-tree palm-right">🌴</div>
+                    </div>
                 </div>
 
-                <div class="island-visualization text-center mb-4 position-relative">
-                    <!-- Exibição da ilha com o MOAI em seu estágio atual de evolução -->
-                    <img ng-src="{{getCurrentMoaiImage()}}?v={{updateTimestamp}}"
-                         alt="Island Visualization"
-                         class="island-image img-fluid"
-                         id="moai-island-image"
-                         ng-if="!isProcessingPurchase"
-                         onerror="this.src='public/img/ilha-sem-nada.png'; this.onerror=null;">
+                <!-- Visualização da Ilha com Botão Flutuante -->
+                <div class="island-visualization fade-in">
+                    <div class="island-card">
+                        <div class="island-image-container">
+                            <img ng-src="{{getCurrentMoaiImage()}}?v={{updateTimestamp}}"
+                                 alt="Island Visualization"
+                                 class="island-image"
+                                 id="moai-island-image"
+                                 ng-if="!isProcessingPurchase"
+                                 onerror="this.src='public/img/ilha-sem-nada.png'; this.onerror=null;">
 
-                    <!-- Imagem de fallback durante o processamento para evitar loops -->
-                    <img src="public/img/ilha-sem-nada.png"
-                         alt="Island Visualization"
-                         class="island-image img-fluid"
-                         ng-if="isProcessingPurchase">
+                            <img src="public/img/ilha-sem-nada.png"
+                                 alt="Island Visualization"
+                                 class="island-image"
+                                 ng-if="isProcessingPurchase">
 
-                    <!-- Upgrade button floating on the right side -->
-                    <button class="moai-upgrade-btn" ng-click="showUpgradeShop()">
-                        <span class="upgrade-icon">🗿</span>
-                        <span class="upgrade-label">Evolua seu MOAI</span>
-                    </button>
+                            <!-- Botão Flutuante MOAI -->
+                            <button class="floating-moai-btn" ng-click="showUpgradeShop()" aria-label="Evolua seu MOAI">
+                                🗿
+                            </button>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="user-stats">
-                    <div class="stats-card rounded shadow">
-                        <div class="row stats-row g-0">
-                            <div class="col-6 stat-item p-3">
-                                <div class="stat-label">MOAIcoins</div>
-                                <div class="stat-value">{{userStatus.pointCategories.moaicoins || 0}}</div>
-                            </div>
-                            <div class="col-6 stat-item p-3">
-                                <div class="stat-label">MOAImoney</div>
-                                <div class="stat-value">{{userStatus.pointCategories.moaimoney || 0}}</div>
+                <!-- Estatísticas do Usuário -->
+                <div class="user-stats fade-in">
+
+                    <!-- Recursos -->
+                    <div class="resource-item">
+                        <div class="resource-icon">
+                            <img src="public/img/MoaiCoin.png" alt="MOAIcoins icon">
+                        </div>
+                        <div class="resource-info">
+                            <div class="resource-label">MOAICOINS</div>
+                            <div class="resource-value">{{userStatus.pointCategories.moaicoins || 0}}</div>
+                        </div>
+                        <div class="resource-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 75%"></div>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="row stats-row g-0">
-                            <div class="col-6 stat-item p-3">
-                                <div class="stat-label">Maturidade</div>
-                                <div class="stat-value" ng-class="{
-                                    'maturity-fast-track': userStatus.extra.maturity == 1,
-                                    'maturity-executivo': userStatus.extra.maturity == 2,
-                                    'maturity-c-level': userStatus.extra.maturity == 3,
-                                    'maturity-high-end': userStatus.extra.maturity == 4
-                                }">{{getMaturityText(userStatus.extra.maturity)}}</div>
-                            </div>
-                            <div class="col-6 stat-item p-3">
-                                <div class="stat-label">Nível</div>
-                                <div class="stat-value">{{userStatus.level.level || 'Nível 1'}}</div>
+                    <div class="resource-item">
+                        <div class="resource-icon">
+                            <img src="public/img/MoaiMoney.png" alt="MOAImoney icon">
+                        </div>
+                        <div class="resource-info">
+                            <div class="resource-label">MOAIMONEY</div>
+                            <div class="resource-value">{{userStatus.pointCategories.moaimoney || 0}}</div>
+                        </div>
+                        <div class="resource-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 45%"></div>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="level-progress p-3">
-                            <h5 class="text-center mb-3">Barra de Progresso</h5>
+                    <!-- Status -->
+                    <div class="status-item">
+                        <div class="status-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="status-info">
+                            <div class="status-label">Maturidade</div>
+                            <div class="status-value" ng-class="{
+                                'maturity-fast-track': userStatus.extra.maturity == 1,
+                                'maturity-executivo': userStatus.extra.maturity == 2,
+                                'maturity-c-level': userStatus.extra.maturity == 3,
+                                'maturity-high-end': userStatus.extra.maturity == 4
+                            }">{{getMaturityText(userStatus.extra.maturity)}}</div>
+                        </div>
+                        <div class="maturity-dots">
+                            <span class="dot" ng-class="{'active': userStatus.extra.maturity >= 1}"></span>
+                            <span class="dot" ng-class="{'active': userStatus.extra.maturity >= 2}"></span>
+                            <span class="dot" ng-class="{'active': userStatus.extra.maturity >= 3}"></span>
+                            <span class="dot" ng-class="{'active': userStatus.extra.maturity >= 4}"></span>
+                        </div>
+                    </div>
 
-                            <div class="d-flex justify-content-between mb-2 progress-label">
-                                <span>{{userStatus.level.level || 'Nível 1'}}</span>
-                                <span>{{userStatus.level_progress.next_level.level || 'Nível 2'}}</span>
+                    <div class="status-item">
+                        <div class="status-icon">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <div class="status-info">
+                            <div class="status-label">Nível</div>
+                            <div class="status-value">{{userStatus.level.level || 'Nível 1'}}</div>
+                        </div>
+                        <div class="status-badge">
+                            <span class="badge-active">Ativo</span>
+                        </div>
+                    </div>
+
+                    <!-- Progresso -->
+                    <div class="level-progress">
+                        <h5 class="progress-title">
+                            <i class="fas fa-chart-bar"></i>
+                            Progresso de Evolução
+                        </h5>
+
+                        <div class="level-info">
+                            <span class="current-level">{{userStatus.level.level || 'Nível 1'}}</span>
+                            <i class="fas fa-arrow-right"></i>
+                            <span class="next-level">{{userStatus.level_progress.next_level.level || 'Nível 2'}}</span>
+                        </div>
+
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar"
+                                 ng-style="{'width': calculateLevelProgress() + '%'}"
+                                 aria-valuenow="{{calculateLevelProgress()}}"
+                                 aria-valuemin="0"
+                                 aria-valuemax="100"
+                                 aria-label="Progresso do nível"></div>
+                        </div>
+
+                        <div class="progress-info">
+                            <div class="progress-detail">
+                                <span class="detail-label">Progresso</span>
+                                <span class="detail-value">{{calculateLevelProgress()}}% completo</span>
                             </div>
-
-                            <div class="progress mb-2" style="height: 20px;">
-                                <div class="progress-bar" role="progressbar"
-                                     ng-style="{'width': calculateLevelProgress() + '%'}"
-                                     aria-valuenow="{{calculateLevelProgress()}}"
-                                     aria-valuemin="0"
-                                     aria-valuemax="100"></div>
-                            </div>
-
-                            <div class="d-flex justify-content-between progress-info">
-                                <span>{{calculateLevelProgress()}}% completo</span>
-                                <span>{{userStatus.pointCategories.xp || 0}}/{{userStatus.level_progress.next_level.minPoints || 25}} pontos</span>
+                            <div class="progress-detail">
+                                <span class="detail-label">Experiência</span>
+                                <span class="detail-value">{{userStatus.pointCategories.xp || 0}}/{{userStatus.level_progress.next_level.minPoints || 25}} XP</span>
                             </div>
                         </div>
                     </div>
@@ -86,137 +157,152 @@
             </div>
         </div>
     </div>
-</div>
 
-<!-- MOAI Upgrade Shop Modal -->
-<div class="moai-modal" id="upgradeShopModal" ng-show="isUpgradeShopVisible">
-    <div class="moai-modal-backdrop" ng-click="closeUpgradeShop()"></div>
-    <div class="moai-modal-content">
-        <div class="moai-modal-header">
-            <h3 class="moai-modal-title">
-                <span class="moai-icon">🗿</span> Evolua seu MOAI
-            </h3>
-            <button type="button" class="moai-modal-close" aria-label="Close" ng-click="closeUpgradeShop()">×</button>
-        </div>
-
-        <div class="moai-modal-body">
-            <div class="upgrade-intro mb-4">
-                <p>Evolua seu MOAI usando os recursos que você coletou na plataforma. Cada evolução desbloqueia habilidades especiais para sua jornada!</p>
+    <!-- MOAI Upgrade Shop Modal -->
+    <div class="moai-modal" id="upgradeShopModal" ng-show="isUpgradeShopVisible" role="dialog" aria-labelledby="modal-title" aria-modal="true">
+        <div class="moai-modal-backdrop" ng-click="closeUpgradeShop()"></div>
+        <div class="moai-modal-content">
+            <div class="moai-modal-header">
+                <h3 class="moai-modal-title" id="modal-title">
+                    <span class="moai-icon">🗿</span> Evolua seu MOAI
+                </h3>
+                <button type="button" class="moai-modal-close" aria-label="Fechar modal" ng-click="closeUpgradeShop()">×</button>
             </div>
 
-            <div class="upgrade-resources-info mb-4">
-                <h5>Seus recursos:</h5>
-                <div class="d-flex justify-content-between">
-                    <div class="resource-badge">
-                        <span class="resource-icon">⚡</span>
-                        <span class="resource-amount">{{userResources.energia || 0}}</span> Energia
-                    </div>
-                    <div class="resource-badge">
-                        <span class="resource-icon">🔧</span>
-                        <span class="resource-amount">{{userResources.ferramenta || 0}}</span> Ferramenta
-                    </div>
-                    <div class="resource-badge">
-                        <span class="resource-icon">💡</span>
-                        <span class="resource-amount">{{userResources.criatividade || 0}}</span> Criatividade
+            <div class="moai-modal-body">
+                <!-- Recursos -->
+                <div class="modal-section">
+                    <h5 class="section-title">Seus recursos:</h5>
+                    <div class="resources-grid">
+                        <div class="resource-box">
+                            <div class="resource-icon">⚡</div>
+                            <div class="resource-amount">{{userResources.energia || 0}}</div>
+                            <div class="resource-name">Energia</div>
+                        </div>
+                        <div class="resource-box">
+                            <div class="resource-icon">🔧</div>
+                            <div class="resource-amount">{{userResources.ferramenta || 0}}</div>
+                            <div class="resource-name">Ferramenta</div>
+                        </div>
+                        <div class="resource-box">
+                            <div class="resource-icon">💡</div>
+                            <div class="resource-amount">{{userResources.criatividade || 0}}</div>
+                            <div class="resource-name">Criatividade</div>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Visualização do estado atual da ilha e MOAI -->
-            <div class="current-moai-status mb-4">
-                <h5 class="text-center mb-3">Seu MOAI Atual</h5>
-                <div class="current-moai-image text-center">
-                    <img ng-src="{{getCurrentMoaiImage()}}" alt="Seu MOAI atual" class="img-fluid" style="max-height: 200px;">
-                </div>
-                <div class="text-center mt-2">
-                    <span class="badge bg-primary">{{getCurrentMoaiStage()}}</span>
-                </div>
-            </div>
-
-            <!-- Loading indicator -->
-            <div class="text-center py-4" ng-if="isLoadingUpgrades">
-                <div class="spinner-border text-primary" role="status">
-                    <span class="visually-hidden">Carregando...</span>
-                </div>
-                <p class="mt-2">Carregando evoluções disponíveis...</p>
-            </div>
-
-            <!-- List of upgrade items -->
-            <div class="upgrade-list" ng-if="!isLoadingUpgrades">
-                <div class="upgrade-item"
-                     ng-repeat="item in upgradeItems"
-                     ng-class="{'owned': item.owned > 0, 'unavailable': !canPurchaseUpgrade(item) && item.owned === 0}">
-                    <div class="upgrade-item-header">
-                        <h5 class="upgrade-name">{{item.name}}</h5>
-                        <span class="upgrade-status" ng-if="item.owned > 0">Concluído</span>
+                <!-- MOAI Atual -->
+                <div class="modal-section">
+                    <h5 class="section-title">Seu MOAI Atual</h5>
+                    <div class="current-moai-box">
+                        <div class="moai-image-container">
+                            <img ng-src="{{getCurrentMoaiImage()}}" alt="Seu MOAI atual" class="current-moai-image">
+                        </div>
+                        <div class="moai-status">
+                            <span class="status-badge">{{getCurrentMoaiStage()}}</span>
+                        </div>
                     </div>
-
-                    <p class="upgrade-description">{{item.description}}</p>
-
-                    <!-- Mostrar miniatura da imagem do upgrade apenas se NÃO for possuído -->
-                    <div class="upgrade-preview text-center mb-3" ng-if="item.owned === 0">
-                        <img ng-src="{{getMoaiImageForUpgrade(item)}}" alt="Preview de evolução" class="img-thumbnail" style="max-height: 100px;">
-                        <div class="preview-label mt-1 small text-muted">Preview da evolução</div>
-                    </div>
-
-                    <!-- Mostrar imagem atual se já possuído -->
-                    <div class="upgrade-preview text-center mb-3" ng-if="item.owned > 0">
-                        <img ng-src="{{getMoaiImageForUpgrade(item)}}" alt="Evolução atual" class="img-thumbnail" style="max-height: 100px;">
-                        <div class="preview-label mt-1 small text-success">Evolução atual</div>
-                    </div>
-
-                    <div class="upgrade-requirements">
-                        <h6>Requisitos:</h6>
-                        <ul class="requirement-list">
-                            <li ng-repeat="req in item.requires" ng-class="{'met': hasEnoughResource(req)}">
-                                <span class="requirement-icon" ng-if="req.type === 0">
-                                    <span ng-if="req.item === 'energia'">⚡</span>
-                                    <span ng-if="req.item === 'ferramenta'">🔧</span>
-                                    <span ng-if="req.item === 'criatividade'">💡</span>
-                                    <span ng-if="req.item === 'moaicoins'">🏆</span>
-                                    <span ng-if="req.item === 'moaimoney'">💰</span>
-                                    <span ng-if="req.item === 'xp'">⭐</span>
-                                </span>
-                                <span class="requirement-icon" ng-if="req.type === 3">📊</span>
-                                <span class="requirement-text">{{formatRequirement(req)}}</span>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div class="upgrade-rewards" ng-if="item.rewards && item.rewards.length > 0">
-                        <h6>Recompensas:</h6>
-                        <ul class="reward-list">
-                            <li ng-repeat="reward in item.rewards">
-                                <span class="reward-icon">
-                                    <span ng-if="reward.item === 'moaicoins'">🏆</span>
-                                    <span ng-if="reward.item === 'moaimoney'">💰</span>
-                                    <span ng-if="reward.item === 'xp'">⭐</span>
-                                </span>
-                                <span class="reward-text">{{formatReward(reward)}}</span>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <button class="btn btn-purchase"
-                            ng-click="purchaseUpgrade(item)"
-                            ng-disabled="!canPurchaseUpgrade(item) || item.owned > 0 || isProcessingPurchase">
-                        <span ng-if="!isProcessingPurchase || selectedUpgradeId !== item._id">
-                            <span ng-if="item.owned === 0 && canPurchaseUpgrade(item)">Adquirir Evolução</span>
-                            <span ng-if="item.owned > 0">Evolução Completada</span>
-                            <span ng-if="item.owned === 0 && !canPurchaseUpgrade(item)">Requisitos Insuficientes</span>
-                        </span>
-                        <span ng-if="isProcessingPurchase && selectedUpgradeId === item._id">
-                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                            Processando...
-                        </span>
-                    </button>
                 </div>
 
-                <!-- Empty state -->
-                <div class="no-upgrades text-center py-4" ng-if="upgradeItems.length === 0">
-                    <p class="mb-0">Não há evoluções disponíveis no momento.</p>
+                <!-- Loading -->
+                <div class="loading-section" ng-if="isLoadingUpgrades">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="sr-only">Carregando...</span>
+                    </div>
+                    <p class="mt-2">Carregando evoluções disponíveis...</p>
+                </div>
+
+                <!-- Lista de Upgrades -->
+                <div class="upgrades-section" ng-if="!isLoadingUpgrades">
+                    <h5 class="section-title">Evoluções Disponíveis</h5>
+
+                    <div class="upgrade-box"
+                         ng-repeat="item in upgradeItems"
+                         ng-class="{'owned': item.owned > 0, 'unavailable': !canPurchaseUpgrade(item) && item.owned === 0}">
+
+                        <div class="upgrade-header">
+                            <h6 class="upgrade-name">{{item.name}}</h6>
+                            <span class="upgrade-status" ng-if="item.owned > 0">Concluído</span>
+                        </div>
+
+                        <p class="upgrade-description">{{item.description}}</p>
+
+                        <!-- Preview da evolução -->
+                        <div class="upgrade-preview" ng-if="item.owned === 0">
+                            <img ng-src="{{getMoaiImageForUpgrade(item)}}" alt="Preview de evolução" class="preview-image">
+                            <div class="preview-label">Preview da evolução</div>
+                        </div>
+
+                        <div class="upgrade-preview" ng-if="item.owned > 0">
+                            <img ng-src="{{getMoaiImageForUpgrade(item)}}" alt="Evolução atual" class="preview-image">
+                            <div class="preview-label owned">Evolução atual</div>
+                        </div>
+
+                        <!-- Requisitos -->
+                        <div class="requirements-box">
+                            <h6>Requisitos:</h6>
+                            <div class="requirement-list">
+                                <div class="requirement-item"
+                                     ng-repeat="req in item.requires"
+                                     ng-class="{'met': hasEnoughResource(req)}">
+                                    <span class="requirement-icon" ng-if="req.type === 0">
+                                        <span ng-if="req.item === 'energia'">⚡</span>
+                                        <span ng-if="req.item === 'ferramenta'">🔧</span>
+                                        <span ng-if="req.item === 'criatividade'">💡</span>
+                                        <span ng-if="req.item === 'moaicoins'"><img src="public/img/MoaiCoin.png" alt="MOAIcoins" style="width: 14px; height: 14px;"></span>
+                                        <span ng-if="req.item === 'moaimoney'"><img src="public/img/MoaiMoney.png" alt="MOAImoney" style="width: 14px; height: 14px;"></span>
+                                        <span ng-if="req.item === 'xp'">⭐</span>
+                                    </span>
+                                    <span class="requirement-icon" ng-if="req.type === 3">📊</span>
+                                    <span class="requirement-text">{{formatRequirement(req)}}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Recompensas -->
+                        <div class="rewards-box" ng-if="item.rewards && item.rewards.length > 0">
+                            <h6>Recompensas:</h6>
+                            <div class="reward-list">
+                                <div class="reward-item" ng-repeat="reward in item.rewards">
+                                    <span class="reward-icon">
+                                        <span ng-if="reward.item === 'moaicoins'"><img src="public/img/MoaiCoin.png" alt="MOAIcoins" style="width: 14px; height: 14px;"></span>
+                                        <span ng-if="reward.item === 'moaimoney'"><img src="public/img/MoaiMoney.png" alt="MOAImoney" style="width: 14px; height: 14px;"></span>
+                                        <span ng-if="reward.item === 'xp'">⭐</span>
+                                    </span>
+                                    <span class="reward-text">{{formatReward(reward)}}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Botão de compra -->
+                        <button class="purchase-button"
+                                ng-click="purchaseUpgrade(item)"
+                                ng-disabled="!canPurchaseUpgrade(item) || item.owned > 0 || isProcessingPurchase"
+                                ng-class="{
+                                    'available': item.owned === 0 && canPurchaseUpgrade(item),
+                                    'completed': item.owned > 0,
+                                    'unavailable': item.owned === 0 && !canPurchaseUpgrade(item)
+                                }">
+                            <span ng-if="!isProcessingPurchase || selectedUpgradeId !== item._id">
+                                <span ng-if="item.owned === 0 && canPurchaseUpgrade(item)">Adquirir Evolução</span>
+                                <span ng-if="item.owned > 0">Evolução Completada</span>
+                                <span ng-if="item.owned === 0 && !canPurchaseUpgrade(item)">Requisitos Insuficientes</span>
+                            </span>
+                            <span ng-if="isProcessingPurchase && selectedUpgradeId === item._id">
+                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                Processando...
+                            </span>
+                        </button>
+                    </div>
+
+                    <!-- Estado vazio -->
+                    <div class="empty-state" ng-if="upgradeItems.length === 0">
+                        <p>Não há evoluções disponíveis no momento.</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</body>
+</html>
