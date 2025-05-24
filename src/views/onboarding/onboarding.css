@@ -694,12 +694,14 @@
   font-size: 1rem;
   transition: all 0.3s ease;
   background: #ffffff;
+  color: #0f172a; /* Adicionar cor escura para o texto */
 }
 
 .onboarding-container .form-control-custom:focus {
   border-color: var(--moai-accent);
   box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.1);
   background: #ffffff;
+  color: #0f172a; /* Manter cor escura quando em foco */
 }
 
 .onboarding-container .form-floating label {
