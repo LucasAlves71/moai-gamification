@@ -1,512 +1,1150 @@
+/* Variáveis CSS para o tema MOAI - Agora com escopo limitado à página de onboarding */
 .onboarding-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1000;
-    background-color: var(--moai-dark);
-    color: var(--moai-text);
-    overflow: auto;
+  /* Variáveis encapsuladas no escopo do container */
+  --moai-primary: #1e3a8a;
+  --moai-primary-dark: #1e40af;
+  --moai-primary-light: #3b82f6;
+  --moai-secondary: #0f172a;
+  --moai-accent: #fbbf24;
+  --moai-accent-dark: #f59e0b;
+  --moai-dark: #0f172a;
+  --moai-text: #f8fafc;
+  --moai-text-secondary: #64748b;
+  --moai-card-bg: #1e293b;
+  --moai-border: #334155;
+  --moai-success: #10b981;
+  --moai-warning: #f59e0b;
+  --moai-danger: #ef4444;
+
+  /* Container principal */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+  color: var(--moai-text);
+  overflow-y: auto; /* Mudado de "hidden" para "auto" */
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
-.onboarding-background {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    z-index: -1;
+/* Background melhorado */
+.onboarding-container .onboarding-background {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 0;
 }
 
-/* Estilo do oceano (reutilizando das ilhas) */
-.ocean {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 50%;
-    background: linear-gradient(180deg, var(--moai-primary-dark) 0%, var(--moai-primary) 100%);
+/* Oceano com mais camadas - NOVA ANIMAÇÃO DE ONDAS */
+.onboarding-container .ocean {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 60%;
+  background: linear-gradient(180deg, rgba(30, 58, 138, 0.8) 0%, rgba(30, 64, 175, 0.9) 50%, rgba(59, 130, 246, 1) 100%);
+  overflow: hidden;
 }
 
-.ocean-wave {
-    position: absolute;
-    width: 200%;
-    height: 150px;
-    background: var(--moai-primary-light);
-    opacity: 0.5;
-    border-radius: 43%;
-    left: -50%;
-    animation: wave 15s infinite linear;
+.onboarding-container .ocean-wave {
+  position: absolute;
+  width: 300%;
+  background: rgba(59, 130, 246, 0.6);
+  border-radius: 50%;
+  left: -100%;
 }
 
-.wave-1 {
-    bottom: 5%;
-    opacity: 0.3;
-    animation-duration: 10s;
+.onboarding-container .wave-1 {
+  bottom: 5%;
+  height: 80px;
+  opacity: 0.6;
+  animation: wave-flow-1 8s ease-in-out infinite;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(59, 130, 246, 0.4) 25%,
+    rgba(59, 130, 246, 0.6) 50%,
+    rgba(59, 130, 246, 0.4) 75%,
+    transparent 100%
+  );
 }
 
-.wave-2 {
-    bottom: 10%;
-    opacity: 0.4;
-    animation-duration: 12s;
-    animation-delay: 1s;
+.onboarding-container .wave-2 {
+  bottom: 12%;
+  height: 100px;
+  opacity: 0.5;
+  animation: wave-flow-2 10s ease-in-out infinite;
+  animation-delay: 1s;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(59, 130, 246, 0.3) 25%,
+    rgba(59, 130, 246, 0.5) 50%,
+    rgba(59, 130, 246, 0.3) 75%,
+    transparent 100%
+  );
 }
 
-.wave-3 {
-    bottom: 15%;
-    opacity: 0.2;
-    animation-duration: 8s;
-    animation-delay: 2s;
+.onboarding-container .wave-3 {
+  bottom: 20%;
+  height: 120px;
+  opacity: 0.4;
+  animation: wave-flow-3 12s ease-in-out infinite;
+  animation-delay: 2s;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(59, 130, 246, 0.2) 25%,
+    rgba(59, 130, 246, 0.4) 50%,
+    rgba(59, 130, 246, 0.2) 75%,
+    transparent 100%
+  );
 }
 
-@keyframes wave {
-    0% { transform: translateX(0) rotate(0); }
-    100% { transform: translateX(-20%) rotate(360deg); }
+.onboarding-container .wave-4 {
+  bottom: 30%;
+  height: 140px;
+  opacity: 0.3;
+  animation: wave-flow-4 14s ease-in-out infinite;
+  animation-delay: 3s;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(59, 130, 246, 0.15) 25%,
+    rgba(59, 130, 246, 0.3) 50%,
+    rgba(59, 130, 246, 0.15) 75%,
+    transparent 100%
+  );
 }
 
-/* Bolhas decorativas */
-.bubble {
-    position: absolute;
-    background-color: rgba(255, 255, 255, 0.15);
+/* Animações de ondas mais naturais */
+@keyframes wave-flow-1 {
+  0%,
+  100% {
+    transform: translateX(0) scaleY(1);
     border-radius: 50%;
-    animation: bubble-float 20s infinite ease-in-out;
+  }
+  25% {
+    transform: translateX(-10%) scaleY(1.1);
+    border-radius: 60% 40% 50% 60%;
+  }
+  50% {
+    transform: translateX(-20%) scaleY(0.9);
+    border-radius: 40% 60% 40% 50%;
+  }
+  75% {
+    transform: translateX(-30%) scaleY(1.05);
+    border-radius: 55% 45% 55% 45%;
+  }
 }
 
-.bubble-1 {
-    width: 60px;
-    height: 60px;
-    top: 20%;
-    left: 15%;
-    animation-duration: 18s;
+@keyframes wave-flow-2 {
+  0%,
+  100% {
+    transform: translateX(0) scaleY(1);
+    border-radius: 45% 55% 45% 55%;
+  }
+  25% {
+    transform: translateX(-8%) scaleY(1.15);
+    border-radius: 60% 40% 60% 40%;
+  }
+  50% {
+    transform: translateX(-16%) scaleY(0.85);
+    border-radius: 35% 65% 35% 65%;
+  }
+  75% {
+    transform: translateX(-24%) scaleY(1.1);
+    border-radius: 50% 50% 50% 50%;
+  }
 }
 
-.bubble-2 {
-    width: 40px;
-    height: 40px;
-    top: 35%;
-    right: 25%;
-    animation-duration: 15s;
-    animation-delay: 2s;
+@keyframes wave-flow-3 {
+  0%,
+  100% {
+    transform: translateX(0) scaleY(1);
+    border-radius: 40% 60% 40% 60%;
+  }
+  25% {
+    transform: translateX(-6%) scaleY(1.2);
+    border-radius: 65% 35% 65% 35%;
+  }
+  50% {
+    transform: translateX(-12%) scaleY(0.8);
+    border-radius: 30% 70% 30% 70%;
+  }
+  75% {
+    transform: translateX(-18%) scaleY(1.15);
+    border-radius: 55% 45% 55% 45%;
+  }
 }
 
-.bubble-3 {
-    width: 80px;
-    height: 80px;
-    bottom: 40%;
-    left: 40%;
-    animation-duration: 20s;
-    animation-delay: 1s;
+@keyframes wave-flow-4 {
+  0%,
+  100% {
+    transform: translateX(0) scaleY(1);
+    border-radius: 35% 65% 35% 65%;
+  }
+  25% {
+    transform: translateX(-4%) scaleY(1.25);
+    border-radius: 70% 30% 70% 30%;
+  }
+  50% {
+    transform: translateX(-8%) scaleY(0.75);
+    border-radius: 25% 75% 25% 75%;
+  }
+  75% {
+    transform: translateX(-12%) scaleY(1.2);
+    border-radius: 60% 40% 60% 40%;
+  }
+}
+
+/* Ondas de superfície para maior realismo */
+.onboarding-container .ocean::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 40px;
+  background: linear-gradient(
+    90deg,
+    rgba(59, 130, 246, 0.8) 0%,
+    rgba(59, 130, 246, 0.9) 25%,
+    rgba(59, 130, 246, 1) 50%,
+    rgba(59, 130, 246, 0.9) 75%,
+    rgba(59, 130, 246, 0.8) 100%
+  );
+  animation: surface-ripple 6s ease-in-out infinite;
+  z-index: 10;
+}
+
+.onboarding-container .ocean::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 20px;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.2) 50%,
+    rgba(255, 255, 255, 0.1) 100%
+  );
+  animation: surface-shimmer 4s ease-in-out infinite;
+  z-index: 11;
+}
+
+@keyframes surface-ripple {
+  0%,
+  100% {
+    transform: scaleX(1) scaleY(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scaleX(1.05) scaleY(1.2);
+    opacity: 1;
+  }
+}
+
+@keyframes surface-shimmer {
+  0%,
+  100% {
+    transform: translateX(0) scaleX(1);
+    opacity: 0.3;
+  }
+  50% {
+    transform: translateX(10px) scaleX(1.1);
+    opacity: 0.6;
+  }
+}
+
+/* Bolhas melhoradas */
+.onboarding-container .bubble {
+  position: absolute;
+  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.1));
+  border-radius: 50%;
+  animation: bubble-float 20s infinite ease-in-out;
+  backdrop-filter: blur(2px);
+}
+
+.onboarding-container .bubble-1 {
+  width: 80px;
+  height: 80px;
+  top: 15%;
+  left: 10%;
+  animation-duration: 18s;
+}
+
+.onboarding-container .bubble-2 {
+  width: 60px;
+  height: 60px;
+  top: 30%;
+  right: 20%;
+  animation-duration: 15s;
+  animation-delay: 2s;
+}
+
+.onboarding-container .bubble-3 {
+  width: 100px;
+  height: 100px;
+  bottom: 45%;
+  left: 35%;
+  animation-duration: 20s;
+  animation-delay: 1s;
+}
+
+.onboarding-container .bubble-4 {
+  width: 40px;
+  height: 40px;
+  top: 50%;
+  left: 70%;
+  animation-duration: 22s;
+  animation-delay: 3s;
+}
+
+.onboarding-container .bubble-5 {
+  width: 70px;
+  height: 70px;
+  bottom: 60%;
+  right: 40%;
+  animation-duration: 16s;
+  animation-delay: 4s;
 }
 
 @keyframes bubble-float {
-    0%, 100% { transform: translateY(0) translateX(0); }
-    25% { transform: translateY(-20px) translateX(10px); }
-    50% { transform: translateY(-35px) translateX(-10px); }
-    75% { transform: translateY(-15px) translateX(15px); }
+  0%,
+  100% {
+    transform: translateY(0) translateX(0) scale(1);
+    opacity: 0.7;
+  }
+  25% {
+    transform: translateY(-30px) translateX(15px) scale(1.1);
+    opacity: 0.9;
+  }
+  50% {
+    transform: translateY(-50px) translateX(-15px) scale(0.9);
+    opacity: 0.6;
+  }
+  75% {
+    transform: translateY(-20px) translateX(20px) scale(1.05);
+    opacity: 0.8;
+  }
 }
 
-/* Estilos dos modais */
-.modal-content.card-moai {
-    background-color: var(--moai-card-bg);
-    border: none;
-    border-radius: 1rem;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+/* Partículas flutuantes */
+.onboarding-container .floating-particles {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
 }
 
-.welcome-logo {
-    max-width: 150px;
-    margin: 0 auto;
+.onboarding-container .particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: rgba(251, 191, 36, 0.6);
+  border-radius: 50%;
+  animation: particle-float 25s infinite linear;
 }
 
-.welcome-title {
-    color: var(--moai-accent);
-    font-weight: 700;
+.onboarding-container .particle-1 {
+  top: 20%;
+  left: 25%;
+  animation-delay: 0s;
 }
 
-.welcome-text {
-    font-size: 1.2rem;
-    max-width: 600px;
-    margin: 0 auto;
+.onboarding-container .particle-2 {
+  top: 60%;
+  left: 75%;
+  animation-delay: 8s;
 }
 
-.btn-moai-primary {
-    background-color: var(--moai-accent);
-    border-color: var(--moai-accent);
-    color: var(--moai-dark);
-    font-weight: 600;
-    padding: 0.6rem 2rem;
-    transition: all 0.3s;
+.onboarding-container .particle-3 {
+  top: 40%;
+  left: 50%;
+  animation-delay: 15s;
 }
 
-.btn-moai-primary:hover {
-    background-color: var(--moai-accent-dark);
-    border-color: var(--moai-accent-dark);
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+@keyframes particle-float {
+  0% {
+    transform: translateY(100vh) translateX(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100px) translateX(50px);
+    opacity: 0;
+  }
 }
 
-.btn-moai-secondary {
-    background-color: transparent;
-    border-color: var(--moai-accent);
-    color: var(--moai-accent);
+/* Layout principal melhorado */
+.onboarding-container .onboarding-content {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+  padding: 40px;
+  position: relative;
+  z-index: 1;
+  align-items: center;
+  gap: 40px;
 }
 
-.btn-moai-secondary:hover {
-    background-color: rgba(255, 193, 7, 0.1);
-    color: var(--moai-accent);
+/* Container do personagem melhorado */
+.onboarding-container .character-container {
+  flex: 0 0 40%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
 }
 
-/* Estilos para o guia/personagem */
-.guide-character {
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.onboarding-container .character-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.character-placeholder {
-    font-size: 6rem;
-    line-height: 1;
+.onboarding-container .character-glow {
+  position: absolute;
+  width: 120%;
+  height: 120%;
+  background: radial-gradient(circle, rgba(251, 191, 36, 0.3) 0%, rgba(251, 191, 36, 0.1) 50%, transparent 70%);
+  border-radius: 50%;
+  z-index: 1;
+  animation: glow-pulse 3s ease-in-out infinite;
 }
 
-/* Lista de características */
-.feature-list {
-    list-style-type: none;
-    padding-left: 0;
-}
-
-.feature-list li {
-    margin-bottom: 0.8rem;
-    display: flex;
-    align-items: center;
-}
-
-.feature-icon {
-    display: inline-block;
-    margin-right: 0.8rem;
-    font-size: 1.5rem;
-    line-height: 1;
-}
-
-/* Estilos para o formulário */
-.form-floating > .form-control,
-.form-floating > .form-control-plaintext {
-    height: calc(3.5rem + 2px);
-    line-height: 1.25;
-}
-
-.form-floating > .form-control:focus,
-.form-floating > .form-control:not(:placeholder-shown) {
-    padding-top: 1.625rem;
-    padding-bottom: 0.625rem;
-}
-
-.form-floating > .form-control:focus ~ label,
-.form-floating > .form-control:not(:placeholder-shown) ~ label {
-    opacity: 0.65;
-    transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
-}
-
-/* Animações para transição entre modais */
-.modal.fade .modal-dialog {
-    transition: transform 0.3s ease-out;
-    transform: translateY(20px);
-}
-
-.modal.show .modal-dialog {
-    transform: translateY(0);
-}
-
-/* Ajustes para corrigir o modal e sua interatividade */
-.modal {
-    z-index: 1050 !important;
-    pointer-events: auto !important;
-}
-
-.modal.show {
-    display: block !important;
-    opacity: 1 !important;
-}
-
-/* Garantir que o backdrop não interfira com os cliques */
-.modal-backdrop {
-    z-index: 1040 !important;
-    pointer-events: none !important; /* Permitir cliques através do backdrop */
-}
-
-.modal-backdrop.show {
-    opacity: 0.5 !important;
-}
-
-/* Garantir que o conteúdo seja clicável */
-.modal-content {
-    position: relative;
-    z-index: 1051 !important;
-    pointer-events: auto !important;
-}
-
-/* Ajuste para botões dentro do modal */
-.modal-content .btn {
-    position: relative;
-    z-index: 1060 !important;
-    pointer-events: auto !important;
-}
-
-/* Garantir que o corpo do modal seja clicável */
-.modal-body {
-    pointer-events: auto !important;
-}
-
-/* Adicionar ao final do arquivo */
-
-/* Estilos para o container de foto de perfil */
-.profile-photo-container {
-    position: relative;
-    display: inline-block;
-}
-
-.profile-photo {
-    width: 150px;
-    height: 150px;
-    object-fit: cover;
-    border: 3px solid var(--moai-accent);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-    transition: all 0.3s ease;
-}
-
-.photo-edit-btn {
-    position: absolute;
-    bottom: 5px;
-    right: 5px;
-    width: 40px;
-    height: 40px;
-    background-color: var(--moai-accent);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    transition: transform 0.2s;
-    z-index: 5;
-}
-
-.photo-edit-btn:hover {
+@keyframes glow-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  50% {
     transform: scale(1.1);
+    opacity: 1;
+  }
 }
 
-/* Estilos específicos para o modal de cropping */
-#imageCropperModal .modal-content {
-    background: linear-gradient(135deg, #002952 0%, #001e3d 100%);
-    color: white;
+.onboarding-container .character-image {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  z-index: 2;
 }
 
-#imageCropperModal .modal-header {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+.onboarding-container .mascote-img {
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.4));
+  transition: all 0.5s ease-in-out;
+  animation: character-bounce 4s ease-in-out infinite;
 }
 
-#imageCropperModal .btn-close {
-    filter: invert(1) brightness(200%);
+@keyframes character-bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
-/* Garantir que o modal de cropping fique acima do modal de onboarding */
-#imageCropperModal {
-    z-index: 1060 !important;
+.onboarding-container .character-shadow {
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  height: 20px;
+  background: radial-gradient(ellipse, rgba(0, 0, 0, 0.3) 0%, transparent 70%);
+  border-radius: 50%;
+  z-index: 0;
 }
 
-/* Manter os estilos existentes e adicionar os seguintes: */
-
-/* Layout principal de onboarding - ajustado para melhor visualização */
-.onboarding-content {
-    display: flex;
-    min-height: 100vh;
-    width: 100%;
-    padding: 20px;
-    position: relative;
-    z-index: 1;
-    align-items: center;
+/* Balão de fala melhorado */
+.onboarding-container .speech-bubble-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* Estilos do personagem - tamanho reduzido */
-.character-container {
-    width: 30%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding-right: 20px;
+.onboarding-container .speech-bubble {
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  border-radius: 24px;
+  padding: 0;
+  position: relative;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  width: 100%;
+  max-width: 600px;
+  animation: bubble-appear 0.6s ease-out;
+  border: 2px solid rgba(251, 191, 36, 0.2);
+  overflow: hidden;
 }
 
-.character-image {
-    position: relative;
-    width: 100%;
-    max-width: 300px; /* Reduzido de 400px */
-    z-index: 2;
+.onboarding-container .speech-bubble:before {
+  content: "";
+  position: absolute;
+  left: -20px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-width: 20px 20px 20px 0;
+  border-style: solid;
+  border-color: transparent #ffffff transparent transparent;
+  filter: drop-shadow(-2px 0 4px rgba(0, 0, 0, 0.1));
 }
 
-.mascote-img {
-    width: 100%;
-    height: auto;
-    filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.5));
-    transition: all 0.3s ease-in-out;
+.onboarding-container .speech-bubble-header {
+  background: linear-gradient(135deg, var(--moai-primary) 0%, var(--moai-primary-dark) 100%);
+  padding: 20px 30px 15px;
+  border-radius: 22px 22px 0 0;
 }
 
-/* Estilos do balão de fala - ajustado para garantir visibilidade */
-.speech-bubble-container {
-    width: 70%; /* Aumentado de 60% */
-    padding-left: 20px;
-    display: flex;
-    align-items: center;
+.onboarding-container .speaker-indicator {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
-.speech-bubble {
-    background-color: white;
-    border-radius: 20px;
-    padding: 25px;
-    position: relative;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 600px;
-    z-index: 1;
-    animation: bubble-appear 0.5s ease-out;
+.onboarding-container .speaker-avatar {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, var(--moai-accent) 0%, var(--moai-accent-dark) 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.speech-bubble:before {
-    content: "";
-    position: absolute;
-    left: -20px;
-    top: 50%;
-    transform: translateY(-50%);
-    border-width: 20px 20px 20px 0;
-    border-style: solid;
-    border-color: transparent white transparent transparent;
+.onboarding-container .speaker-name {
+  color: white;
+  font-weight: 600;
+  font-size: 1.1rem;
 }
 
-.speech-title {
-    color: var(--moai-primary, #003366);
-    font-size: 1.5rem;
-    margin-bottom: 15px;
-    font-weight: 600;
+.onboarding-container .speech-content {
+  padding: 30px;
 }
 
-.speech-text {
-    font-size: 1.1rem;
-    line-height: 1.6;
-    margin-bottom: 20px;
-    color: #333;
+.onboarding-container .speech-title {
+  color: var(--moai-primary);
+  font-size: 1.6rem;
+  margin-bottom: 15px;
+  font-weight: 700;
+  line-height: 1.3;
 }
 
-.speech-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
+.onboarding-container .speech-text {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  margin-bottom: 0;
+  color: #374151;
 }
 
-/* Formulário de customização da ilha */
-.island-form-container {
-    width: 70%; /* Aumentado de 60% */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding-left: 20px;
+.onboarding-container .speech-footer {
+  padding: 20px 30px 30px;
+  background: rgba(248, 250, 252, 0.5);
 }
 
-.island-form {
-    background-color: white;
-    border-radius: 20px;
-    padding: 30px;
-    width: 100%;
-    max-width: 600px;
-    animation: form-appear 0.5s ease-out;
+.onboarding-container .progress-container {
+  margin-bottom: 25px;
 }
 
-.form-title {
-    color: var(--moai-primary);
-    font-size: 1.8rem;
-    margin-bottom: 10px;
+.onboarding-container .progress-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
 }
 
-.form-subtitle {
-    color: var(--moai-text-secondary);
-    margin-bottom: 20px;
+.onboarding-container .step-counter {
+  font-size: 0.9rem;
+  color: var(--moai-text-secondary);
+  font-weight: 500;
+}
+
+.onboarding-container .progress-percentage {
+  font-size: 0.9rem;
+  color: var(--moai-primary);
+  font-weight: 600;
+}
+
+.onboarding-container .progress-bar-custom {
+  width: 100%;
+  height: 8px;
+  background: #e2e8f0;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.onboarding-container .progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--moai-accent) 0%, var(--moai-accent-dark) 100%);
+  border-radius: 4px;
+  transition: width 0.5s ease;
+  position: relative;
+}
+
+.onboarding-container .progress-fill::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.3) 50%, transparent 100%);
+  animation: progress-shine 2s infinite;
+}
+
+@keyframes progress-shine {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.onboarding-container .speech-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+}
+
+/* Formulário melhorado */
+.onboarding-container .island-form-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.onboarding-container .island-form {
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  border-radius: 24px;
+  padding: 0;
+  width: 100%;
+  max-width: 600px;
+  animation: form-appear 0.6s ease-out;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  border: 2px solid rgba(251, 191, 36, 0.2);
+  overflow: hidden;
+}
+
+.onboarding-container .form-header {
+  background: linear-gradient(135deg, var(--moai-primary) 0%, var(--moai-primary-dark) 100%);
+  padding: 30px;
+  text-align: center;
+  border-radius: 22px 22px 0 0;
+}
+
+.onboarding-container .form-icon {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, var(--moai-accent) 0%, var(--moai-accent-dark) 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  font-size: 1.5rem;
+  color: var(--moai-dark);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.onboarding-container .form-title {
+  color: white;
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+.onboarding-container .form-subtitle {
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 0;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.onboarding-container .form-body {
+  padding: 30px;
+}
+
+.onboarding-container .input-group-custom {
+  margin-bottom: 25px;
+}
+
+.onboarding-container .form-control-custom {
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 15px 20px 15px 50px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: #ffffff;
+}
+
+.onboarding-container .form-control-custom:focus {
+  border-color: var(--moai-accent);
+  box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.1);
+  background: #ffffff;
+}
+
+.onboarding-container .form-floating label {
+  padding-left: 50px;
+  color: var(--moai-text-secondary);
+  font-weight: 500;
+}
+
+.onboarding-container .form-floating label i {
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--moai-accent);
+  font-size: 1.1rem;
+}
+
+.onboarding-container .custom-alert {
+  border: none;
+  border-radius: 12px;
+  padding: 15px 20px;
+  background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+  color: var(--moai-danger);
+  border-left: 4px solid var(--moai-danger);
+}
+
+.onboarding-container .profile-section {
+  margin-top: 30px;
+}
+
+.onboarding-container .section-title {
+  color: var(--moai-primary);
+  font-size: 1.3rem;
+  margin-bottom: 20px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.onboarding-container .profile-photo-wrapper {
+  text-align: center;
+}
+
+.onboarding-container .profile-photo-container {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 15px;
+}
+
+.onboarding-container .profile-photo {
+  width: 160px;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 4px solid var(--moai-accent);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.onboarding-container .photo-border {
+  position: absolute;
+  top: -8px;
+  left: -8px;
+  right: -8px;
+  bottom: -8px;
+  border: 2px solid rgba(251, 191, 36, 0.3);
+  border-radius: 50%;
+  animation: border-pulse 2s ease-in-out infinite;
+}
+
+@keyframes border-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+}
+
+.onboarding-container .photo-edit-btn {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  width: 44px;
+  height: 44px;
+  background: linear-gradient(135deg, var(--moai-accent) 0%, var(--moai-accent-dark) 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+  z-index: 5;
+  color: var(--moai-dark);
+  font-size: 1rem;
+}
+
+.onboarding-container .photo-edit-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+
+.onboarding-container .photo-description {
+  color: var(--moai-text-secondary);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.onboarding-container .form-footer {
+  padding: 20px 30px 30px;
+  background: rgba(248, 250, 252, 0.5);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+}
+
+/* Botões melhorados */
+.onboarding-container .btn-moai-primary {
+  background: linear-gradient(135deg, var(--moai-accent) 0%, var(--moai-accent-dark) 100%);
+  border: none;
+  color: var(--moai-dark);
+  font-weight: 600;
+  padding: 12px 24px;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1rem;
+  box-shadow: 0 4px 12px rgba(251, 191, 36, 0.3);
+}
+
+.onboarding-container .btn-moai-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(251, 191, 36, 0.4);
+  color: var(--moai-dark);
+}
+
+.onboarding-container .btn-finish {
+  padding: 15px 30px;
+  font-size: 1.1rem;
+}
+
+.onboarding-container .btn-moai-secondary {
+  background: transparent;
+  border: 2px solid var(--moai-accent);
+  color: var(--moai-accent);
+  font-weight: 600;
+  padding: 12px 24px;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.onboarding-container .btn-moai-secondary:hover {
+  background: rgba(251, 191, 36, 0.1);
+  color: var(--moai-accent);
+  transform: translateY(-1px);
+}
+
+/* Modal melhorado - com namespace para evitar conflitos */
+.onboarding-modal-custom {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1060;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.onboarding-modal-backdrop-custom {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+}
+
+.onboarding-modal-content-custom {
+  background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+  border: none;
+  border-radius: 16px; /* Reduzido de 20px para 16px */
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4); /* Sombra mais sutil */
+  color: white;
+  position: relative;
+  z-index: 1;
+  max-width: 500px;
+  width: 90%;
+}
+
+.onboarding-modal-header-custom {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 20px 25px 15px; /* Reduzido o padding */
+  border-radius: 16px 16px 0 0; /* Ajustado para combinar com o border-radius do content */
+}
+
+.onboarding-modal-header-custom .modal-title {
+  font-size: 1.2rem; /* Reduzido de 1.3rem */
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Reduzido de 10px */
+}
+
+.onboarding-btn-close-custom {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1.1rem; /* Reduzido de 1.2rem */
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.onboarding-btn-close-custom:hover {
+  color: white;
+}
+
+.onboarding-modal-body-custom {
+  padding: 25px; /* Reduzido de 30px */
+}
+
+.onboarding-crop-instructions {
+  text-align: center;
+  margin-bottom: 15px; /* Reduzido de 20px */
+}
+
+.onboarding-crop-instructions p {
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0;
+  font-size: 0.95rem; /* Ligeiramente menor */
+}
+
+.onboarding-processing-indicator {
+  text-align: center;
+  margin-top: 15px; /* Reduzido de 20px */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px; /* Reduzido de 10px */
+}
+
+.onboarding-processing-text {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.95rem; /* Ligeiramente menor */
 }
 
 /* Animações */
 @keyframes bubble-appear {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 @keyframes form-appear {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
-/* Responsividade */
+/* Responsividade melhorada */
+@media (max-width: 1200px) {
+  .onboarding-container .character-container {
+    flex: 0 0 35%;
+  }
+
+  .onboarding-container .character-image {
+    max-width: 350px;
+  }
+}
+
 @media (max-width: 992px) {
-    .onboarding-content {
-        flex-direction: column;
-        justify-content: flex-start;
-        overflow-y: auto;
-        padding-top: 50px;
-        padding-bottom: 50px;
-    }
+  .onboarding-container .onboarding-content {
+    flex-direction: column;
+    justify-content: flex-start;
+    min-height: 100vh; /* Garante altura mínima em vez de altura fixa */
+    overflow-y: visible; /* Permite rolagem dentro do conteúdo */
+    padding: 30px 20px 60px; /* Adiciona padding extra no bottom */
+    gap: 30px;
+  }
 
-    .character-container {
-        width: 100%;
-        padding: 0;
-        margin-bottom: 40px; /* Aumentado para mais espaço entre elementos */
-    }
+  .onboarding-container .character-container {
+    flex: none;
+    width: 100%;
+    margin-bottom: 20px;
+  }
 
-    .character-image {
-        max-width: 200px;
-        margin: 0 auto;
-    }
+  .onboarding-container .character-image {
+    max-width: 280px;
+  }
 
-    .speech-bubble-container,
-    .island-form-container {
-        width: 100%;
-        padding: 0;
-    }
+  .onboarding-container .speech-bubble-container,
+  .onboarding-container .island-form-container {
+    flex: none;
+    width: 100%;
+  }
 
-    .speech-bubble:before {
-        left: 50%;
-        top: -20px;
-        transform: translateX(-50%);
-        border-width: 0 20px 20px 20px;
-        border-color: transparent transparent white transparent;
-    }
+  .onboarding-container .speech-bubble:before {
+    left: 50%;
+    top: -20px;
+    transform: translateX(-50%);
+    border-width: 0 20px 20px 20px;
+    border-color: transparent transparent #ffffff transparent;
+  }
 
-    .speech-bubble {
-        margin-top: 20px;
-    }
+  .onboarding-container .speech-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .onboarding-container .speech-actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .onboarding-container .form-footer {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .onboarding-container .form-footer .btn {
+    width: 100%;
+    justify-content: center;
+  }
 }
 
-/* Para telas muito pequenas */
+@media (max-width: 768px) {
+  .onboarding-container .onboarding-content {
+    padding: 20px 15px;
+  }
+
+  .onboarding-container .character-image {
+    max-width: 220px;
+  }
+
+  .onboarding-container .speech-title {
+    font-size: 1.4rem;
+  }
+
+  .onboarding-container .speech-text {
+    font-size: 1rem;
+  }
+
+  .onboarding-container .speech-bubble,
+  .onboarding-container .island-form {
+    border-radius: 16px;
+  }
+
+  .onboarding-container .speech-bubble-header,
+  .onboarding-container .form-header {
+    padding: 20px;
+    border-radius: 14px 14px 0 0;
+  }
+
+  .onboarding-container .speech-content,
+  .onboarding-container .form-body {
+    padding: 20px;
+  }
+
+  .onboarding-container .profile-photo {
+    width: 140px;
+    height: 140px;
+  }
+
+  .onboarding-modal-content-custom {
+    margin: 20px;
+    width: calc(100% - 40px);
+  }
+}
+
 @media (max-width: 576px) {
-    .character-image {
-        max-width: 150px;
-    }
+  .onboarding-container .character-image {
+    max-width: 180px;
+  }
 
-    .speech-title {
-        font-size: 1.3rem;
-    }
+  .onboarding-container .speech-title {
+    font-size: 1.2rem;
+  }
 
-    .speech-text {
-        font-size: 1rem;
-    }
+  .onboarding-container .form-title {
+    font-size: 1.5rem;
+  }
 
-    .speech-bubble {
-        padding: 15px;
-    }
+  .onboarding-container .speech-bubble,
+  .onboarding-container .island-form {
+    margin: 0 10px;
+  }
+
+  .onboarding-container .profile-photo {
+    width: 120px;
+    height: 120px;
+  }
+
+  .onboarding-container .btn-moai-primary,
+  .onboarding-container .btn-moai-secondary {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+  }
+}
+
+/* Melhorias de acessibilidade */
+@media (prefers-reduced-motion: reduce) {
+  .onboarding-container *,
+  .onboarding-container *::before,
+  .onboarding-container *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Estados de foco melhorados */
+.onboarding-container .btn:focus,
+.onboarding-container .form-control:focus,
+.onboarding-container .photo-edit-btn:focus {
+  outline: 2px solid #fbbf24;
+  outline-offset: 2px;
+}
+
+/* Melhorias para telas de alta densidade */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .onboarding-container .mascote-img {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
 }

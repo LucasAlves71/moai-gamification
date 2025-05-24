@@ -77,6 +77,21 @@ angular.module('moaiApp').controller('OnboardingController', function($scope, $h
         if ($scope.currentStep < $scope.totalSteps) {
             $scope.currentStep++;
             playStepAnimation();
+
+            // Se estiver indo para a última etapa (formulário), garantir que a página possa rolar
+            if ($scope.currentStep === 11) {
+                // Pequeno timeout para aguardar a renderização do DOM
+                $timeout(function() {
+                    // Rolar para o topo da página
+                    window.scrollTo(0, 0);
+
+                    // Garantir que o container tenha overflow-y: auto
+                    var container = document.querySelector('.onboarding-container');
+                    if (container) {
+                        container.style.overflowY = 'auto';
+                    }
+                }, 100);
+            }
         }
     };
 
@@ -85,6 +100,14 @@ angular.module('moaiApp').controller('OnboardingController', function($scope, $h
         if ($scope.currentStep > 1) {
             $scope.currentStep--;
             playStepAnimation();
+
+            // Se estiver voltando do formulário, restaurar o overflow
+            if ($scope.currentStep === 10) {
+                var container = document.querySelector('.onboarding-container');
+                if (container) {
+                    container.style.overflowY = 'auto';
+                }
+            }
         }
     };
 
