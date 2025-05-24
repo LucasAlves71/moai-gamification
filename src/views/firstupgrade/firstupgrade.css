@@ -1,159 +1,48 @@
+/* Container principal melhorado */
 .firstupgrade-container {
   min-height: 100vh;
   width: 100%;
-  position: relative;
-  overflow-x: hidden;
+  position: fixed; /* Alterado de 'relative' para 'fixed' para impedir rolagem */
+  overflow: hidden; /* Alterado de 'overflow-x: hidden' para 'overflow: hidden' */
   display: flex;
   flex-direction: column;
-  background: linear-gradient(180deg, #0055aa 0%, #003366 100%);
+  background: linear-gradient(135deg, #0066cc 0%, #004499 25%, #003366 75%, #002244 100%);
   color: white;
   padding: 20px 0;
 }
 
-/* Cabeçalho da ilha (igual ao dashboard) */
+/* Cabeçalho da ilha melhorado */
 .island-header {
-  padding: 15px 0;
-  margin-bottom: 10px;
+  padding: 20px 0;
+  margin-bottom: 15px;
+  position: relative;
+  z-index: 10;
 }
 
 .island-header h1 {
   margin: 0;
-  font-size: 28px;
-  font-weight: bold;
-  color: #f0f0f0;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-  letter-spacing: 1px;
-}
-
-/* Estilos da visualização da ilha (mesmas dimensões do dashboard) */
-.island-visualization {
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  font-weight: 700;
+  color: #ffffff;
+  text-shadow: 0 3px 6px rgba(0, 0, 0, 0.4), 0 0 20px rgba(41, 171, 226, 0.3);
+  letter-spacing: 1.5px;
   position: relative;
-  margin: 0 auto;
-  width: 100%;
-  max-width: 500px;
-  height: 320px;
 }
 
-.island-visualization .position-relative {
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.island-image {
-  width: 100%;
-  max-width: 280px;
-  height: auto;
-  position: relative;
-  z-index: 2;
-}
-
-/* Animação e posicionamento do barco - agora no lado esquerdo */
-.boat-container {
-  z-index: 3;
-  bottom: 20%;
-  left: -35%; /* Alterado de right para left */
-  width: 30%;
-  max-width: 180px;
-  transition: all 3s ease-in-out;
-}
-
-.boat-container.animated {
-  left: 10%; /* Alterado de right para left */
-}
-
-.boat-image {
-  width: 100%;
-  height: auto;
-  filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.3));
-  animation: boat-rock 3s ease-in-out infinite;
-}
-
-@keyframes boat-rock {
-  0%, 100% { transform: rotate(0deg); }
-  25% { transform: rotate(2deg); }
-  75% { transform: rotate(-2deg); }
-}
-
-/* Atualização dos estilos do popup da ferramenta para se parecer com o dashboard */
-
-.tool-popup {
+/* Modificar este seletor para torná-lo específico para a página first upgrade */
+.firstupgrade-container .island-header h1::after {
+  content: "";
   position: absolute;
-  top: 20%;
-  left: 25%;
-  z-index: 10;
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.5s ease;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #29abe2, transparent);
+  border-radius: 2px;
 }
 
-.tool-popup.visible {
-  opacity: 1;
-  visibility: visible;
-  animation: float 2s ease-in-out infinite;
-}
-
-.tool-circle {
-  background: linear-gradient(135deg, #ffffff, #f0f0f0);
-  border-radius: 50%;
-  width: 70px;
-  height: 70px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  border: 2px solid rgba(255, 255, 255, 0.8);
-}
-
-.tool-popup:hover .tool-circle {
-  transform: scale(1.1);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-}
-
-.tool-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-}
-
-.tool-icon-img {
-  width: 40px;
-  height: 40px;
-  object-fit: contain;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
-}
-
-.tool-glow {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(41, 171, 226, 0.4) 0%, rgba(41, 171, 226, 0) 70%);
-  animation: glow 2s ease-in-out infinite;
-  z-index: -1;
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-}
-
-@keyframes glow {
-  0%, 100% { opacity: 0.5; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.2); }
-}
-
-/* Resto do CSS igual */
+/* Fundo oceânico aprimorado */
 .ocean-background {
   position: absolute;
   top: 0;
@@ -161,14 +50,21 @@
   width: 100%;
   height: 100%;
   z-index: 0;
+  overflow: hidden;
 }
 
 .ocean {
   position: absolute;
   bottom: 0;
   width: 100%;
-  height: 50%;
-  background: linear-gradient(180deg, rgba(0, 85, 170, 0) 0%, rgba(0, 51, 102, 0.8) 100%);
+  height: 60%;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 85, 170, 0) 0%,
+    rgba(0, 102, 204, 0.3) 30%,
+    rgba(0, 68, 153, 0.6) 70%,
+    rgba(0, 51, 102, 0.8) 100%
+  );
   overflow: hidden;
 }
 
@@ -176,7 +72,6 @@
   position: absolute;
   width: 200%;
   height: 200px;
-  background: rgba(41, 171, 226, 0.3);
   border-radius: 43%;
   left: -50%;
   z-index: 1;
@@ -184,20 +79,23 @@
 
 .wave-1 {
   bottom: -100px;
-  animation: ocean-wave-rotate 20s linear infinite;
-  opacity: 0.6;
+  background: rgba(41, 171, 226, 0.4);
+  animation: ocean-wave-rotate 25s linear infinite;
+  opacity: 0.7;
 }
 
 .wave-2 {
   bottom: -120px;
-  animation: ocean-wave-rotate 15s linear reverse infinite;
-  opacity: 0.4;
+  background: rgba(65, 185, 240, 0.3);
+  animation: ocean-wave-rotate 20s linear reverse infinite;
+  opacity: 0.5;
 }
 
 .wave-3 {
   bottom: -140px;
-  animation: ocean-wave-rotate 25s linear infinite;
-  opacity: 0.2;
+  background: rgba(89, 199, 254, 0.2);
+  animation: ocean-wave-rotate 30s linear infinite;
+  opacity: 0.3;
 }
 
 @keyframes ocean-wave-rotate {
@@ -209,72 +107,442 @@
   }
 }
 
-/* Bolhas decorativas */
+/* Bolhas decorativas melhoradas */
 .bubble {
   position: absolute;
   background: radial-gradient(
     circle at 30% 30%,
-    rgba(255, 255, 255, 0.8) 0%,
-    rgba(255, 255, 255, 0.3) 40%,
+    rgba(255, 255, 255, 0.9) 0%,
+    rgba(255, 255, 255, 0.4) 40%,
     rgba(255, 255, 255, 0.1) 100%
   );
   border-radius: 50%;
-  z-index: 1;
+  z-index: 2;
   opacity: 0;
   pointer-events: none;
-  box-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
-  animation: bubble-rise 15s ease-in infinite;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.3), inset 0 0 5px rgba(255, 255, 255, 0.2);
+  animation: bubble-rise 18s ease-in infinite;
 }
 
 .bubble-1 {
-  width: 30px;
-  height: 30px;
+  width: 35px;
+  height: 35px;
   left: 15%;
-  bottom: -30px;
+  bottom: -35px;
   animation-delay: 0s;
 }
 
 .bubble-2 {
-  width: 20px;
-  height: 20px;
+  width: 25px;
+  height: 25px;
   left: 70%;
-  bottom: -20px;
-  animation-delay: 5s;
+  bottom: -25px;
+  animation-delay: 6s;
 }
 
 .bubble-3 {
-  width: 15px;
-  height: 15px;
+  width: 20px;
+  height: 20px;
   left: 40%;
-  bottom: -15px;
-  animation-delay: 8s;
+  bottom: -20px;
+  animation-delay: 12s;
 }
 
 @keyframes bubble-rise {
   0% {
-    transform: translateY(0);
+    transform: translateY(0) translateX(0);
     opacity: 0;
   }
-  20% {
+  10% {
     opacity: 0.8;
   }
-  80% {
-    opacity: 0.6;
+  90% {
+    opacity: 0.4;
   }
   100% {
-    transform: translateY(-600px);
+    transform: translateY(-100vh) translateX(30px);
     opacity: 0;
   }
 }
 
-/* Modal de notificação de upgrade */
+/* Estilos da visualização da ilha melhorados */
+.island-visualization {
+  position: relative;
+  margin: 30px auto;
+  width: 100%;
+  max-width: 550px;
+  height: 350px;
+  z-index: 10;
+}
+
+.island-visualization .position-relative {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.island-visualization .position-relative::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 120%;
+  height: 120%;
+  background: radial-gradient(circle, rgba(41, 171, 226, 0.15) 0%, transparent 60%);
+  border-radius: 50%;
+  z-index: 1;
+  animation: island-glow 4s ease-in-out infinite;
+}
+
+@keyframes island-glow {
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: translate(-50%, -50%) scale(1.05);
+  }
+}
+
+.island-image {
+  width: 100%;
+  max-width: 320px;
+  height: auto;
+  position: relative;
+  z-index: 3;
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.2));
+  transition: transform 0.3s ease;
+}
+
+.island-image:hover {
+  transform: scale(1.02);
+}
+
+/* Animação e posicionamento do barco melhorados */
+.boat-container {
+  z-index: 4;
+  bottom: 25%;
+  left: -40%;
+  width: 32%;
+  max-width: 200px;
+  transition: all 3.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  position: relative;
+}
+
+.boat-container.animated {
+  left: 8%;
+}
+
+.boat-container::after {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: -15px;
+  width: 50px;
+  height: 15px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.boat-container.animated::after {
+  opacity: 1;
+  animation: wake-flow 2s ease-in-out infinite;
+}
+
+@keyframes wake-flow {
+  0%,
+  100% {
+    transform: scaleX(1);
+    opacity: 0.2;
+  }
+  50% {
+    transform: scaleX(1.3);
+    opacity: 0.4;
+  }
+}
+
+.boat-image {
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 5px 12px rgba(0, 0, 0, 0.3));
+  animation: boat-rock 3.5s ease-in-out infinite;
+  transition: transform 0.3s ease;
+}
+
+@keyframes boat-rock {
+  0%,
+  100% {
+    transform: rotate(0deg) translateY(0);
+  }
+  25% {
+    transform: rotate(1.5deg) translateY(-2px);
+  }
+  75% {
+    transform: rotate(-1.5deg) translateY(-1px);
+  }
+}
+
+/* Pop-up da ferramenta melhorado */
+.tool-popup {
+  position: absolute;
+  top: 18%;
+  left: 28%;
+  z-index: 15;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform: scale(0.8);
+}
+
+.tool-popup.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: scale(1);
+  animation: float 2.5s ease-in-out infinite;
+}
+
+.tool-circle {
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2), 0 0 0 3px rgba(41, 171, 226, 0.3), inset 0 2px 10px
+    rgba(255, 255, 255, 0.8);
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  position: relative;
+  overflow: hidden;
+}
+
+.tool-circle::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transform: rotate(45deg);
+  animation: shine 3s ease-in-out infinite;
+}
+
+@keyframes shine {
+  0%,
+  100% {
+    transform: translateX(-100%) translateY(-100%) rotate(45deg);
+  }
+  50% {
+    transform: translateX(100%) translateY(100%) rotate(45deg);
+  }
+}
+
+.tool-popup:hover .tool-circle {
+  transform: scale(1.1);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3), 0 0 0 5px rgba(41, 171, 226, 0.4), inset 0 2px 15px
+    rgba(255, 255, 255, 0.9);
+}
+
+.tool-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  position: relative;
+}
+
+.tool-icon-img {
+  width: 45px;
+  height: 45px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.tool-glow {
+  position: absolute;
+  width: 120%;
+  height: 120%;
+  top: -10%;
+  left: -10%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(41, 171, 226, 0.4) 0%, rgba(41, 171, 226, 0) 70%);
+  animation: glow 2.5s ease-in-out infinite;
+  z-index: -1;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-8px) scale(1.02);
+  }
+}
+
+@keyframes glow {
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.1);
+  }
+}
+
+/* Estilos para o mascote e balão de fala melhorados */
+.mascote-container {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin: 30px auto;
+  max-width: 850px;
+  gap: 25px;
+  position: relative;
+  z-index: 10;
+}
+
+.character-image {
+  flex: 0 0 30%;
+  max-width: 220px;
+  position: relative;
+}
+
+.character-image::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  right: -10px;
+  bottom: -10px;
+  background: radial-gradient(circle, rgba(41, 171, 226, 0.2) 0%, transparent 70%);
+  border-radius: 50%;
+  z-index: -1;
+  animation: character-glow 3s ease-in-out infinite;
+}
+
+@keyframes character-glow {
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+}
+
+.mascote-img {
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.3));
+  transition: transform 0.3s ease;
+}
+
+.mascote-img:hover {
+  transform: scale(1.05);
+}
+
+.speech-bubble {
+  flex: 1;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%); /* Mantido branco */
+  border-radius: 25px;
+  padding: 25px;
+  position: relative;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.1);
+  color: #333; /* Mantido escuro */
+  border: 2px solid rgba(41, 171, 226, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.speech-bubble:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+.speech-bubble:before {
+  content: "";
+  position: absolute;
+  left: -22px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-width: 22px 22px 22px 0;
+  border-style: solid;
+  border-color: transparent #ffffff transparent transparent;
+  filter: drop-shadow(-2px 0 3px rgba(0, 0, 0, 0.1));
+}
+
+.speech-title {
+  color: #000000; /* Alterado para preto */
+  font-size: 1.3rem;
+  margin-bottom: 15px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.speech-text {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 0;
+  color: #333;
+}
+
+/* Tutorial message melhorado */
+.tutorial-message {
+  position: relative;
+  z-index: 10;
+  animation: pulse 2.5s infinite;
+}
+
+.tutorial-message .alert {
+  background: linear-gradient(135deg, rgba(13, 202, 240, 0.15) 0%, rgba(13, 110, 253, 0.15) 100%);
+  border: 1px solid rgba(13, 202, 240, 0.3);
+  color: #ffffff;
+  border-radius: 15px;
+  padding: 15px 20px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.8;
+  }
+}
+
+/* Modal de notificação melhorado */
 .upgrade-notification {
   opacity: 0;
   visibility: hidden;
+  transition: all 0.3s ease;
 }
 
 .upgrade-notification.show {
-  opacity: 0.7;
+  opacity: 0.8;
   visibility: visible;
 }
 
@@ -290,7 +558,7 @@
   z-index: 2000;
   opacity: 0;
   visibility: hidden;
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
 .upgrade-notification-modal.visible {
@@ -298,16 +566,59 @@
   visibility: visible;
 }
 
+.card-moai {
+  background: linear-gradient(135deg, #1a365d 0%, #2d5a87 50%, #1a365d 100%);
+  border: 3px solid #29abe2;
+  color: white;
+  border-radius: 25px;
+  position: relative;
+  overflow: hidden;
+  max-width: 500px;
+  margin: 20px;
+}
+
+.card-moai::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  animation: modal-shine 3s ease-in-out infinite;
+}
+
+@keyframes modal-shine {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
 .upgrade-icon {
-  font-size: 3.5rem;
-  margin-bottom: 15px;
-  animation: bounce 1s ease infinite;
+  font-size: 4rem;
+  margin-bottom: 20px;
+  animation: bounce 2s ease-in-out infinite;
   display: inline-block;
 }
 
+.upgrade-icon .moai-image {
+  width: 80px;
+  height: auto;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+  animation: bounce 2s ease-in-out infinite;
+}
+
 @keyframes bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-15px); }
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-10px) scale(1.1);
+  }
 }
 
 .upgrade-details {
@@ -316,105 +627,178 @@
   max-width: 450px;
   margin: 0 auto;
   background: rgba(0, 0, 0, 0.2);
-  padding: 15px;
-  border-radius: 10px;
-  line-height: 1.6;
-}
-
-/* Tutorial message */
-.tutorial-message {
-  animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-  0% { opacity: 0.7; }
-  50% { opacity: 1; }
-  100% { opacity: 0.7; }
-}
-
-.welcome-text {
-  color: #ffffff;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
-}
-
-/* Estilos para o modal */
-.card-moai {
-  background: linear-gradient(135deg, #103a5e 0%, #0c2944 100%);
-  border: 2px solid #29abe2;
-  color: white;
-}
-
-/* Estilos para o mascote e balão de fala */
-.mascote-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin: 20px auto;
-  max-width: 800px;
-  gap: 20px;
-}
-
-.character-image {
-  flex: 0 0 30%;
-  max-width: 200px;
-}
-
-.mascote-img {
-  width: 100%;
-  height: auto;
-  filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.5));
-}
-
-.speech-bubble {
-  flex: 1;
-  background-color: white;
-  border-radius: 20px;
   padding: 20px;
-  position: relative;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  color: #333;
+  border-radius: 15px;
+  line-height: 1.6;
+  border: 1px solid rgba(41, 171, 226, 0.3);
 }
 
-.speech-bubble:before {
+.btn-moai-primary {
+  background: linear-gradient(135deg, #29abe2 0%, #1e88e5 100%);
+  border: none;
+  color: white;
+  font-weight: 600;
+  border-radius: 50px;
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  box-shadow: 0 5px 15px rgba(41, 171, 226, 0.4);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-moai-primary::before {
   content: "";
   position: absolute;
-  left: -20px;
-  top: 50%;
-  transform: translateY(-50%);
-  border-width: 20px 20px 20px 0;
-  border-style: solid;
-  border-color: transparent white transparent transparent;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
 }
 
-.speech-title {
-  color: var(--moai-primary, #003366);
-  font-size: 1.3rem;
-  margin-bottom: 15px;
-  font-weight: 600;
+.btn-moai-primary:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 8px 25px rgba(41, 171, 226, 0.6);
+  background: linear-gradient(135deg, #1e88e5 0%, #29abe2 100%);
 }
 
-.speech-text {
-  font-size: 1rem;
-  line-height: 1.6;
-  margin-bottom: 0;
+.btn-moai-primary:hover::before {
+  left: 100%;
 }
 
-/* Responsividade */
-@media (max-width: 768px) {
+.btn-moai-primary:active {
+  transform: translateY(0) scale(1);
+}
+
+/* Responsividade melhorada */
+@media (max-width: 992px) {
   .island-header h1 {
-    font-size: 24px;
+    font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+  }
+
+  .mascote-container {
+    max-width: 100%;
+    gap: 20px;
+  }
+
+  .island-visualization {
+    height: 300px;
+    max-width: 500px;
+  }
+
+  .island-image {
+    max-width: 280px;
+  }
+
+  .boat-container {
+    max-width: 180px;
+  }
+
+  .tool-circle {
+    width: 70px;
+    height: 70px;
+  }
+
+  .tool-icon-img {
+    width: 35px;
+    height: 35px;
+  }
+}
+
+@media (max-width: 768px) {
+  .firstupgrade-container {
+    padding: 15px 0;
+  }
+
+  .island-header h1 {
+    font-size: clamp(1.3rem, 3vw, 1.8rem);
   }
 
   .island-visualization {
     height: 260px;
+    max-width: 450px;
   }
 
   .island-image {
-    max-width: 220px;
+    max-width: 240px;
   }
 
   .boat-container {
-    max-width: 140px;
+    max-width: 160px;
+    bottom: 20%;
+  }
+
+  .tool-circle {
+    width: 60px;
+    height: 60px;
+  }
+
+  .tool-icon-img {
+    width: 30px;
+    height: 30px;
+  }
+
+  .tool-popup {
+    left: 25%;
+    top: 20%;
+  }
+
+  .mascote-container {
+    flex-direction: column;
+    text-align: center;
+    gap: 25px;
+  }
+
+  .character-image {
+    margin-bottom: 20px;
+    max-width: 180px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .speech-bubble:before {
+    left: 50%;
+    top: -22px;
+    transform: translateX(-50%);
+    border-width: 0 22px 22px 22px;
+    border-color: transparent transparent #ffffff transparent;
+  }
+
+  .speech-title {
+    font-size: 1.2rem;
+  }
+
+  .speech-text {
+    font-size: 0.95rem;
+  }
+
+  .speech-bubble {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .island-header h1 {
+    font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+  }
+
+  .island-visualization {
+    height: 220px;
+    max-width: 400px;
+  }
+
+  .island-image {
+    max-width: 200px;
+  }
+
+  .boat-container {
+    max-width: 120px;
+    bottom: 15%;
+  }
+
+  .tool-popup {
+    left: 20%;
+    top: 25%;
   }
 
   .tool-circle {
@@ -422,32 +806,18 @@
     height: 50px;
   }
 
-  .tool-icon {
-    font-size: 2rem;
-  }
-
-  .tool-popup {
-    left: 20%;
-  }
-
-  .mascote-container {
-    flex-direction: column;
-    text-align: center;
+  .tool-icon-img {
+    width: 25px;
+    height: 25px;
   }
 
   .character-image {
-    margin-bottom: 20px;
     max-width: 150px;
-    margin-left: auto;
-    margin-right: auto;
   }
 
-  .speech-bubble:before {
-    left: 50%;
-    top: -20px;
-    transform: translateX(-50%);
-    border-width: 0 20px 20px 20px;
-    border-color: transparent transparent white transparent;
+  .speech-bubble {
+    padding: 18px;
+    border-radius: 20px;
   }
 
   .speech-title {
@@ -457,41 +827,42 @@
   .speech-text {
     font-size: 0.9rem;
   }
+
+  .tutorial-message .alert {
+    padding: 12px 15px;
+    font-size: 0.9rem;
+  }
+
+  .upgrade-details {
+    padding: 15px;
+    font-size: 0.9rem;
+  }
 }
 
-@media (max-width: 480px) {
-  .island-header h1 {
-    font-size: 20px;
+/* Melhorias de acessibilidade */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Modo escuro */
+@media (prefers-color-scheme: dark) {
+  .speech-bubble {
+    background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+    color: #e2e8f0;
+    border-color: rgba(41, 171, 226, 0.3);
   }
 
-  .island-visualization {
-    height: 220px;
+  .speech-title {
+    color: #29abe2;
   }
 
-  .island-image {
-    max-width: 180px;
-  }
-
-  .boat-container {
-    max-width: 100px;
-    bottom: 15%;
-  }
-
-  .tool-popup {
-    left: 15%;
-    top: 30%;
-  }
-
-  .tool-circle {
-    width: 40px;
-    height: 40px;
-  }
-
-  .tool-icon {
-    font-size: 1.5rem;
-  }
-
-  .tool-message {
-    font-size: 0.8rem;
+  .speech-text {
+    color: #cbd5e0;
   }
 }

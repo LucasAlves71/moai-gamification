@@ -455,3 +455,13 @@ body:not(.login-page) {
 .upgrade-item:nth-child(8) { animation-delay: 0.7s; }
 .upgrade-item:nth-child(9) { animation-delay: 0.8s; }
 .upgrade-item:nth-child(10) { animation-delay: 0.9s; }
+
+/* Remover o feixe decorativo de todas as páginas exceto first upgrade */
+.dashboard-container .island-header h1::after,
+.islands-container .island-header h1::after,
+.rewards-container .island-header h1::after,
+.profile-container .island-header h1::after,
+.development-container .island-header h1::after,
+.onboarding-container .island-header h1::after {
+  display: none !important;
+}
