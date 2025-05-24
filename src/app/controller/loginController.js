@@ -100,4 +100,74 @@ angular.module('moaiApp').controller('LoginController', function($scope, $http, 
             }
         );
     }
+
+    // Add this function to your LoginController
+    $scope.playOceanSound = function($event) {
+        try {
+            var oceanSound = document.getElementById('ocean-sound');
+            if (oceanSound) {
+                // Reset the audio to the beginning if it was already played
+                oceanSound.currentTime = 0;
+
+                // Make sure audio can play in the background by setting loop to false
+                // and storing a reference to keep it alive during navigation
+                oceanSound.loop = false;
+
+                // Store the current time so we can track how long it should play
+                var startTime = new Date().getTime();
+
+                // Store audio element in localStorage to prevent garbage collection
+                window.oceanSoundPlaying = true;
+
+                // Play the sound
+                var playPromise = oceanSound.play();
+
+                if (playPromise !== undefined) {
+                    playPromise.then(function() {
+                        // Successfully started playing
+                        console.log('Ocean sound started playing');
+
+                        // Store in sessionStorage that sound is playing
+                        sessionStorage.setItem('oceanSoundPlaying', 'true');
+                        sessionStorage.setItem('oceanSoundStartTime', startTime);
+
+                    }).catch(function(error) {
+                        console.log('Audio could not be played:', error);
+                    });
+                }
+            }
+        } catch (e) {
+            console.error('Error trying to play audio:', e);
+        }
+    };
+
+    // Check if we need to continue playing a sound from previous page
+    (function checkPreviousAudio() {
+        try {
+            if (sessionStorage.getItem('oceanSoundPlaying') === 'true') {
+                var startTime = parseInt(sessionStorage.getItem('oceanSoundStartTime') || '0');
+                var currentTime = new Date().getTime();
+                var elapsedTime = (currentTime - startTime) / 1000; // Convert to seconds
+
+                // If the sound has been playing for less than its duration
+                // (assuming the ocean wave sound is around 5 seconds)
+                if (elapsedTime < 5) {
+                    var oceanSound = document.getElementById('ocean-sound');
+                    if (oceanSound) {
+                        // Set the current time to match how long it's been playing
+                        oceanSound.currentTime = elapsedTime;
+                        oceanSound.play().catch(function(error) {
+                            console.log('Could not continue playing audio:', error);
+                        });
+                    }
+                }
+
+                // Clear the session storage
+                sessionStorage.removeItem('oceanSoundPlaying');
+                sessionStorage.removeItem('oceanSoundStartTime');
+            }
+        } catch (e) {
+            console.error('Error checking previous audio state:', e);
+        }
+    })();
 });
