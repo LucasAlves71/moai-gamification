@@ -268,6 +268,12 @@ body {
   color: #87ceeb;
 }
 
+.status-icon-img {
+  width: 32px;  /* Aumentado de 24px */
+  height: 32px;  /* Aumentado de 24px */
+  object-fit: contain;
+}
+
 .resource-info,
 .status-info {
   flex: 1;
@@ -1109,6 +1115,26 @@ body {
   }
 }
 
+/* Estilos para ícones na modal */
+.moai-header-icon {
+  width: 28px;
+  height: 28px;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+.resource-modal-icon {
+  width: 24px;
+  height: 24px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.req-icon-img {
+  width: 14px;
+  height: 14px;
+  vertical-align: middle;
+}
+
 /* Utilitários */
 .d-flex {
   display: flex;
@@ -1193,4 +1219,20 @@ body {
 }
 .small {
   font-size: 0.875em;
+}
+
+.palm-tree-img {
+  width: 32px;  /* Aumentado de 24px */
+  height: 42px; /* Aumentado de 32px */
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.palm-tree.palm-right .palm-tree-img {
+  transform: scaleX(-1);
+}
+
+.moai-btn-img {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
 }

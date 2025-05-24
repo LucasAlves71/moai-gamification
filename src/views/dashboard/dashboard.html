@@ -17,12 +17,16 @@
                 <!-- Header da Ilha com Coqueiros -->
                 <div class="island-header fade-in">
                     <div class="island-name-card">
-                        <div class="palm-tree palm-left">🌴</div>
+                        <div class="palm-tree palm-left">
+                            <img src="public/img/palm-tree.png" alt="Palmeira" class="palm-tree-img">
+                        </div>
                         <div class="island-content">
                             <h1>{{userStatus.extra.ilha}}</h1>
                             <p class="island-subtitle">SUA ILHA TROPICAL</p>
                         </div>
-                        <div class="palm-tree palm-right">🌴</div>
+                        <div class="palm-tree palm-right">
+                            <img src="public/img/palm-tree.png" alt="Palmeira" class="palm-tree-img">
+                        </div>
                     </div>
                 </div>
 
@@ -44,7 +48,7 @@
 
                             <!-- Botão Flutuante MOAI -->
                             <button class="floating-moai-btn" ng-click="showUpgradeShop()" aria-label="Evolua seu MOAI">
-                                🗿
+                                <img src="public/img/moai-icon.png" alt="MOAI" class="moai-btn-img">
                             </button>
                         </div>
                     </div>
@@ -87,7 +91,7 @@
                     <!-- Status -->
                     <div class="status-item">
                         <div class="status-icon">
-                            <i class="fas fa-chart-line"></i>
+                            <img src="public/img/maturity-icon.png" alt="Maturidade" class="status-icon-img">
                         </div>
                         <div class="status-info">
                             <div class="status-label">Maturidade</div>
@@ -108,7 +112,7 @@
 
                     <div class="status-item">
                         <div class="status-icon">
-                            <i class="fas fa-trophy"></i>
+                            <img src="public/img/level-icon.png" alt="Nível" class="status-icon-img">
                         </div>
                         <div class="status-info">
                             <div class="status-label">Nível</div>
@@ -164,7 +168,7 @@
         <div class="moai-modal-content">
             <div class="moai-modal-header">
                 <h3 class="moai-modal-title" id="modal-title">
-                    <span class="moai-icon">🗿</span> Evolua seu MOAI
+                    <img src="public/img/moai-icon.png" alt="MOAI" class="moai-header-icon"> Evolua seu MOAI
                 </h3>
                 <button type="button" class="moai-modal-close" aria-label="Fechar modal" ng-click="closeUpgradeShop()">×</button>
             </div>
@@ -175,17 +179,23 @@
                     <h5 class="section-title">Seus recursos:</h5>
                     <div class="resources-grid">
                         <div class="resource-box">
-                            <div class="resource-icon">⚡</div>
+                            <div class="resource-icon">
+                                <img src="public/img/energia-icon.png" alt="Energia" class="resource-modal-icon">
+                            </div>
                             <div class="resource-amount">{{userResources.energia || 0}}</div>
                             <div class="resource-name">Energia</div>
                         </div>
                         <div class="resource-box">
-                            <div class="resource-icon">🔧</div>
+                            <div class="resource-icon">
+                                <img src="public/img/ferramenta-icon.png" alt="Ferramenta" class="resource-modal-icon">
+                            </div>
                             <div class="resource-amount">{{userResources.ferramenta || 0}}</div>
                             <div class="resource-name">Ferramenta</div>
                         </div>
                         <div class="resource-box">
-                            <div class="resource-icon">💡</div>
+                            <div class="resource-icon">
+                                <img src="public/img/criatividade-icon.png" alt="Criatividade" class="resource-modal-icon">
+                            </div>
                             <div class="resource-amount">{{userResources.criatividade || 0}}</div>
                             <div class="resource-name">Criatividade</div>
                         </div>
@@ -247,14 +257,14 @@
                                      ng-repeat="req in item.requires"
                                      ng-class="{'met': hasEnoughResource(req)}">
                                     <span class="requirement-icon" ng-if="req.type === 0">
-                                        <span ng-if="req.item === 'energia'">⚡</span>
-                                        <span ng-if="req.item === 'ferramenta'">🔧</span>
-                                        <span ng-if="req.item === 'criatividade'">💡</span>
-                                        <span ng-if="req.item === 'moaicoins'"><img src="public/img/MoaiCoin.png" alt="MOAIcoins" style="width: 14px; height: 14px;"></span>
-                                        <span ng-if="req.item === 'moaimoney'"><img src="public/img/MoaiMoney.png" alt="MOAImoney" style="width: 14px; height: 14px;"></span>
-                                        <span ng-if="req.item === 'xp'">⭐</span>
+                                        <span ng-if="req.item === 'energia'"><img src="public/img/energia-icon.png" alt="Energia" class="req-icon-img"></span>
+                                        <span ng-if="req.item === 'ferramenta'"><img src="public/img/ferramenta-icon.png" alt="Ferramenta" class="req-icon-img"></span>
+                                        <span ng-if="req.item === 'criatividade'"><img src="public/img/criatividade-icon.png" alt="Criatividade" class="req-icon-img"></span>
+                                        <span ng-if="req.item === 'moaicoins'"><img src="public/img/MoaiCoin.png" alt="MOAIcoins" class="req-icon-img"></span>
+                                        <span ng-if="req.item === 'moaimoney'"><img src="public/img/MoaiMoney.png" alt="MOAImoney" class="req-icon-img"></span>
+                                        <span ng-if="req.item === 'xp'"><img src="public/img/xp-icon.png" alt="XP" class="req-icon-img"></span>
                                     </span>
-                                    <span class="requirement-icon" ng-if="req.type === 3">📊</span>
+                                    <span class="requirement-icon" ng-if="req.type === 3"><img src="public/img/level-icon.png" alt="Nível" class="req-icon-img"></span>
                                     <span class="requirement-text">{{formatRequirement(req)}}</span>
                                 </div>
                             </div>
@@ -266,9 +276,9 @@
                             <div class="reward-list">
                                 <div class="reward-item" ng-repeat="reward in item.rewards">
                                     <span class="reward-icon">
-                                        <span ng-if="reward.item === 'moaicoins'"><img src="public/img/MoaiCoin.png" alt="MOAIcoins" style="width: 14px; height: 14px;"></span>
-                                        <span ng-if="reward.item === 'moaimoney'"><img src="public/img/MoaiMoney.png" alt="MOAImoney" style="width: 14px; height: 14px;"></span>
-                                        <span ng-if="reward.item === 'xp'">⭐</span>
+                                        <span ng-if="reward.item === 'moaicoins'"><img src="public/img/MoaiCoin.png" alt="MOAIcoins" class="req-icon-img"></span>
+                                        <span ng-if="reward.item === 'moaimoney'"><img src="public/img/MoaiMoney.png" alt="MOAImoney" class="req-icon-img"></span>
+                                        <span ng-if="reward.item === 'xp'"><img src="public/img/xp-icon.png" alt="XP" class="req-icon-img"></span>
                                     </span>
                                     <span class="reward-text">{{formatReward(reward)}}</span>
                                 </div>
