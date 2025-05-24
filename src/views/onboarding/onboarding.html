@@ -168,7 +168,7 @@
     <div class="onboarding-modal-custom"
          id="imageCropperModal"
          ng-if="showImageCropper">
-        <div class="onboarding-modal-backdrop-custom"></div>
+        <div class="onboarding-modal-backdrop-custom" ng-click="cancelImageUpload()"></div>
         <div class="modal-dialog modal-dialog-centered">
             <div class="onboarding-modal-content-custom">
                 <div class="onboarding-modal-header-custom">
@@ -187,11 +187,13 @@
                         <p>Arraste e redimensione para ajustar sua foto de perfil</p>
                     </div>
 
-                    <image-cropper
-                        image-source="previewImageUrl"
-                        on-crop-complete="uploadProfileImage(imageDataUrl)"
-                        on-cancel="cancelImageUpload()">
-                    </image-cropper>
+                    <div class="cropper-container">
+                        <image-cropper
+                            image-source="previewImageUrl"
+                            on-crop-complete="uploadProfileImage(imageDataUrl)"
+                            on-cancel="cancelImageUpload()">
+                        </image-cropper>
+                    </div>
 
                     <div class="onboarding-processing-indicator" ng-if="isProcessing">
                         <span class="spinner-border text-primary"></span>

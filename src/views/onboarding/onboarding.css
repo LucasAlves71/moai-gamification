@@ -882,104 +882,42 @@
 }
 
 .onboarding-modal-backdrop-custom {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(4px);
+  z-index: -1;
 }
 
 .onboarding-modal-content-custom {
   background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
   border: none;
-  border-radius: 16px; /* Reduzido de 20px para 16px */
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4); /* Sombra mais sutil */
+  border-radius: 16px;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
   color: white;
   position: relative;
   z-index: 1;
   max-width: 500px;
   width: 90%;
+  pointer-events: auto;
 }
 
-.onboarding-modal-header-custom {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 20px 25px 15px; /* Reduzido o padding */
-  border-radius: 16px 16px 0 0; /* Ajustado para combinar com o border-radius do content */
+.cropper-container {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  min-height: 300px;
 }
 
-.onboarding-modal-header-custom .modal-title {
-  font-size: 1.2rem; /* Reduzido de 1.3rem */
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  gap: 8px; /* Reduzido de 10px */
-}
-
-.onboarding-btn-close-custom {
-  background: none;
-  border: none;
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 1.1rem; /* Reduzido de 1.2rem */
-  cursor: pointer;
-  transition: color 0.3s ease;
-}
-
-.onboarding-btn-close-custom:hover {
-  color: white;
-}
-
-.onboarding-modal-body-custom {
-  padding: 25px; /* Reduzido de 30px */
-}
-
-.onboarding-crop-instructions {
-  text-align: center;
-  margin-bottom: 15px; /* Reduzido de 20px */
-}
-
-.onboarding-crop-instructions p {
-  color: rgba(255, 255, 255, 0.8);
-  margin: 0;
-  font-size: 0.95rem; /* Ligeiramente menor */
-}
-
-.onboarding-processing-indicator {
-  text-align: center;
-  margin-top: 15px; /* Reduzido de 20px */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px; /* Reduzido de 10px */
-}
-
-.onboarding-processing-text {
-  color: rgba(255, 255, 255, 0.9);
-  font-size: 0.95rem; /* Ligeiramente menor */
-}
-
-/* Animações */
-@keyframes bubble-appear {
-  from {
-    opacity: 0;
-    transform: translateY(30px) scale(0.9);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-@keyframes form-appear {
-  from {
-    opacity: 0;
-    transform: translateY(30px) scale(0.9);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
+/* Garantir que os componentes do Cropper sejam clicáveis */
+.cropper-container .cropper-view-box,
+.cropper-container .cropper-face,
+.cropper-container .cropper-line,
+.cropper-container .cropper-point {
+  pointer-events: auto !important;
 }
 
 /* Responsividade melhorada */
