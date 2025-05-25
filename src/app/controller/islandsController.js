@@ -1,12 +1,33 @@
 angular.module('moaiApp').controller('IslandsController', function($scope, $http, $q, $timeout, $location, API_CONFIG, AuthService) {
+    // Modificar o comportamento do body para dispositivos móveis
+    function checkMobileDevice() {
+      return window.innerWidth <= 768; // Aumentar threshold para incluir tablets menores
+    }
+
     // Aplicar a classe islands-page ao body quando entrar na página
     angular.element(document.body).addClass('islands-page');
 
+    // Se for um dispositivo móvel, não bloquear o scroll
+    if (checkMobileDevice()) {
+      document.body.style.overflow = 'auto';
+      document.body.style.position = 'relative';
+      document.body.style.height = 'auto';
+      document.body.style.width = '100%';
+    } else {
+      // Em desktop, mantém o comportamento original
+      document.body.style.overflow = 'hidden';
+      document.body.style.position = 'fixed';
+      document.body.style.width = '100%';
+      document.body.style.height = '100%';
+    }
+
     // Remover a classe quando sair da página
     $scope.$on('$destroy', function() {
-        angular.element(document.body).removeClass('islands-page');
-        // Restaurar a rolagem normal
-        document.body.style.overflow = '';
+      angular.element(document.body).removeClass('islands-page');
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.width = '';
+      document.body.style.height = '';
     });
 
     // Verificação de autenticação usando o serviço
