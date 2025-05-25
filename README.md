@@ -1,59 +1,74 @@
-# MoaiGamification
+# MOAI Gamification
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.12.
+## Visão Geral
 
-## Development server
+O MOAI Gamification é uma plataforma web baseada em AngularJS que implementa elementos de gamificação em torno do conceito de MOAI, uma referência às famosas estátuas da Ilha de Páscoa. O projeto utiliza uma arquitetura MVC (Model-View-Controller) típica de aplicações AngularJS e se comunica com uma API RESTful da Funifier para gerenciar dados de jogadores, conquistas, itens virtuais e outros elementos de gamificação.
 
-To start a local development server, run:
+## Estrutura do Projeto
+/
+|- .vscode/                # Configurações do VS Code
+|- src/                    # Código-fonte da aplicação
+|   |- app/                # Lógica principal da aplicação
+|   |   |- controller/     # Controladores Angular
+|   |   |- directives/     # Diretivas personalizadas
+|   |   |- services/       # Serviços compartilhados
+|   |- components/         # Componentes reutilizáveis
+|   |- public/             # Recursos estáticos
+|   |   |- audios/         # Arquivos de áudio
+|   |   |- img/            # Imagens e ícones
+|   |- views/              # Telas da aplicação
+|   |   |- dashboard/      # Tela principal
+|   |   |- development/    # Área de desenvolvimento
+|   |   |- firstupgrade/   # Primeira evolução do MOAI
+|   |   |- islands/        # Ilhas de conhecimento
+|   |   |- login/          # Tela de login
+|   |   |- onboarding/     # Processo de integração
+|   |   |- profile/        # Perfil do usuário
+|   |   |- rewards/        # Recompensas e loja
+|   |- app.js              # Configuração principal do Angular
+|   |- index.html          # Página principal
+|   |- styles.css          # Estilos globais
 
-```bash
-ng serve
-```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## Principais Funcionalidades
 
-## Code scaffolding
+### 1. Sistema de Gamificação
+- **Níveis e Progressão**: Os usuários progridem através de níveis, ganhando experiência (XP) ao completar desafios.
+- **Recursos**: Os jogadores coletam diferentes recursos (Energia, Ferramenta, Criatividade) que são usados para evoluir seu MOAI.
+- **Moedas Virtuais**: MOAIcoins e MOAImoney são usados para comprar itens na loja de recompensas.
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+### 2. Evolução MOAI
+- Os jogadores começam com uma ilha vazia e constroem seu MOAI em estágios, adicionando elementos como base, olhos, nariz, etc.
+- Cada evolução requer recursos específicos e representa o progresso do jogador.
 
-```bash
-ng generate component component-name
-```
+### 3. Ilhas de Conhecimento
+- Diferentes ilhas temáticas representam áreas de conhecimento/especialização.
+- Cada ilha contém desafios e temporadas com recompensas específicas.
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+### 4. Área de Desenvolvimento
+- Os jogadores geram recursos através de atividades como:
+  - Participação em eventos (gera Energia)
+  - Compartilhamento de insights (gera Ferramentas)
+  - Leitura e estudo (gera Criatividade)
 
-```bash
-ng generate --help
-```
+### 5. Sistema de Recompensas
+- Loja onde os jogadores podem trocar moedas virtuais por recompensas.
+- Histórico de compras e visualização de itens disponíveis.
 
-## Building
+## Tecnologias Utilizadas
 
-To build the project run:
+- **Frontend**: AngularJS (versão 1.8.2), Bootstrap 5, HTML5, CSS3
+- **Comunicação Backend**: Requisições HTTP para API RESTful da Funifier
+- **Autenticação**: Sistema básico de autenticação com tokens
+- **Armazenamento Local**: localStorage para persistência entre sessões
+- **Mídia**: Áudio e efeitos visuais para feedback ao usuário
 
-```bash
-ng build
-```
+## Fluxo do Usuário
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+1. Login: Autenticação no sistema
+2. Onboarding: Introdução ao conceito do jogo com o guia Manu'Kai
+3. Primeira Evolução: Tutorial guiado para adquirir a primeira pedra MOAI
+4. Dashboard: Hub central com visualização do MOAI e acesso às funcionalidades
+5. Desenvolvimento: Geração de recursos através de atividades
+6. Ilhas: Participação em desafios e temporadas
+7. Loja de Recompensas: Aquisição de itens virtuais
