@@ -43,7 +43,9 @@
             <div class="speech-bubble">
                 <div class="speech-bubble-header">
                     <div class="speaker-indicator">
-                        <div class="speaker-avatar"></div>
+                        <div class="speaker-avatar">
+                            <img src="public/img/mascote/mascote-3.png" alt="Manu'Kai" class="speaker-avatar-img">
+                        </div>
                         <span class="speaker-name">Manu'Kai</span>
                     </div>
                 </div>
@@ -86,7 +88,9 @@
             <div class="island-form">
                 <div class="form-header">
                     <div class="form-icon">
-                        <i class="fas fa-island-tropical"></i>
+                        <div class="mascote-avatar-circle">
+                            <img src="public/img/mascote/mascote-3.png" alt="Manu'Kai">
+                        </div>
                     </div>
                     <h2 class="form-title">Personalize sua jornada</h2>
                     <p class="form-subtitle">
@@ -127,7 +131,7 @@
                                      alt="Foto de perfil"
                                      class="profile-photo">
                                 <div class="photo-edit-btn" ng-click="openFileSelector()">
-                                    <i class="fas fa-camera"></i>
+                                    <i class="bi bi-pencil-fill"></i>
                                 </div>
                                 <div class="photo-border"></div>
                             </div>
@@ -171,6 +175,11 @@
         <div class="onboarding-modal-backdrop-custom" ng-click="cancelImageUpload()"></div>
         <div class="modal-dialog modal-dialog-centered">
             <div class="onboarding-modal-content-custom">
+                <!-- Adicionando o mascote na parte superior do modal -->
+                <div class="mascote-modal-icon">
+                    <img src="public/img/mascote/mascote-3.png" alt="Manu'Kai" class="mascote-modal-img">
+                </div>
+
                 <div class="onboarding-modal-header-custom">
                     <h5 class="modal-title">
                         <i class="fas fa-crop"></i>

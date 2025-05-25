@@ -527,6 +527,29 @@
   align-items: center;
   justify-content: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.onboarding-container .speaker-avatar::after {
+  content: "";
+  position: absolute;
+  width: 80%;
+  height: 80%;
+  background-image: url('public/img/mascote/mascote-3.png');
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  transform: translateY(2px); /* Ajusta a posição vertical da imagem */
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
+}
+
+.onboarding-container .speaker-avatar-img {
+  width: 80%;
+  height: auto;
+  object-fit: contain;
+  transform: translateY(2px);
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
 }
 
 .onboarding-container .speaker-name {
@@ -767,46 +790,33 @@
   top: -8px;
   left: -8px;
   right: -8px;
-  bottom: -8px;
-  border: 2px solid rgba(251, 191, 36, 0.3);
-  border-radius: 50%;
-  animation: border-pulse 2s ease-in-out infinite;
+  bottom: -8px; 
 }
 
-@keyframes border-pulse {
-  0%,
-  100% {
-    transform: scale(1);
-    opacity: 0.7;
-  }
-  50% {
-    transform: scale(1.05);
-    opacity: 1;
-  }
-}
 
 .onboarding-container .photo-edit-btn {
   position: absolute;
-  bottom: 8px;
-  right: 8px;
-  width: 44px;
-  height: 44px;
-  background: linear-gradient(135deg, var(--moai-accent) 0%, var(--moai-accent-dark) 100%);
+  bottom: 5px;
+  right: 5px;
+  width: 40px;
+  height: 40px;
+  background: var(--moai-accent);
+  color: var(--moai-dark);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  font-size: 16px;
+  border: 3px solid white;
   transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
   z-index: 5;
-  color: var(--moai-dark);
-  font-size: 1rem;
 }
 
 .onboarding-container .photo-edit-btn:hover {
+  background: var(--moai-accent-dark);
   transform: scale(1.1);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
 }
 
 .onboarding-container .photo-description {
@@ -1087,4 +1097,86 @@
     image-rendering: -webkit-optimize-contrast;
     image-rendering: crisp-edges;
   }
+}
+
+
+/* Estilos para o ícone do mascote no modal */
+.mascote-modal-icon {
+    position: absolute;
+    width: 90px;
+    height: 90px;
+    background: linear-gradient(135deg, var(--moai-accent) 0%, var(--moai-accent-dark) 100%);
+    border-radius: 50%;
+    top: -45px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 5px 15px rgba(251, 191, 36, 0.4);
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    overflow: hidden;
+    z-index: 10;
+}
+
+.mascote-modal-img {
+    width: 80%;
+    height: auto;
+    object-fit: contain;
+    transform: translateY(5px);
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+/* Ajustes no modal para acomodar o ícone do mascote */
+.onboarding-modal-content-custom {
+    padding-top: 30px;
+    margin-top: 25px;
+}
+
+.onboarding-modal-header-custom {
+    padding-top: 25px;
+}
+
+/* Estilo compartilhado para todos os círculos de avatar do mascote */
+.mascote-avatar-circle {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, var(--moai-accent) 0%, var(--moai-accent-dark) 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.mascote-avatar-circle img {
+  width: 80%;
+  height: auto;
+  object-fit: contain;
+  transform: translateY(2px);
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
+}
+
+/* Aplicar o mesmo estilo ao avatar do speaker */
+.onboarding-container .speaker-avatar {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, var(--moai-accent) 0%, var(--moai-accent-dark) 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.onboarding-container .speaker-avatar-img {
+  width: 80%;
+  height: auto;
+  object-fit: contain;
+  transform: translateY(2px);
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
 }
