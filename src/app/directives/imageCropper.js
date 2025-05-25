@@ -12,25 +12,39 @@ angular.module('moaiApp').directive('imageCropper', function() {
                     <img id="image-to-crop" ng-src="{{imageSource}}" alt="Imagem para recortar">
                 </div>
 
-                <!-- Mobile controls for cropper -->
+                <!-- Mobile controls for cropper - improved for touch -->
                 <div class="cropper-mobile-controls">
                     <div class="control-row">
-                        <button class="btn btn-sm btn-light" ng-click="zoomIn()">
+                        <button class="btn btn-light" ng-click="zoomIn()" aria-label="Aumentar zoom">
                             <i class="bi bi-zoom-in"></i>
                         </button>
-                        <button class="btn btn-sm btn-light" ng-click="zoomOut()">
+                        <button class="btn btn-light" ng-click="zoomOut()" aria-label="Diminuir zoom">
                             <i class="bi bi-zoom-out"></i>
                         </button>
-                        <button class="btn btn-sm btn-light" ng-click="rotateLeft()">
+                        <button class="btn btn-light" ng-click="rotateLeft()" aria-label="Girar para esquerda">
                             <i class="bi bi-arrow-counterclockwise"></i>
                         </button>
-                        <button class="btn btn-sm btn-light" ng-click="rotateRight()">
+                        <button class="btn btn-light" ng-click="rotateRight()" aria-label="Girar para direita">
                             <i class="bi bi-arrow-clockwise"></i>
+                        </button>
+                    </div>
+                    <div class="control-row">
+                        <button class="btn btn-light" ng-click="moveUp()" aria-label="Mover para cima">
+                            <i class="bi bi-arrow-up"></i>
+                        </button>
+                        <button class="btn btn-light" ng-click="moveDown()" aria-label="Mover para baixo">
+                            <i class="bi bi-arrow-down"></i>
+                        </button>
+                        <button class="btn btn-light" ng-click="moveLeft()" aria-label="Mover para esquerda">
+                            <i class="bi bi-arrow-left"></i>
+                        </button>
+                        <button class="btn btn-light" ng-click="moveRight()" aria-label="Mover para direita">
+                            <i class="bi bi-arrow-right"></i>
                         </button>
                     </div>
                 </div>
 
-                <div class="cropper-controls mt-3">
+                <div class="cropper-controls">
                     <button class="btn btn-moai" ng-click="cropImage()" ng-disabled="isProcessing">
                         <span ng-if="!isProcessing">Salvar Imagem</span>
                         <span ng-if="isProcessing">
@@ -38,45 +52,59 @@ angular.module('moaiApp').directive('imageCropper', function() {
                             Processando...
                         </span>
                     </button>
-                    <button class="btn btn-secondary ms-2" ng-click="cancel()" ng-disabled="isProcessing">Cancelar</button>
+                    <button class="btn btn-secondary" ng-click="cancel()" ng-disabled="isProcessing">Cancelar</button>
                 </div>
             </div>
         `,
         link: function(scope, element, attrs) {
             var cropper;
+            scope.isProcessing = false;
 
-            // Inicializar o cropper quando a imagem estiver carregada
+            // Initialize cropper when image is loaded
             var img = element.find('img')[0];
             img.onload = function() {
                 if (cropper) {
                     cropper.destroy();
                 }
 
+                // Detect if we're on mobile
+                var isMobile = window.innerWidth < 576;
+
+                // Configure cropper with mobile-friendly settings
                 cropper = new Cropper(img, {
                     aspectRatio: 1,
-                    viewMode: 1,
+                    viewMode: isMobile ? 1 : 2,
                     responsive: true,
                     zoomable: true,
                     rotatable: true,
                     scalable: true,
                     movable: true,
-                    minContainerWidth: 250,
-                    minContainerHeight: 250,
-                    minCropBoxWidth: 100,
-                    minCropBoxHeight: 100,
+                    minContainerWidth: isMobile ? 200 : 250,
+                    minContainerHeight: isMobile ? 200 : 250,
+                    minCropBoxWidth: isMobile ? 80 : 100,
+                    minCropBoxHeight: isMobile ? 80 : 100,
                     guides: true,
                     center: true,
                     highlight: true,
-                    autoCropArea: 0.8, // Make the crop area larger by default
-                    dragMode: 'move'
+                    autoCropArea: isMobile ? 0.9 : 0.8, // Larger crop area on mobile
+                    dragMode: 'move',
+                    toggleDragModeOnDblclick: false, // Disable toggle on double-click for mobile
+                    wheelZoomRatio: 0.05, // Gentler zoom on wheel
+                    background: false, // Removes the outer grid
+                    modal: true, // Darkens the image outside the crop area
+                    checkOrientation: true, // Adjusts orientation based on EXIF data
+                    checkCrossOrigin: true,
+                    cropBoxMovable: true,
+                    cropBoxResizable: true
                 });
 
                 // Fix initial size for mobile
                 setTimeout(function() {
-                    if (window.innerWidth < 576) {
+                    if (isMobile) {
                         cropper.resize();
+                        cropper.zoom(0.05); // Initial small zoom to ensure user knows it's interactive
                     }
-                }, 200);
+                }, 300);
             };
 
             // Mobile control methods
@@ -96,6 +124,23 @@ angular.module('moaiApp').directive('imageCropper', function() {
                 if (cropper) cropper.rotate(45);
             };
 
+            // Added move controls for mobile
+            scope.moveUp = function() {
+                if (cropper) cropper.move(0, -10);
+            };
+
+            scope.moveDown = function() {
+                if (cropper) cropper.move(0, 10);
+            };
+
+            scope.moveLeft = function() {
+                if (cropper) cropper.move(-10, 0);
+            };
+
+            scope.moveRight = function() {
+                if (cropper) cropper.move(10, 0);
+            };
+
             // Method to handle window resize
             var handleResize = function() {
                 if (cropper) {
@@ -106,7 +151,7 @@ angular.module('moaiApp').directive('imageCropper', function() {
             // Add window resize listener
             window.addEventListener('resize', handleResize);
 
-            // Método para recortar a imagem
+            // Method to crop the image
             scope.cropImage = function() {
                 if (!cropper) return;
 
@@ -116,9 +161,9 @@ angular.module('moaiApp').directive('imageCropper', function() {
                 var pixelRatio = window.devicePixelRatio || 1;
 
                 // Calculate optimal dimensions based on device
-                var maxDimension = window.innerWidth < 576 ? 200 : 260;
+                var maxDimension = window.innerWidth < 576 ? 300 : 400;
 
-                // Obter canvas com a imagem recortada
+                // Get cropped canvas with the image
                 var canvas = cropper.getCroppedCanvas({
                     width: maxDimension * pixelRatio,
                     height: maxDimension * pixelRatio,
@@ -127,8 +172,8 @@ angular.module('moaiApp').directive('imageCropper', function() {
                 });
 
                 if (canvas) {
-                    // Converter para data URL - use a higher quality for better results
-                    var dataUrl = canvas.toDataURL('image/jpeg', 0.95);
+                    // Convert to data URL - use a higher quality for better results
+                    var dataUrl = canvas.toDataURL('image/jpeg', 0.92);
                     scope.onCropComplete({imageDataUrl: dataUrl});
                 } else {
                     console.error('Erro ao recortar imagem');
@@ -136,7 +181,7 @@ angular.module('moaiApp').directive('imageCropper', function() {
                 }
             };
 
-            // Método para cancelar
+            // Method to cancel
             scope.cancel = function() {
                 if (cropper) {
                     cropper.destroy();
@@ -145,7 +190,7 @@ angular.module('moaiApp').directive('imageCropper', function() {
                 scope.onCancel();
             };
 
-            // Limpar ao destruir o escopo
+            // Clean up when scope is destroyed
             scope.$on('$destroy', function() {
                 window.removeEventListener('resize', handleResize);
                 if (cropper) {

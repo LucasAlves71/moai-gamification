@@ -484,54 +484,69 @@ body:not(.login-page) {
   overflow: hidden;
   background-color: #f5f5f5;
   border-radius: 8px;
+  position: relative;
 }
 
 .cropper-mobile-controls {
-  margin-top: 10px;
+  margin-top: 15px;
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
+  padding: 0 10px;
 }
 
 .cropper-mobile-controls .control-row {
   display: flex;
   gap: 10px;
   margin-bottom: 10px;
+  width: 100%;
+  justify-content: center;
 }
 
 .cropper-mobile-controls .btn {
-  width: 44px;
-  height: 44px;
+  width: 50px;
+  height: 50px;
   padding: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  font-size: 18px;
+  font-size: 20px;
   background: rgba(255, 255, 255, 0.9);
   color: #333;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+  border: none;
+  transition: transform 0.2s, background 0.2s;
+}
+
+.cropper-mobile-controls .btn:active {
+  transform: scale(0.95);
+  background: rgba(41, 171, 226, 0.2);
 }
 
 .cropper-controls {
-  margin-top: 15px;
+  margin-top: 20px;
   display: flex;
   justify-content: center;
-  gap: 10px;
+  gap: 15px;
+  padding: 0 10px;
 }
 
 .cropper-controls .btn {
-  min-width: 120px;
-  min-height: 44px;
+  min-width: 130px;
+  min-height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-weight: bold;
+  font-size: 16px;
 }
 
 /* Fix cropper styling for mobile */
 @media (max-width: 576px) {
   .cropper-container {
     max-width: 100% !important;
+    height: auto !important;
   }
 
   .cropper-view-box,
@@ -545,25 +560,48 @@ body:not(.login-page) {
 
   /* Make the handles larger for touch */
   .cropper-point {
-    width: 15px !important;
-    height: 15px !important;
+    width: 20px !important;
+    height: 20px !important;
     opacity: 0.9 !important;
+  }
+
+  .cropper-point.point-e,
+  .cropper-point.point-w,
+  .cropper-point.point-n,
+  .cropper-point.point-s {
+    width: 24px !important;
+    height: 24px !important;
+  }
+
+  .cropper-line {
+    background-color: rgba(41, 171, 226, 0.8) !important;
+  }
+
+  /* Adjust canvas size to make it more manageable on mobile */
+  .cropper-area {
+    max-height: 320px;
   }
 
   /* Make sure the modal doesn't overflow */
   .modal-dialog {
-    margin: 0.5rem;
-    max-width: 95vw;
+    margin: 0.5rem auto;
+    max-width: 98vw;
+    height: auto;
   }
 
   .modal-body {
-    padding: 0.75rem;
+    padding: 10px;
   }
 
   /* Ensure that buttons are easier to tap */
   .btn {
-    padding: 10px 15px;
+    padding: 12px 16px;
     font-size: 16px;
+  }
+
+  /* Adjust modal padding for mobile */
+  .modal-content {
+    padding-bottom: 10px;
   }
 }
 
@@ -571,10 +609,11 @@ body:not(.login-page) {
 @supports (-webkit-touch-callout: none) {
   .cropper-area {
     -webkit-overflow-scrolling: touch;
+    max-height: 60vh;
   }
 
   .cropper-container {
-    max-height: 70vh;
+    max-height: 60vh;
   }
 
   /* Fix for iOS modal scrolling issues */
@@ -585,6 +624,15 @@ body:not(.login-page) {
   /* Ensure buttons have proper touch target size */
   .cropper-mobile-controls .btn,
   .cropper-controls .btn {
-    min-height: 44px;
+    min-height: 50px;
+  }
+
+  /* Additional padding for bottom elements to avoid being hidden by iOS bottom bar */
+  .modal-body {
+    padding-bottom: 30px;
+  }
+
+  .cropper-controls {
+    margin-bottom: 20px;
   }
 }
