@@ -1115,6 +1115,50 @@ body {
   }
 }
 
+/* Add this to your dashboard.css file to fix responsiveness issues */
+@media (max-width: 576px) {
+  /* Fix for Safari mobile */
+  .dashboard-container {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Ensure content stacks properly on small screens */
+  .main-content {
+    width: 100%;
+    max-width: 100%;
+    padding: 10px;
+  }
+
+  /* Adjust island visualization for mobile */
+  .island-visualization {
+    margin-bottom: 2rem;
+  }
+
+  .island-image-container {
+    max-height: 250px;
+    overflow: hidden;
+  }
+
+  .island-image {
+    max-height: 200px;
+    object-fit: contain;
+  }
+
+  /* Ensure user stats appear below island on mobile */
+  .user-stats {
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  /* Fix for iOS Safari specific issues */
+  .resource-item, .status-item {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+}
+
 /* Estilos para ícones na modal */
 .moai-header-icon {
   width: 28px;
