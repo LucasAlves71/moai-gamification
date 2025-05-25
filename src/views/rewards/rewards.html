@@ -88,7 +88,7 @@
                         </div>
                     </div>
 
-                    <!-- Grid de rewards -->
+                    <!-- Grid de rewards - Ajustado para responsividade -->
                     <div class="rewards-section">
                         <div class="section-header mb-4">
                             <h3 class="section-title">
@@ -98,8 +98,9 @@
                             <p class="section-subtitle">Troque suas moedas por recompensas incríveis!</p>
                         </div>
 
-                        <div class="row g-4 rewards-grid">
-                            <div class="col-6 col-md-4 col-lg-3" ng-repeat="item in rewardItems">
+                        <!-- Modificado para exibir corretamente em dispositivos móveis -->
+                        <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 g-md-4 rewards-grid">
+                            <div class="col" ng-repeat="item in rewardItems">
                                 <div class="reward-card" ng-click="showItemDetails(item)">
                                     <div class="card-header">
                                         <div class="item-badge">
@@ -141,7 +142,7 @@
             </div>
         </div>
 
-        <!-- Modal para detalhes do item -->
+        <!-- Modal para detalhes do item - Modificado para corrigir problema com navbar -->
         <div class="modal-overlay" ng-if="modalVisible" ng-click="closeModal()">
             <div class="item-modal" ng-click="$event.stopPropagation()">
                 <div class="modal-header">
@@ -246,7 +247,7 @@
             </div>
         </div>
 
-        <!-- Modal de Histórico de Compras -->
+        <!-- Modal de Histórico de Compras - Modificado para corrigir problema com navbar -->
         <div class="modal-overlay" ng-if="historyModalVisible">
             <div class="history-modal" ng-click="$event.stopPropagation()">
                 <div class="modal-header">
