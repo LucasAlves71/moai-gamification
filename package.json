@@ -3,13 +3,14 @@
   "version": "0.0.0",
   "scripts": {
     "start": "http-server ./src -p 8080 -c-1 -o",
-    "build": "mkdir -p dist && cp -r src/* dist/"
+    "build": "node -e \"require('fs-extra').copy('./src', './dist', err => { if (err) return console.error(err); console.log('Build completed!'); })\""
   },
   "private": true,
   "dependencies": {
     "angular": "^1.8.3",
     "angular-route": "^1.8.3",
     "bootstrap": "^5.3.0",
+    "fs-extra": "^11.1.1",
     "http-server": "^14.1.1"
   }
 }
