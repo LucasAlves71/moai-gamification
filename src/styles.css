@@ -465,3 +465,126 @@ body:not(.login-page) {
 .onboarding-container .island-header h1::after {
   display: none !important;
 }
+
+/* Image Cropper Responsive Styles */
+.image-cropper-container {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.cropper-area {
+  width: 100%;
+  max-width: 100%;
+  min-height: 250px;
+  margin: 0 auto;
+  overflow: hidden;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+}
+
+.cropper-mobile-controls {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.cropper-mobile-controls .control-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.cropper-mobile-controls .btn {
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 18px;
+  background: rgba(255, 255, 255, 0.9);
+  color: #333;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.cropper-controls {
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.cropper-controls .btn {
+  min-width: 120px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Fix cropper styling for mobile */
+@media (max-width: 576px) {
+  .cropper-container {
+    max-width: 100% !important;
+  }
+
+  .cropper-view-box,
+  .cropper-face {
+    border-radius: 50%;
+  }
+
+  .cropper-modal {
+    background-color: rgba(0, 0, 0, 0.7);
+  }
+
+  /* Make the handles larger for touch */
+  .cropper-point {
+    width: 15px !important;
+    height: 15px !important;
+    opacity: 0.9 !important;
+  }
+
+  /* Make sure the modal doesn't overflow */
+  .modal-dialog {
+    margin: 0.5rem;
+    max-width: 95vw;
+  }
+
+  .modal-body {
+    padding: 0.75rem;
+  }
+
+  /* Ensure that buttons are easier to tap */
+  .btn {
+    padding: 10px 15px;
+    font-size: 16px;
+  }
+}
+
+/* Special handling for iOS Safari */
+@supports (-webkit-touch-callout: none) {
+  .cropper-area {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .cropper-container {
+    max-height: 70vh;
+  }
+
+  /* Fix for iOS modal scrolling issues */
+  .modal {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Ensure buttons have proper touch target size */
+  .cropper-mobile-controls .btn,
+  .cropper-controls .btn {
+    min-height: 44px;
+  }
+}
